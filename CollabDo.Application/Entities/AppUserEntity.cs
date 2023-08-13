@@ -6,13 +6,17 @@ using System.Threading.Tasks;
 
 namespace CollabDo.Application.Entities
 {
-    public class AppUserEntity : Entity
+    public class AppUserEntity : Entity<Guid>
     {
         public Guid UserId { get; private set; }
 
         public string Username { get; private set; }
 
-        public AppUserEntity() { }
+        public List<ProjectEntity> Projects { get; set; }
+
+        public AppUserEntity() 
+        { 
+        }
 
         public AppUserEntity(Guid userId, string username)
         {

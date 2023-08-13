@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using CollabDo.Application.Entities;
+using CollabDo.Infrastructure.EnityMappings;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,5 +17,25 @@ namespace CollabDo.Infrastructure
 
         }
 
+        public DbSet<AppUserEntity> AppUsers { get; set; }
+
+        public DbSet<ProjectEntity> Projects { get; set; }
+
+        public DbSet<TaskEntity> Tasks { get; set; }
+
+        public DbSet<CommentEntity> Comments { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.MapAppUserEntity();
+
+            modelBuilder.MapRelations();
+        }
+
+        
+
     }
+
 }
