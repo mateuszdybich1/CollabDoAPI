@@ -1,6 +1,8 @@
-﻿using CollabDo.Infrastructure;
+﻿using CollabDo.Application;
+using CollabDo.Infrastructure;
 using CollabDo.Infrastructure.Configuration;
 using Microsoft.EntityFrameworkCore;
+using Patient.Portal.Infrastructure;
 
 namespace CollabDo.Web
 {
@@ -15,7 +17,7 @@ namespace CollabDo.Web
 
         private static void RegisterServices(IServiceCollection services)
         {
-
+            services.AddScoped<IUserContext, HttpUserContext>();
         }
 
         private static void RegisterDatabase(IServiceCollection services, AppConfiguration configuration)

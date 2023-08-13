@@ -13,8 +13,9 @@ namespace CollabDo.Application.Entities
     }
     public class TaskEntity : Entity<Guid>
     {
+        public string Name { get; set; }
         public Priority Priority { get; set; }
-        public TaskStatus Status { get; set; } = TaskStatus.Created;
+        public TaskStatus Status { get; private set; } = TaskStatus.Created;
         public DateTime Deadline { get; set; } = DateTime.UtcNow.AddDays(1);
 
         public Guid ProjectID { get; private set; }
@@ -26,11 +27,16 @@ namespace CollabDo.Application.Entities
         {
 
         }
-        public TaskEntity(Priority priority, TaskStatus status, DateTime deadline)
+        public TaskEntity(string name, Priority priority, DateTime deadline)
         {
+            Name = name;
             Priority = priority;
-            Status = status;
             Deadline = deadline;
+        }
+
+        public void SetStatus(TaskStatus status)
+        {
+            Status = status;
         }
     }
 }

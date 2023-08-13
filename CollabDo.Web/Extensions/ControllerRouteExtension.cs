@@ -11,7 +11,7 @@ namespace CollabDo.Web.Extensions
             {
                 var controllerName = controller.ControllerName;
                 var actionName = selectorModel.AttributeRouteModel.Template;
-                selectorModel.AttributeRouteModel.Template = $"{actionName}/{controllerName}";
+                selectorModel.AttributeRouteModel.Template = $"{actionName}/";
             }
         }
     }

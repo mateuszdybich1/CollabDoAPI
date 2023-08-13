@@ -24,7 +24,7 @@ namespace CollabDo.Web
 
             services.AddCustomSwagger();
             services.AddHttpClient();
-
+            services.AddHttpContextAccessor();
             services.Configure<AppConfiguration>(Configuration);
             services.RegisterDependencies(_appConfiguration);
             services.AddMemoryCache();
