@@ -1,4 +1,5 @@
 ﻿using CollabDo.Application.Dtos;
+using CollabDo.Application.Exceptions;
 using CollabDo.Application.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -20,8 +21,16 @@ namespace CollabDo.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> RegisterUser(UserRegisterDto userDto)
         {
-            Guid result = await _userService.AddUser(userDto);
-            return Ok(result);
+            try
+            {
+                Guid result = await _userService.AddUser(userDto);
+                return Ok(result);
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
         }
     }
 }
