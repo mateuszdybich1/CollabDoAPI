@@ -28,6 +28,30 @@ namespace CollabDo.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "EmployeeRequests",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Username = table.Column<string>(type: "text", nullable: false),
+                    Email = table.Column<string>(type: "text", nullable: false),
+                    LeaderId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    CreatedBy = table.Column<Guid>(type: "uuid", nullable: false),
+                    ModifiedBy = table.Column<Guid>(type: "uuid", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EmployeeRequests", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_EmployeeRequests_Leaders_LeaderId",
+                        column: x => x.LeaderId,
+                        principalTable: "Leaders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Employees",
                 columns: table => new
                 {
@@ -46,8 +70,7 @@ namespace CollabDo.Infrastructure.Migrations
                         name: "FK_Employees_Leaders_LeaderId",
                         column: x => x.LeaderId,
                         principalTable: "Leaders",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -130,6 +153,11 @@ namespace CollabDo.Infrastructure.Migrations
                 column: "TaskId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_EmployeeRequests_LeaderId",
+                table: "EmployeeRequests",
+                column: "LeaderId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Employees_LeaderId",
                 table: "Employees",
                 column: "LeaderId");
@@ -162,6 +190,9 @@ namespace CollabDo.Infrastructure.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Comments");
+
+            migrationBuilder.DropTable(
+                name: "EmployeeRequests");
 
             migrationBuilder.DropTable(
                 name: "Employees");

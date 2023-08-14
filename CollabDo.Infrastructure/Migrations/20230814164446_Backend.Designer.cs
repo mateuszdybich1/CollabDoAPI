@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CollabDo.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230814002221_Backend")]
+    [Migration("20230814164446_Backend")]
     partial class Backend
     {
         /// <inheritdoc />
@@ -59,6 +59,42 @@ namespace CollabDo.Infrastructure.Migrations
                     b.HasIndex("TaskId");
 
                     b.ToTable("Comments");
+                });
+
+            modelBuilder.Entity("CollabDo.Application.Entities.EmployeeRequestEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LeaderId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("ModifiedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LeaderId");
+
+                    b.ToTable("EmployeeRequests");
                 });
 
             modelBuilder.Entity("CollabDo.Application.Entities.GroupEmployeeEntity", b =>
@@ -215,13 +251,22 @@ namespace CollabDo.Infrastructure.Migrations
                     b.Navigation("Task");
                 });
 
+            modelBuilder.Entity("CollabDo.Application.Entities.EmployeeRequestEntity", b =>
+                {
+                    b.HasOne("CollabDo.Application.Entities.GroupLeaderEntity", "Leader")
+                        .WithMany("EmployeeRequests")
+                        .HasForeignKey("LeaderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Leader");
+                });
+
             modelBuilder.Entity("CollabDo.Application.Entities.GroupEmployeeEntity", b =>
                 {
                     b.HasOne("CollabDo.Application.Entities.GroupLeaderEntity", "Leader")
                         .WithMany("Employees")
-                        .HasForeignKey("LeaderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("LeaderId");
 
                     b.Navigation("Leader");
                 });
@@ -248,6 +293,8 @@ namespace CollabDo.Infrastructure.Migrations
 
             modelBuilder.Entity("CollabDo.Application.Entities.GroupLeaderEntity", b =>
                 {
+                    b.Navigation("EmployeeRequests");
+
                     b.Navigation("Employees");
 
                     b.Navigation("Projects");

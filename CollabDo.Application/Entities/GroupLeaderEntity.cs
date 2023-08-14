@@ -11,6 +11,7 @@ namespace CollabDo.Application.Entities
     {
         public Guid UserId { get; private set; }
 
+        public List<EmployeeRequestEntity> EmployeeRequests { get; set; }
         public List<GroupEmployeeEntity> Employees { get; set; }
         public List<ProjectEntity> Projects { get; set; }
 
