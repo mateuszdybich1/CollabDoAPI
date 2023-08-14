@@ -19,7 +19,7 @@ namespace CollabDo.Application.Entities
 
         public string Password { get; set; }
 
-        public UserRole Role { get; set; }
+        public string Role { get; set; }
 
         public UserEntity()
         {
@@ -41,7 +41,7 @@ namespace CollabDo.Application.Entities
             Username = username;
             Email = email;
             Password = password ?? throw new ArgumentNullException(nameof(password));
-            Role = role;
+            Role = role.ToString().ToLower();
         }
     }
 }

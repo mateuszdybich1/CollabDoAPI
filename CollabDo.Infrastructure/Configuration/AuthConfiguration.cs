@@ -17,6 +17,6 @@ namespace CollabDo.Infrastructure.Configuration
         [JsonRequired]
         public string ClientId { get; } = "backend";
 
-        public string ClientSecret { get; } = "gQdUmXwj2krXPeFttVR4SIQDAfIC2Q7x";
+        public string ClientSecret { get; } = "qd6s131le2HItgbB3XSLuavUpBh3tQRM";
     }
 }

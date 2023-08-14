@@ -47,13 +47,10 @@ namespace CollabDo.Application.Services
             {
                 GroupLeaderEntity leader = new GroupLeaderEntity(userId);
                  _leaderRepository.AddLeader(leader);
-                return leader.Id;
+                
             }
 
-            GroupEmployeeEntity employee = new GroupEmployeeEntity(userId);
-             _employeeRepository.AddEmployee(employee);
-
-            return employee.Id;
+            return userId;
         }
     }
 }

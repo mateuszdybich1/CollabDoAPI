@@ -4,23 +4,22 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using CollabDo.Infrastructure.Configuration;
+using CollabDo.Application.Exceptions;
 
 namespace CollabDo.Infrastructure
 {
     public class KeycloakToken
     {
-        
-        public static async Task<string> GetToken(HttpClient _httpClient, AuthConfiguration _configuration)
+        public static async Task<KeycloakTokenData> GetToken(HttpClient httpClient, AuthConfiguration configuration)
         {
-            var keycloakBaseUrl = _configuration.ServerAddress;
-            var realm = _configuration.Realm;
-            var clientId = _configuration.ClientId;
-            var clientSecret = _configuration.ClientSecret;
+            string keycloakBaseUrl = configuration.ServerAddress;
+            string realm = configuration.Realm;
+            string clientId = configuration.ClientId;
+            string clientSecret = configuration.ClientSecret;
 
+            string tokenEndpoint = $"{keycloakBaseUrl}/auth/realms/{realm}/protocol/openid-connect/token";
 
-            var tokenEndpoint = $"{keycloakBaseUrl}/auth/realms/{realm}/protocol/openid-connect/token";
-
-            var tokenRequest = new HttpRequestMessage(HttpMethod.Post, tokenEndpoint);
+            HttpRequestMessage tokenRequest = new HttpRequestMessage(HttpMethod.Post, tokenEndpoint);
             tokenRequest.Content = new FormUrlEncodedContent(new Dictionary<string, string>
             {
                 ["grant_type"] = "client_credentials",
@@ -28,18 +27,18 @@ namespace CollabDo.Infrastructure
                 ["client_secret"] = clientSecret,
             });
 
-            var tokenResponse = await _httpClient.SendAsync(tokenRequest);
-            var tokenResponseContent = await tokenResponse.Content.ReadAsStringAsync();
-            var tokenData = JsonConvert.DeserializeObject<Dictionary<string, string>>(tokenResponseContent);
+            HttpResponseMessage tokenResponse = await httpClient.SendAsync(tokenRequest);
+            string tokenResponseContent = await tokenResponse.Content.ReadAsStringAsync();
+            Dictionary<string, string> tokenData = JsonConvert.DeserializeObject<Dictionary<string, string>>(tokenResponseContent);
 
             if (!tokenResponse.IsSuccessStatusCode || !tokenData.ContainsKey("access_token"))
             {
-
-                throw new Exception("Failed to obtain access token from Keycloak.");
+                throw new KeycloakTokenException("Failed to obtain access token from Keycloak.");
             }
 
 
-            return tokenData["access_token"];
+            return new KeycloakTokenData(tokenData["access_token"], tokenData.ContainsKey("refresh_token") ? tokenData["refresh_token"] : null);
         }
+        
     }
 }

@@ -20,10 +20,11 @@ namespace CollabDo.Application.Entities
 
         }
 
-        public GroupEmployeeEntity(Guid userId )
+        public GroupEmployeeEntity(Guid userId, Guid leaderId )
         {
             
             UserId = userId;
+            LeaderId = leaderId;
         }
     }
 }

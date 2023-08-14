@@ -25,16 +25,11 @@ namespace CollabDo.Infrastructure.Repositories
 
         public async Task<Guid> AddUser(UserEntity user)
         {
-            string token = await KeycloakToken.GetToken(_httpClient, _configuration);
+            KeycloakTokenData token = await KeycloakToken.GetToken(_httpClient, _configuration);
 
-            string keycloakBaseUrl = _configuration.ServerAddress;
-            string realm = _configuration.Realm;
+            HttpRequestMessage createUserRequest = new HttpRequestMessage(HttpMethod.Post, _httpClient.BaseAddress.ToString());
 
-
-            string createUserUrl = $"{keycloakBaseUrl}/auth/admin/realms/{realm}/users";
-            HttpRequestMessage createUserRequest = new HttpRequestMessage(HttpMethod.Post, createUserUrl);
-
-            createUserRequest.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            createUserRequest.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token.AccessToken);
 
             var content = new
             {
@@ -48,26 +43,18 @@ namespace CollabDo.Infrastructure.Repositories
                         value = user.Password,
                         temporary = false
                     }
-                },
-                enabled = true
+                }
             };
             createUserRequest.Content = new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json");
 
             HttpResponseMessage response = await _httpClient.SendAsync(createUserRequest);
 
-            if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
-            {
-                throw new ValidationException($"Failed to create user in Keycloak.");
-            }
-            else if (response.StatusCode == System.Net.HttpStatusCode.Conflict)
-            {
-                throw new ValidationException($"User exists.");
-            }
+            KeycloakValidation.CreateUserValidation(response);
 
             Uri location = response.Headers.Location;
 
             HttpRequestMessage getUserInformationRequest = new HttpRequestMessage(HttpMethod.Get, location);
-            getUserInformationRequest.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            getUserInformationRequest.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token.AccessToken);
             response = await _httpClient.SendAsync(getUserInformationRequest);
 
             string userInformation = await response.Content.ReadAsStringAsync();
@@ -75,76 +62,59 @@ namespace CollabDo.Infrastructure.Repositories
             KeycloakUserRequestModel responseUser = JsonConvert.DeserializeObject<KeycloakUserRequestModel>(userInformation);
 
 
-            string userId = responseUser.Id.ToString();
-            string assignRoleUrl = $"{keycloakBaseUrl}/auth/admin/realms/{realm}/users/{userId}/role-mappings/realm";
-            var roleAssignment = new
-            {
-                roles = new[] { new { name = user.Role.ToString() } }
-            };
+            //HttpRequestMessage assignRoleRequest = new HttpRequestMessage(HttpMethod.Post, $"{_httpClient.BaseAddress}/{responseUser.Id}/role-mappings/realm");
+            //assignRoleRequest.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token.AccessToken);
 
-            HttpRequestMessage assignRoleRequest = new HttpRequestMessage(HttpMethod.Post, assignRoleUrl);
-            assignRoleRequest.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            assignRoleRequest.Content = new StringContent(JsonConvert.SerializeObject(roleAssignment), Encoding.UTF8, "application/json");
+            //var roleMappingContent = new
+            //{              
+            //        id = responseUser.Id,
+            //        name = user.Role    
+            //};
+            //assignRoleRequest.Content = new StringContent(JsonConvert.SerializeObject(roleMappingContent), Encoding.UTF8, "application/json");
 
-            response = await _httpClient.SendAsync(assignRoleRequest);
+            //HttpResponseMessage roleResponse = await _httpClient.SendAsync(assignRoleRequest);
+
+            
 
             return responseUser.Id;
         }
 
         public async Task<bool> EmailExists(string email)
         {
-            string keycloakBaseUrl = _configuration.ServerAddress;
-            string realm = _configuration.Realm;
+            var xd = new AuthenticationHeaderValue("Bearer", (await KeycloakToken.GetToken(_httpClient, _configuration)).AccessToken);
+            _httpClient.DefaultRequestHeaders.Authorization = xd;
 
+            HttpResponseMessage response = await _httpClient.GetAsync(_httpClient.BaseAddress.ToString() + $"?email={Uri.EscapeDataString(email)}");
+            string responseContent = await response.Content.ReadAsStringAsync();
 
-            string usersUrl = $"{keycloakBaseUrl}/auth/admin/realms/{realm}/users?email={Uri.EscapeDataString(email)}";
-
-            using (HttpClient httpClient = new HttpClient())
+            if (response.IsSuccessStatusCode)
             {
-                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", await KeycloakToken.GetToken(_httpClient, _configuration));
-
-                HttpResponseMessage response = await httpClient.GetAsync(usersUrl);
-                string responseContent = await response.Content.ReadAsStringAsync();
-
-                if (response.IsSuccessStatusCode)
-                {
-                    List<UserEntity> users = JsonConvert.DeserializeObject<List<UserEntity>>(responseContent);
-                    return users.Count > 0;
-                }
-                else
-                {
-
-                    throw new Exception($"Failed to check user existence in Keycloak. Status code: {response.StatusCode}");
-                }
+                List<UserEntity> users = JsonConvert.DeserializeObject<List<UserEntity>>(responseContent);
+                return users.Count > 0;
+            }
+            else
+            {
+                throw new EntityNotFoundException($"Failed to check user existence in Keycloak. Status code: {response.StatusCode}");
             }
         }
 
         public async Task<bool> UsernameExists(string username)
         {
-            string keycloakBaseUrl = _configuration.ServerAddress;
-            string realm = _configuration.Realm;
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", (await KeycloakToken.GetToken(_httpClient, _configuration)).AccessToken);
 
+            HttpResponseMessage response = await _httpClient.GetAsync(_httpClient.BaseAddress.ToString() + $"?username={Uri.EscapeDataString(username)}");
+            string responseContent = await response.Content.ReadAsStringAsync();
 
-            string usersUrl = $"{keycloakBaseUrl}/auth/admin/realms/{realm}/users?username={Uri.EscapeDataString(username)}";
-
-            using (HttpClient httpClient = new HttpClient())
+            if (response.IsSuccessStatusCode)
             {
-                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", await KeycloakToken.GetToken(_httpClient, _configuration));
-
-                HttpResponseMessage response = await httpClient.GetAsync(usersUrl);
-                string responseContent = await response.Content.ReadAsStringAsync();
-
-                if (response.IsSuccessStatusCode)
-                {
-                    List<UserEntity> users = JsonConvert.DeserializeObject<List<UserEntity>>(responseContent);
-                    return users.Count > 0;
-                }
-                else
-                {
-
-                    throw new Exception($"Failed to check user existence in Keycloak. Status code: {response.StatusCode}");
-                }
+                List<UserEntity> users = JsonConvert.DeserializeObject<List<UserEntity>>(responseContent);
+                return users.Count > 0;
             }
+            else
+            {
+                throw new EntityNotFoundException($"Failed to check user existence in Keycloak. Status code: {response.StatusCode}");
+            }
+
         }
     }
 }

@@ -3,6 +3,7 @@ using CollabDo.Infrastructure;
 using CollabDo.Infrastructure.Configuration;
 using CollabDo.Web.Extensions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace CollabDo.Web
 {
@@ -23,7 +24,10 @@ namespace CollabDo.Web
         {
 
             services.AddCustomSwagger();
-            services.AddHttpClient();
+            services.AddHttpClient("KeycloakClient", client =>
+            {
+                client.BaseAddress = new Uri($"{_appConfiguration.AuthTokenValidation.ServerAddress}/auth/admin/realms/{_appConfiguration.AuthTokenValidation.Realm}/users");
+            });
             services.AddHttpContextAccessor();
             services.Configure<AppConfiguration>(Configuration);
             services.RegisterDependencies(_appConfiguration);

@@ -6,6 +6,7 @@ using CollabDo.Infrastructure;
 using CollabDo.Infrastructure.Configuration;
 using CollabDo.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Patient.Portal.Infrastructure;
 
 namespace CollabDo.Web
@@ -15,17 +16,25 @@ namespace CollabDo.Web
         internal static void RegisterDependencies(this IServiceCollection services, AppConfiguration configuration)
         {
             SetConfiguration(services, configuration);
-            RegisterServices(services);
+            RegisterServices(services, configuration);
             RegisterDatabase(services, configuration);
         }
 
-        private static void RegisterServices(IServiceCollection services)
+        private static void RegisterServices(IServiceCollection services, AppConfiguration configuration)
         {
             services.AddScoped<IUserContext, HttpUserContext>();
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IUserRepository, UserRepository>();
+            
             services.AddScoped<ILeaderRepository, LeaderRepository>();
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+
+            services.AddScoped<IUserRepository>(p =>
+            {
+                IHttpClientFactory httpClientFactory = p.GetRequiredService<IHttpClientFactory>();
+
+                HttpClient httpClient = httpClientFactory.CreateClient("KeycloakClient");
+                return new UserRepository(httpClient, configuration.AuthTokenValidation);
+            });
         }
 
         private static void RegisterDatabase(IServiceCollection services, AppConfiguration configuration)

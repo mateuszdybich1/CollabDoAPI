@@ -30,6 +30,10 @@ namespace CollabDo.Web.Controllers
             {
                 return BadRequest(ex.Message);
             }
+            catch(EntityNotFoundException ex)
+            {
+                return BadRequest(ex.Message);
+            }
             
         }
     }
