@@ -22,5 +22,10 @@ namespace CollabDo.Infrastructure.Repositories
             _appDbContext.Leaders.Add(leader);
             _appDbContext.SaveChanges();
         }
+
+        public Guid GetLeaderId(Guid userId)
+        {
+            return _appDbContext.Leaders.SingleOrDefault(e => e.UserId == userId).Id;
+        }
     }
 }

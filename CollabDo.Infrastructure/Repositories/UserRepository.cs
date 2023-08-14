@@ -35,6 +35,7 @@ namespace CollabDo.Infrastructure.Repositories
             {
                 username = user.Username,
                 email = user.Email,
+                enabled = true,
                 credentials = new[]
                 {
                     new

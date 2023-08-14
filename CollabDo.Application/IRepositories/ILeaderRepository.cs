@@ -10,5 +10,6 @@ namespace CollabDo.Application.IRepositories
     public interface ILeaderRepository
     {
         void AddLeader(GroupLeaderEntity leader);
+        Guid GetLeaderId(Guid userId);
     }
 }

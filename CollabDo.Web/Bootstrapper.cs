@@ -28,6 +28,10 @@ namespace CollabDo.Web
             services.AddScoped<ILeaderRepository, LeaderRepository>();
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 
+            services.AddScoped<IProjectService, ProjectService>();
+            services.AddScoped<IProjectRepository, ProjectRepository>();
+
+
             services.AddScoped<IUserRepository>(p =>
             {
                 IHttpClientFactory httpClientFactory = p.GetRequiredService<IHttpClientFactory>();

@@ -1,4 +1,5 @@
-﻿using CollabDo.Application.IServices;
+﻿using CollabDo.Application.Dtos;
+using CollabDo.Application.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,9 +19,15 @@ namespace CollabDo.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateProject()
+        public IActionResult CreateProject(ProjectDto projectDto)
         {
-            return Ok();
+            return Ok(_projectService.SaveProject(projectDto));
+        }
+
+        [HttpPut]
+        public IActionResult UpdateProject([FromQuery] string projectId)
+        {
+            return Ok(_projectService.UpdateProjectState(projectId));
         }
 
     }

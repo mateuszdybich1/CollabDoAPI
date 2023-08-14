@@ -2,6 +2,7 @@
 using CollabDo.Application.Entities;
 using CollabDo.Application.IRepositories;
 using CollabDo.Application.IServices;
+using CollabDo.Application.Validation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
