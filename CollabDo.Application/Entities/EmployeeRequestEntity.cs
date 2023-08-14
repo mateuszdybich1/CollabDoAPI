@@ -8,11 +8,35 @@ namespace CollabDo.Application.Entities
 {
     public class EmployeeRequestEntity : Entity<Guid>
     {
-        public string Username {get;set;}
+        public string Username {get; private set;}
 
-        public string Email { get;set;}
+        public string Email { get; private set;}
 
-        public Guid LeaderId { get;set;}
-        public GroupLeaderEntity Leader { get;set;}
+        public Guid LeaderId { get; private set;}
+
+        public GroupLeaderEntity Leader { get; private set; }
+
+        public EmployeeRequestEntity()
+        {
+
+        }
+
+        public EmployeeRequestEntity(Guid leaderId, string username, string email)
+        {
+            if (string.IsNullOrWhiteSpace(username))
+            {
+                throw new ArgumentException($"'{nameof(username)}' cannot be null or whitespace.", nameof(username));
+            }
+
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                throw new ArgumentException($"'{nameof(email)}' cannot be null or whitespace.", nameof(email));
+            }
+
+            Username = username;
+            Email = email;
+            LeaderId = leaderId;
+        }
+
     }
 }

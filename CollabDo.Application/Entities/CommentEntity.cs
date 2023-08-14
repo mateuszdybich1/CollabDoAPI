@@ -18,10 +18,16 @@ namespace CollabDo.Application.Entities
 
         }
 
-        public CommentEntity(string author, string content)
+        public CommentEntity(Guid taskId, string author, string content)
         {
+            if (string.IsNullOrWhiteSpace(author))
+            {
+                throw new ArgumentException($"'{nameof(author)}' cannot be null or whitespace.", nameof(author));
+            }
+
             Author = author;
             Content = content;
+            TaskId = taskId;
         }
     }
 }

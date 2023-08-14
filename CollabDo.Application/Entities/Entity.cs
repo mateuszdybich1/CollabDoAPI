@@ -15,7 +15,10 @@ namespace CollabDo.Application.Entities
         {
             Id = id;
         }
-
+        public Entity(Guid createdBy)
+        {
+            CreatedBy = createdBy;
+        }
         protected Entity(T id, Guid createdBy)
         {
             Id = id;

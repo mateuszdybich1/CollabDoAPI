@@ -23,7 +23,7 @@ namespace CollabDo.Web.Controllers
         {
             try
             {
-                Guid result = await _userService.AddUser(userDto);
+                Guid result = await _userService.Register(userDto);
                 return Ok(result);
             }
             catch (ValidationException ex)

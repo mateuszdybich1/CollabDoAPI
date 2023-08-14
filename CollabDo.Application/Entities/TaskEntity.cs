@@ -14,13 +14,17 @@ namespace CollabDo.Application.Entities
     public class TaskEntity : Entity<Guid>
     {
         public string Name { get; set; }
+
         public Priority Priority { get; set; }
+
         public TaskStatus Status { get; private set; } = TaskStatus.Created;
+
         public Guid AssignedToEmployeeId { get; private set; }
         
         public DateTime Deadline { get; set; } = DateTime.UtcNow.AddDays(1);
 
         public Guid ProjectID { get; private set; }
+
         public ProjectEntity Project { get; private set; }
 
         public List<CommentEntity> Comments { get; set; }
@@ -29,8 +33,14 @@ namespace CollabDo.Application.Entities
         {
 
         }
-        public TaskEntity(string name, Priority priority, DateTime deadline)
+        public TaskEntity(Guid projectId, string name, Priority priority, DateTime deadline)
         {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentException($"'{nameof(name)}' cannot be null or whitespace.", nameof(name));
+            }
+
+            ProjectID = projectId;
             Name = name;
             Priority = priority;
             Deadline = deadline;

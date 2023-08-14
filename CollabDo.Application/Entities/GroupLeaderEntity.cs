@@ -19,9 +19,8 @@ namespace CollabDo.Application.Entities
         { 
         }
 
-        public GroupLeaderEntity(Guid userId)
+        public GroupLeaderEntity(Guid userId) : base(userId)
         {
-            
 
             UserId = userId;
         }

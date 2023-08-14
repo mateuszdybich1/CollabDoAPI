@@ -17,7 +17,7 @@ namespace CollabDo.Application.Entities
         public Priority Priority { get; set; }
         public ProjectStatus ProjectStatus { get; set; } = ProjectStatus.InProgress;
         public Guid LeaderId { get; set; }
-        public GroupLeaderEntity Leader { get; set; }
+        public GroupLeaderEntity Leader { get; private set; }
         public List<TaskEntity> Tasks { get; set; }
 
         public ProjectEntity() 
@@ -25,8 +25,9 @@ namespace CollabDo.Application.Entities
 
         }
 
-        public ProjectEntity(string name, Priority priority, ProjectStatus projectStatus)
+        public ProjectEntity(Guid leaderId, string name, Priority priority, ProjectStatus projectStatus)
         {
+            LeaderId = leaderId;
             Name = name;
             Priority = priority;
             ProjectStatus = projectStatus;

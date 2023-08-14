@@ -22,7 +22,7 @@ namespace CollabDo.Application.Services
             _employeeRepository = employeeRepository;
             _userRepository = userRepository;
         }
-        public async Task<Guid> AddUser(UserRegisterDto userDto)
+        public async Task<Guid> Register(UserRegisterDto userDto)
         {
             UserValidation validation = new UserValidation(_userRepository);
             await validation.ValidateEmail(userDto.Email);
