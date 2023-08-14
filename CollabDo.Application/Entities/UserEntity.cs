@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace CollabDo.Application.Entities
 {
+    public enum UserRole
+    {
+        Leader,
+        Employee
+    }
     public class UserEntity
     {
         public string Username { get; set; }
@@ -14,13 +19,14 @@ namespace CollabDo.Application.Entities
 
         public string Password { get; set; }
 
+        public UserRole Role { get; set; }
 
         public UserEntity()
         {
 
         }
 
-        public UserEntity(string username, string email, string password)
+        public UserEntity(string username, string email, string password, UserRole role)
         {
             if (string.IsNullOrWhiteSpace(username))
             {
@@ -35,6 +41,7 @@ namespace CollabDo.Application.Entities
             Username = username;
             Email = email;
             Password = password ?? throw new ArgumentNullException(nameof(password));
+            Role = role;
         }
     }
 }
