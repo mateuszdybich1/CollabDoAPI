@@ -17,7 +17,9 @@ namespace CollabDo.Infrastructure
 
         }
 
-        public DbSet<AppUserEntity> AppUsers { get; set; }
+        public DbSet<GroupLeaderEntity> Leaders { get; set; }
+
+        public DbSet<GroupEmployeeEntity> Employees { get; set; }
 
         public DbSet<ProjectEntity> Projects { get; set; }
 

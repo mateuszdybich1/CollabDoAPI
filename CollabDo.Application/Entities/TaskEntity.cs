@@ -16,6 +16,8 @@ namespace CollabDo.Application.Entities
         public string Name { get; set; }
         public Priority Priority { get; set; }
         public TaskStatus Status { get; private set; } = TaskStatus.Created;
+        public Guid AssignedToEmployeeId { get; private set; }
+        
         public DateTime Deadline { get; set; } = DateTime.UtcNow.AddDays(1);
 
         public Guid ProjectID { get; private set; }
@@ -37,6 +39,11 @@ namespace CollabDo.Application.Entities
         public void SetStatus(TaskStatus status)
         {
             Status = status;
+        }
+
+        public void AssignToEmployee(Guid employeeID)
+        {
+            AssignedToEmployeeId = employeeID;
         }
     }
 }

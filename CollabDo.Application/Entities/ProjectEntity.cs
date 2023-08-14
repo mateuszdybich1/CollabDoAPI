@@ -16,7 +16,7 @@ namespace CollabDo.Application.Entities
         public string Name { get; set; }
         public Priority Priority { get; set; }
         public ProjectStatus ProjectStatus { get; set; } = ProjectStatus.InProgress;
-        public List<AppUserEntity> Users { get; set; }
+        public GroupLeaderEntity Leader { get; set; }
         public List<TaskEntity> Tasks { get; set; }
 
         public ProjectEntity() 

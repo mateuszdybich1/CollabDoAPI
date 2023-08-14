@@ -12,13 +12,11 @@ namespace CollabDo.Infrastructure.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "AppUsers",
+                name: "Leaders",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     UserId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Username = table.Column<string>(type: "text", nullable: false),
-                    Role = table.Column<int>(type: "integer", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     CreatedBy = table.Column<Guid>(type: "uuid", nullable: false),
@@ -26,7 +24,30 @@ namespace CollabDo.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AppUsers", x => x.Id);
+                    table.PrimaryKey("PK_Leaders", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Employees",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    LeaderId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    CreatedBy = table.Column<Guid>(type: "uuid", nullable: false),
+                    ModifiedBy = table.Column<Guid>(type: "uuid", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Employees", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Employees_Leaders_LeaderId",
+                        column: x => x.LeaderId,
+                        principalTable: "Leaders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -37,6 +58,7 @@ namespace CollabDo.Infrastructure.Migrations
                     Name = table.Column<string>(type: "text", nullable: false),
                     Priority = table.Column<int>(type: "integer", nullable: false),
                     ProjectStatus = table.Column<int>(type: "integer", nullable: false),
+                    LeaderId = table.Column<Guid>(type: "uuid", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     CreatedBy = table.Column<Guid>(type: "uuid", nullable: false),
@@ -45,28 +67,10 @@ namespace CollabDo.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Projects", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AppUserEntityProjectEntity",
-                columns: table => new
-                {
-                    ProjectsId = table.Column<Guid>(type: "uuid", nullable: false),
-                    UsersId = table.Column<Guid>(type: "uuid", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AppUserEntityProjectEntity", x => new { x.ProjectsId, x.UsersId });
                     table.ForeignKey(
-                        name: "FK_AppUserEntityProjectEntity_AppUsers_UsersId",
-                        column: x => x.UsersId,
-                        principalTable: "AppUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AppUserEntityProjectEntity_Projects_ProjectsId",
-                        column: x => x.ProjectsId,
-                        principalTable: "Projects",
+                        name: "FK_Projects_Leaders_LeaderId",
+                        column: x => x.LeaderId,
+                        principalTable: "Leaders",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -79,6 +83,7 @@ namespace CollabDo.Infrastructure.Migrations
                     Name = table.Column<string>(type: "text", nullable: false),
                     Priority = table.Column<int>(type: "integer", nullable: false),
                     Status = table.Column<int>(type: "integer", nullable: false),
+                    AssignedToEmployeeId = table.Column<Guid>(type: "uuid", nullable: false),
                     Deadline = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     ProjectID = table.Column<Guid>(type: "uuid", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
@@ -120,26 +125,31 @@ namespace CollabDo.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_AppUserEntityProjectEntity_UsersId",
-                table: "AppUserEntityProjectEntity",
-                column: "UsersId");
+                name: "IX_Comments_TaskId",
+                table: "Comments",
+                column: "TaskId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AppUsers_UserId",
-                table: "AppUsers",
+                name: "IX_Employees_LeaderId",
+                table: "Employees",
+                column: "LeaderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Employees_UserId",
+                table: "Employees",
                 column: "UserId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_AppUsers_Username",
-                table: "AppUsers",
-                column: "Username",
+                name: "IX_Leaders_UserId",
+                table: "Leaders",
+                column: "UserId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comments_TaskId",
-                table: "Comments",
-                column: "TaskId");
+                name: "IX_Projects_LeaderId",
+                table: "Projects",
+                column: "LeaderId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tasks_ProjectID",
@@ -151,19 +161,19 @@ namespace CollabDo.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AppUserEntityProjectEntity");
-
-            migrationBuilder.DropTable(
                 name: "Comments");
 
             migrationBuilder.DropTable(
-                name: "AppUsers");
+                name: "Employees");
 
             migrationBuilder.DropTable(
                 name: "Tasks");
 
             migrationBuilder.DropTable(
                 name: "Projects");
+
+            migrationBuilder.DropTable(
+                name: "Leaders");
         }
     }
 }

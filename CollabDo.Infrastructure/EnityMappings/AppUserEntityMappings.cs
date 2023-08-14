@@ -12,11 +12,11 @@ namespace CollabDo.Infrastructure.EnityMappings
     {
         internal static void MapAppUserEntity(this ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<AppUserEntity>().HasIndex(e => e.UserId).IsUnique();
-            modelBuilder.Entity<AppUserEntity>().Property(e => e.UserId).IsRequired(true);
+            modelBuilder.Entity<GroupLeaderEntity>().HasIndex(e => e.UserId).IsUnique();
+            modelBuilder.Entity<GroupLeaderEntity>().Property(e => e.UserId).IsRequired(true);
 
-            modelBuilder.Entity<AppUserEntity>().HasIndex(e => e.Username).IsUnique();
-            modelBuilder.Entity<AppUserEntity>().Property(e => e.Username).IsRequired(true);
+            modelBuilder.Entity<GroupEmployeeEntity>().HasIndex(e => e.UserId).IsUnique();
+            modelBuilder.Entity<GroupEmployeeEntity>().Property(e => e.UserId).IsRequired(true);
         }
     }
 }
