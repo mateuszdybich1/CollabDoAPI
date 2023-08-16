@@ -1,4 +1,5 @@
 ﻿using CollabDo.Application.Dtos;
+using CollabDo.Application.Exceptions;
 using CollabDo.Application.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -21,13 +22,33 @@ namespace CollabDo.Web.Controllers
         [HttpPost]
         public IActionResult CreateProject(ProjectDto projectDto)
         {
-            return Ok(_projectService.SaveProject(projectDto));
+            try
+            {
+                return Ok(_projectService.SaveProject(projectDto));
+            }
+            catch (ValidationException ex) 
+            { 
+                return BadRequest(ex.Message);
+            }
+            
         }
 
         [HttpPut]
         public IActionResult UpdateProject([FromQuery] string projectId)
         {
-            return Ok(_projectService.UpdateProjectState(projectId));
+            try
+            {
+                return Ok(_projectService.UpdateProjectState(projectId));
+            }
+            catch(ValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch(FormatException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
         }
 
     }

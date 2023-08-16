@@ -14,13 +14,11 @@ namespace CollabDo.Application.Services
     public class UserService : IUserService
     {
         private readonly ILeaderRepository _leaderRepository;
-        private readonly IEmployeeRepository _employeeRepository;
         private readonly IUserRepository _userRepository;
         
-        public UserService(ILeaderRepository leaderRepository, IEmployeeRepository employeeRepository, IUserRepository userRepository)
+        public UserService(ILeaderRepository leaderRepository, IUserRepository userRepository)
         {
             _leaderRepository = leaderRepository;
-            _employeeRepository = employeeRepository;
             _userRepository = userRepository;
         }
         public async Task<Guid> Register(UserRegisterDto userDto)

@@ -27,5 +27,10 @@ namespace CollabDo.Infrastructure.Repositories
         {
             return _appDbContext.Leaders.SingleOrDefault(e => e.UserId == userId).Id;
         }
+
+        public bool LeaderExists(Guid leaderId)
+        {
+            return _appDbContext.Leaders.Any(e=>e.Id == leaderId);
+        }
     }
 }

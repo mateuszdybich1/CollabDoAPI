@@ -14,6 +14,7 @@ namespace CollabDo.Application.Dtos
         public string Name { get; set; }
 
         [Required]
+        [Range(1,3)]
         public Priority Priority { get; set; }
     }
 }
