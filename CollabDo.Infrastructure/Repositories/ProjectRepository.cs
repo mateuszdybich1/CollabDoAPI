@@ -38,9 +38,9 @@ namespace CollabDo.Infrastructure.Repositories
             throw new NotImplementedException();
         }
 
-        public bool ProjectExists(Guid leaderId,Guid projectId)
+        public bool ProjectExists(Guid projectId)
         {
-            return _appDbContext.Projects.Any(e=>e.Id == projectId && e.LeaderId == leaderId);
+            return _appDbContext.Projects.Any(e=>e.Id == projectId);
         }
     }
 }

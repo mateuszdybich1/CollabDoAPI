@@ -16,9 +16,9 @@ namespace CollabDo.Application.Validation
         {
             _projectRepository = projectRepository;
         }
-        public void ValidateProjectId(Guid leaderId, string projectId)
+        public void ValidateProjectId(Guid projectId)
         {
-            if (!_projectRepository.ProjectExists(leaderId,Guid.Parse(projectId)))
+            if (!_projectRepository.ProjectExists(projectId))
             {
                 throw new ValidationException("Incorrect project ID");
             }

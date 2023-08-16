@@ -34,7 +34,7 @@ namespace CollabDo.Web.Controllers
         }
 
         [HttpPut]
-        public IActionResult UpdateProject([FromQuery] string projectId)
+        public IActionResult UpdateProject([FromQuery] Guid projectId)
         {
             try
             {

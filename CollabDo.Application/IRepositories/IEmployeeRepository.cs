@@ -10,5 +10,10 @@ namespace CollabDo.Application.IRepositories
     public interface IEmployeeRepository
     {
         void AddEmployee(GroupEmployeeEntity employee);
+
+        bool EmployeeExists(Guid employeeId);
+        Guid GetEmployeeId(Guid userId);
+        Guid GetEmployeeId(Guid leaderId, Guid userId);
+
     }
 }

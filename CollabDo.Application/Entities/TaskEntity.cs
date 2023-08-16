@@ -19,7 +19,7 @@ namespace CollabDo.Application.Entities
 
         public TaskStatus Status { get; private set; } = TaskStatus.Created;
 
-        public Guid AssignedToEmployeeId { get; private set; }
+        public Guid AssignedToEmployeeId { get; private set; } = Guid.Empty;
         
         public DateTime Deadline { get; set; } = DateTime.UtcNow.AddDays(1);
 
@@ -33,7 +33,7 @@ namespace CollabDo.Application.Entities
         {
 
         }
-        public TaskEntity(Guid projectId, string name, Priority priority, DateTime deadline)
+        public TaskEntity(Guid projectId, string name, Priority priority, DateTime deadline, Guid createdBy) : base(createdBy) 
         {
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -55,5 +55,8 @@ namespace CollabDo.Application.Entities
         {
             AssignedToEmployeeId = employeeID;
         }
+
+
+
     }
 }

@@ -11,7 +11,6 @@ namespace CollabDo.Application.IRepositories
     {
         void AddLeader(GroupLeaderEntity leader);
         Guid GetLeaderId(Guid userId);
-
         bool LeaderExists(Guid leaderId);
     }
 }

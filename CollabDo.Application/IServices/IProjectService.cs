@@ -11,6 +11,6 @@ namespace CollabDo.Application.IServices
     {
         Guid SaveProject(ProjectDto projectDto);
 
-        Guid UpdateProjectState(string projectId);
+        Guid UpdateProjectState(Guid projectId);
     }
 }

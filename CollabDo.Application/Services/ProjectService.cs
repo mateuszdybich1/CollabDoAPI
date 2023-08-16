@@ -40,7 +40,7 @@ namespace CollabDo.Application.Services
             return projectEntity.Id;
         }
 
-        public Guid UpdateProjectState(string projectId)
+        public Guid UpdateProjectState(Guid projectId)
         {
             Guid userId = _userContext.CurrentUserId;
 
@@ -49,10 +49,10 @@ namespace CollabDo.Application.Services
 
             ProjectValidation projectValidation = new ProjectValidation(_projectRepository);
 
-            projectValidation.ValidateProjectId(leaderId,projectId);
+            projectValidation.ValidateProjectId(projectId);
 
 
-            ProjectEntity projectEntity = _projectRepository.GetProject(Guid.Parse(projectId), leaderId);
+            ProjectEntity projectEntity = _projectRepository.GetProject(projectId, leaderId);
 
             projectEntity.SetProjectStatus(ProjectStatus.Finished);
 

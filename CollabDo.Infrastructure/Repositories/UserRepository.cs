@@ -3,6 +3,7 @@ using CollabDo.Application.Exceptions;
 using CollabDo.Application.IRepositories;
 using CollabDo.Infrastructure.Configuration;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -62,28 +63,13 @@ namespace CollabDo.Infrastructure.Repositories
 
             KeycloakUserRequestModel responseUser = JsonConvert.DeserializeObject<KeycloakUserRequestModel>(userInformation);
 
-
-            //HttpRequestMessage assignRoleRequest = new HttpRequestMessage(HttpMethod.Post, $"{_httpClient.BaseAddress}/{responseUser.Id}/role-mappings/realm");
-            //assignRoleRequest.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token.AccessToken);
-
-            //var roleMappingContent = new
-            //{              
-            //        id = responseUser.Id,
-            //        name = user.Role    
-            //};
-            //assignRoleRequest.Content = new StringContent(JsonConvert.SerializeObject(roleMappingContent), Encoding.UTF8, "application/json");
-
-            //HttpResponseMessage roleResponse = await _httpClient.SendAsync(assignRoleRequest);
-
-            
-
             return responseUser.Id;
         }
 
         public async Task<bool> EmailExists(string email)
         {
-            var xd = new AuthenticationHeaderValue("Bearer", (await KeycloakToken.GetToken(_httpClient, _configuration)).AccessToken);
-            _httpClient.DefaultRequestHeaders.Authorization = xd;
+            
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", (await KeycloakToken.GetToken(_httpClient, _configuration)).AccessToken); ;
 
             HttpResponseMessage response = await _httpClient.GetAsync(_httpClient.BaseAddress.ToString() + $"?email={Uri.EscapeDataString(email)}");
             string responseContent = await response.Content.ReadAsStringAsync();
@@ -117,5 +103,31 @@ namespace CollabDo.Infrastructure.Repositories
             }
 
         }
+
+        public async Task<Guid> GetUserIdByEmail(string email)
+        {
+
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", (await KeycloakToken.GetToken(_httpClient, _configuration)).AccessToken);
+
+            HttpResponseMessage response = await _httpClient.GetAsync(_httpClient.BaseAddress.ToString() + $"?email={Uri.EscapeDataString(email)}");
+            
+
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new EntityNotFoundException($"Email: {email} does not exists");
+
+            }
+
+            string responseContent = await response.Content.ReadAsStringAsync();
+            List<KeycloakUserRequestModel> users = JsonConvert.DeserializeObject<List<KeycloakUserRequestModel>>(responseContent);
+
+            var user = users.FirstOrDefault(u => u.Email == email);
+            if (user == null)
+            {
+                throw new EntityNotFoundException($"Email: {email} does not exists");
+            }
+            return user.Id;
+        }   
     }
 }

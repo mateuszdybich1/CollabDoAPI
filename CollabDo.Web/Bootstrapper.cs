@@ -22,6 +22,14 @@ namespace CollabDo.Web
 
         private static void RegisterServices(IServiceCollection services, AppConfiguration configuration)
         {
+            services.AddScoped<IUserRepository>(p =>
+            {
+                IHttpClientFactory httpClientFactory = p.GetRequiredService<IHttpClientFactory>();
+
+                HttpClient httpClient = httpClientFactory.CreateClient("KeycloakClient");
+                return new UserRepository(httpClient, configuration.AuthTokenValidation);
+            });
+
             services.AddScoped<IUserContext, HttpUserContext>();
             services.AddScoped<IUserService, UserService>();
             
@@ -31,14 +39,13 @@ namespace CollabDo.Web
             services.AddScoped<IProjectService, ProjectService>();
             services.AddScoped<IProjectRepository, ProjectRepository>();
 
+            services.AddScoped<ITaskService, TaskService>();
+            services.AddScoped<ITaskRepository, TaskRepository>();
 
-            services.AddScoped<IUserRepository>(p =>
-            {
-                IHttpClientFactory httpClientFactory = p.GetRequiredService<IHttpClientFactory>();
+            services.AddScoped<IEmployeeTaskService, EmployeeTaskService>();
 
-                HttpClient httpClient = httpClientFactory.CreateClient("KeycloakClient");
-                return new UserRepository(httpClient, configuration.AuthTokenValidation);
-            });
+
+            
         }
 
         private static void RegisterDatabase(IServiceCollection services, AppConfiguration configuration)

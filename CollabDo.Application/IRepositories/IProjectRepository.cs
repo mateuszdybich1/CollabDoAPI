@@ -11,9 +11,11 @@ namespace CollabDo.Application.IRepositories
     {
         void AddProject(ProjectEntity project);
         void UpdateProject(ProjectEntity projectEntity);
-        bool ProjectExists(Guid leaderId, Guid projectId);
+        bool ProjectExists( Guid projectId);
         ProjectEntity GetProject(Guid projectId, Guid leaderId);
         List<ProjectEntity> GetLeaderProjects(Guid leaderId);
+
+
 
     }
 }
