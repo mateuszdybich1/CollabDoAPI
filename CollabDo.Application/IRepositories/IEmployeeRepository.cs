@@ -9,7 +9,7 @@ namespace CollabDo.Application.IRepositories
 {
     public interface IEmployeeRepository
     {
-        void AddEmployee(GroupEmployeeEntity employee);
+        void AddEmployee(EmployeeEntity employee);
 
         bool EmployeeExists(Guid employeeId);
         Guid GetEmployeeId(Guid userId);

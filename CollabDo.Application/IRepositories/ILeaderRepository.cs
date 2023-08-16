@@ -9,7 +9,7 @@ namespace CollabDo.Application.IRepositories
 {
     public interface ILeaderRepository
     {
-        void AddLeader(GroupLeaderEntity leader);
+        void AddLeader(LeaderEntity leader);
         Guid GetLeaderId(Guid userId);
         bool LeaderExists(Guid leaderId);
     }

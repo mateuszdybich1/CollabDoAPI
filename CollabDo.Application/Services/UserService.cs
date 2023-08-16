@@ -44,7 +44,7 @@ namespace CollabDo.Application.Services
 
             if (userDto.IsLeader)
             {
-                GroupLeaderEntity leader = new GroupLeaderEntity(userId);
+                LeaderEntity leader = new LeaderEntity(userId);
                  _leaderRepository.AddLeader(leader);
                 
             }

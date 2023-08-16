@@ -14,7 +14,7 @@ namespace CollabDo.Application.Entities
 
         public Guid LeaderId { get; private set;}
 
-        public GroupLeaderEntity Leader { get; private set; }
+        public LeaderEntity Leader { get; private set; }
 
         public EmployeeRequestEntity()
         {

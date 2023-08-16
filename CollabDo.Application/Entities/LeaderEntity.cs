@@ -7,19 +7,19 @@ using System.Threading.Tasks;
 namespace CollabDo.Application.Entities
 {
     
-    public class GroupLeaderEntity : Entity<Guid>
+    public class LeaderEntity : Entity<Guid>
     {
         public Guid UserId { get; private set; }
 
         public List<EmployeeRequestEntity> EmployeeRequests { get; set; }
-        public List<GroupEmployeeEntity> Employees { get; set; }
+        public List<EmployeeEntity> Employees { get; set; }
         public List<ProjectEntity> Projects { get; set; }
 
-        public GroupLeaderEntity() 
+        public LeaderEntity() 
         { 
         }
 
-        public GroupLeaderEntity(Guid userId) : base(userId)
+        public LeaderEntity(Guid userId) : base(userId)
         {
 
             UserId = userId;

@@ -17,7 +17,7 @@ namespace CollabDo.Infrastructure.Repositories
             _appDbContext = appDbContext;
         }
 
-        public void AddLeader(GroupLeaderEntity leader)
+        public void AddLeader(LeaderEntity leader)
         {
             _appDbContext.Leaders.Add(leader);
             _appDbContext.SaveChanges();

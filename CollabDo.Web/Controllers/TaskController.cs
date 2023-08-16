@@ -34,7 +34,7 @@ namespace CollabDo.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetProjectTasks(Guid projectId)
+        public IActionResult ProjectTasks(Guid projectId)
         {
             try
             {

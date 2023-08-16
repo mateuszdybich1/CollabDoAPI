@@ -6,21 +6,21 @@ using System.Threading.Tasks;
 
 namespace CollabDo.Application.Entities
 {
-    public class GroupEmployeeEntity : Entity<Guid>
+    public class EmployeeEntity : Entity<Guid>
     {
         public Guid UserId { get; private set; }
 
         public Guid LeaderId { get; private set; }
 
-        public GroupLeaderEntity Leader { get; private set; }
+        public LeaderEntity Leader { get; private set; }
 
 
-        public GroupEmployeeEntity() 
+        public EmployeeEntity() 
         { 
 
         }
 
-        public GroupEmployeeEntity(Guid userId, Guid leaderId )
+        public EmployeeEntity(Guid userId, Guid leaderId )
         {
             
             UserId = userId;

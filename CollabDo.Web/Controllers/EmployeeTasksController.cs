@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CollabDo.Web.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/{projectId}")]
     [ApiController]
     [Authorize]
     public class EmployeeTasksController : ControllerBase
@@ -21,7 +21,7 @@ namespace CollabDo.Web.Controllers
 
 
         [HttpGet]
-        public IActionResult EmployeeTasks([FromQuery]Guid projectId) 
+        public IActionResult EmployeeTasks([FromRoute]Guid projectId) 
         {
             try
             {
@@ -34,7 +34,7 @@ namespace CollabDo.Web.Controllers
         }
 
         [HttpPut]
-        public IActionResult TaskState([FromQuery] Guid projectId, [FromQuery] Guid taskId, [FromQuery][Range(0,4)] Application.Entities.TaskStatus status)
+        public IActionResult TaskState([FromRoute] Guid projectId, [FromQuery] Guid taskId, [FromQuery][Range(0,4)] Application.Entities.TaskStatus status)
         {
             try
             {

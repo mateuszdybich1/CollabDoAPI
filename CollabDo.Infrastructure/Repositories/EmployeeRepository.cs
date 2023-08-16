@@ -17,7 +17,7 @@ namespace CollabDo.Infrastructure.Repositories
             _appDbContext = appDbContext;
         }
 
-        public void AddEmployee(GroupEmployeeEntity employee)
+        public void AddEmployee(EmployeeEntity employee)
         {
             _appDbContext.Employees.Add(employee);
             _appDbContext.SaveChanges();

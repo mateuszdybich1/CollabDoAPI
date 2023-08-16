@@ -12,11 +12,11 @@ namespace CollabDo.Infrastructure.EnityMappings
     {
         internal static void MapRelations(this ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<GroupLeaderEntity>().HasMany(e => e.EmployeeRequests).WithOne(e => e.Leader).HasForeignKey(e=>e.LeaderId).IsRequired(true);
+            modelBuilder.Entity<LeaderEntity>().HasMany(e => e.EmployeeRequests).WithOne(e => e.Leader).HasForeignKey(e=>e.LeaderId).IsRequired(true);
 
-            modelBuilder.Entity<GroupLeaderEntity>().HasMany(e=>e.Employees).WithOne(e=>e.Leader).HasForeignKey(e=>e.LeaderId).IsRequired(false);
+            modelBuilder.Entity<LeaderEntity>().HasMany(e=>e.Employees).WithOne(e=>e.Leader).HasForeignKey(e=>e.LeaderId).IsRequired(false);
 
-            modelBuilder.Entity<GroupLeaderEntity>().HasMany(e => e.Projects).WithOne(e => e.Leader).HasForeignKey(e=>e.LeaderId).IsRequired(true);
+            modelBuilder.Entity<LeaderEntity>().HasMany(e => e.Projects).WithOne(e => e.Leader).HasForeignKey(e=>e.LeaderId).IsRequired(true);
 
             modelBuilder.Entity<ProjectEntity>().HasMany(e=>e.Tasks).WithOne(e => e.Project).HasForeignKey(e=>e.ProjectID).IsRequired(false);
 
