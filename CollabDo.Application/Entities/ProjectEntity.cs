@@ -25,7 +25,7 @@ namespace CollabDo.Application.Entities
 
         }
 
-        public ProjectEntity(Guid leaderId, string name, Priority priority) : base(leaderId)
+        public ProjectEntity(Guid leaderId, string name, Priority priority, Guid userId) : base(userId)
         {
             LeaderId = leaderId;
             Name = name;

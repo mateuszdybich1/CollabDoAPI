@@ -22,7 +22,7 @@ namespace CollabDo.Application.Entities
 
         }
 
-        public EmployeeEntity(Guid userId)
+        public EmployeeEntity(Guid userId) : base(userId)
         {
             
             UserId = userId;

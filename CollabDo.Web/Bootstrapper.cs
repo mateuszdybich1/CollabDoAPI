@@ -46,6 +46,7 @@ namespace CollabDo.Web
 
             services.AddScoped<IEmployeeService, EmployeeService>();
 
+            services.AddScoped<IEmployeeRequestRepository, EmployeeRequestRepository>();
 
 
 

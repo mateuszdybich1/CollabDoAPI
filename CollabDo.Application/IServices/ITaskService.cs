@@ -11,7 +11,7 @@ namespace CollabDo.Application.IServices
     public interface ITaskService
     {
         Guid CreateTask(TaskDto taskDto);
-        Task<Guid> AssignToEmployee(Guid projectId,Guid taskId, string employeeEmail);
+        Task<Guid> AssignToEmployee(Guid projectId,Guid taskId, string employeeEmail); //do poprawy
         Guid SetTaskStatus(Guid projectId,Guid taskId, Entities.TaskStatus status);
         List<TaskDto> GetAllTasks(Guid projectId, Entities.TaskStatus status, int pageNumber);
 

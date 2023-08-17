@@ -128,6 +128,32 @@ namespace CollabDo.Infrastructure.Repositories
                 throw new EntityNotFoundException($"Email: {email} does not exists");
             }
             return user.Id;
-        }   
+        }
+
+        public async Task<KeycloakUserRequestModel> GetUser(Guid userId)
+        {
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", (await KeycloakToken.GetToken(_httpClient, _configuration)).AccessToken);
+
+            HttpResponseMessage response = await _httpClient.GetAsync(_httpClient.BaseAddress.ToString() + $"/{Uri.EscapeDataString(userId.ToString())}");
+
+
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new EntityNotFoundException($"ID: {userId} does not exists");
+
+            }
+
+            string responseContent = await response.Content.ReadAsStringAsync();
+            List<KeycloakUserRequestModel> users = JsonConvert.DeserializeObject<List<KeycloakUserRequestModel>>(responseContent);
+
+            var user = users.SingleOrDefault(u => u.Id == userId);
+
+            if (user == null)
+            {
+                throw new EntityNotFoundException($"ID: {userId} does not exists");
+            }
+            return user;
+        }
     }
 }

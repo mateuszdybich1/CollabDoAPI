@@ -12,6 +12,9 @@ namespace CollabDo.Application.IRepositories
         Task<Guid> AddUser(UserEntity user);
         Task<bool> UsernameExists(string username);
         Task<bool> EmailExists(string email);
+
+        Task<KeycloakUserRequestModel> GetUser(Guid userId);
+
         Task<Guid> GetUserIdByEmail(string email);
     }
 }

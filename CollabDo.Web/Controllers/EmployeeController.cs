@@ -33,9 +33,21 @@ namespace CollabDo.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult AssignToLeaderRequest(Guid leaderId)
+        public IActionResult AssignToLeaderRequest(string leaderEmail)
         {
-            return Ok();
+            try
+            {
+                return Ok(_employeeService.CreateLeaderAssignmentRequest(leaderEmail));
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
         }
     }
 }

@@ -21,7 +21,7 @@ namespace CollabDo.Application.Entities
 
         }
 
-        public EmployeeRequestEntity(Guid leaderId, string username, string email)
+        public EmployeeRequestEntity(Guid leaderId, string username, string email, Guid userId) :base(userId)
         {
             if (string.IsNullOrWhiteSpace(username))
             {

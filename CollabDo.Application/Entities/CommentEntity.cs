@@ -18,7 +18,7 @@ namespace CollabDo.Application.Entities
 
         }
 
-        public CommentEntity(Guid taskId, string author, string content)
+        public CommentEntity(Guid taskId, string author, string content, Guid userId) : base(userId)
         {
             if (string.IsNullOrWhiteSpace(author))
             {

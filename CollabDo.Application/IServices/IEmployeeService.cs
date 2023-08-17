@@ -11,6 +11,6 @@ namespace CollabDo.Application.IServices
     {
         EmployeeDto GetEmployee();
 
-        Guid CreateLeaderAssignmentRequest(Guid leaderId);
+        Task<Guid> CreateLeaderAssignmentRequest(string leaderEmail);
     }
 }

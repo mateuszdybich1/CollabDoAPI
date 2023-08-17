@@ -33,7 +33,7 @@ namespace CollabDo.Application.Entities
         {
 
         }
-        public TaskEntity(Guid projectId, string name, Priority priority, DateTime deadline, Guid createdBy) : base(createdBy) 
+        public TaskEntity(Guid projectId, string name, Priority priority, DateTime deadline, Guid userId) : base(userId) 
         {
             if (string.IsNullOrWhiteSpace(name))
             {

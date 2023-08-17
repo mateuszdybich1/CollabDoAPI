@@ -45,7 +45,7 @@ namespace CollabDo.Application.Services
             ProjectValidation validation = new ProjectValidation(_projectRepository);
             validation.ValidateProjectId(taskDto.ProjectId);
 
-            TaskEntity taskEntity = new TaskEntity(taskDto.ProjectId,taskDto.Name,taskDto.Priority,taskDto.Deadline, leaderId);
+            TaskEntity taskEntity = new TaskEntity(taskDto.ProjectId,taskDto.Name,taskDto.Priority,taskDto.Deadline, userId);
 
             _taskRepository.AddTask(taskEntity);
 

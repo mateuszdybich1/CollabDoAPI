@@ -38,7 +38,7 @@ namespace CollabDo.Application.Services
             LeaderValidation validation = new LeaderValidation(_leaderRepository);
             validation.ValidateLeader(leaderId);
 
-            ProjectEntity projectEntity = new ProjectEntity(leaderId,projectDto.Name,projectDto.Priority);
+            ProjectEntity projectEntity = new ProjectEntity(leaderId, projectDto.Name,projectDto.Priority, userId);
 
             _projectRepository.AddProject(projectEntity);
 
@@ -82,10 +82,8 @@ namespace CollabDo.Application.Services
 
             Guid employeeId = _employeeRepository.GetEmployeeId(leaderId,userId);
 
-            if (employeeId == Guid.Empty)
-            {
-                throw new ValidationException("No Employee found");
-            }
+            EmployeeValidation employeeValidation = new EmployeeValidation(_employeeRepository);
+            employeeValidation.ValidateEmployeeId(employeeId);
 
             return _projectRepository.GetLeaderProjects(leaderId, status, pageNumber);
 
