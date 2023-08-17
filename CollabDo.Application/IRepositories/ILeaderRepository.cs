@@ -13,6 +13,6 @@ namespace CollabDo.Application.IRepositories
         Guid GetLeaderId(Guid userId);
         bool LeaderExists(Guid leaderId);
 
-        bool LeaderHasEmployee(Guid leaderId,Guid employeeId);
+
     }
 }

@@ -17,12 +17,15 @@ namespace CollabDo.Application.Dtos
         [Range(1,3)]
         public Priority Priority { get; set; }
 
+        public Guid ProjectId { get; private set; }
+
 
         public static ProjectDto FromModel(ProjectEntity entity)
         {
             ProjectDto dto = new ProjectDto();
             dto.Name = entity.Name;
-            dto.Priority = entity.Priority; 
+            dto.Priority = entity.Priority;
+            dto.ProjectId = entity.Id;
             return dto;
         }
     }

@@ -10,7 +10,7 @@ namespace CollabDo.Application.Entities
     {
         public Guid UserId { get; private set; }
 
-        public string LeaderRequestEmail { get; set; }
+        public string? LeaderRequestEmail { get; set; }
 
         public Guid LeaderId { get; set; }
 

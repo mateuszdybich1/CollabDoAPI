@@ -1,4 +1,5 @@
-﻿using CollabDo.Application.Entities;
+﻿using CollabDo.Application.Dtos;
+using CollabDo.Application.Entities;
 using CollabDo.Application.IRepositories;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,26 @@ namespace CollabDo.Infrastructure.Repositories
         {
             _appDbContext.EmployeeRequests.Add(employeeRequestEntity);
             _appDbContext.SaveChanges();
+        }
+
+        public void DeleteEmployeeRequest(EmployeeRequestEntity employeeRequestEntity)
+        {
+            _appDbContext.EmployeeRequests.Remove(employeeRequestEntity);
+            _appDbContext.SaveChanges();
+        }
+        public EmployeeRequestEntity GetEmployeeRequest(Guid leaderId)
+        {
+            return _appDbContext.EmployeeRequests.SingleOrDefault(e => e.LeaderId == leaderId);
+        }
+        public EmployeeRequestEntity GetEmployeeRequest(Guid employeeRequestId, string employeeEmail)
+        {
+            return _appDbContext.EmployeeRequests.SingleOrDefault(e => e.Id == employeeRequestId && e.Email == employeeEmail);
+        }
+        public List<EmployeeRequestDto> GetEmployeeRequests(Guid leaderId)
+        {
+            List<EmployeeRequestEntity> entities = _appDbContext.EmployeeRequests.Where(e=>e.LeaderId == leaderId).ToList();
+
+            return entities.Select(EmployeeRequestDto.FromModel).ToList();
         }
     }
 }

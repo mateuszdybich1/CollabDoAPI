@@ -19,6 +19,10 @@ namespace CollabDo.Application.Validation
 
         public void ValidateLeader(Guid leaderId)
         {
+            if(leaderId == Guid.Empty)
+            {
+                throw new ValidationException("Incorrect Leader ID");
+            }
             if(!_leaderRepository.LeaderExists(leaderId))
             {
                 throw new ValidationException("Incorrect Leader ID");

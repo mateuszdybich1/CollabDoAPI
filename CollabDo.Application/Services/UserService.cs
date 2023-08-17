@@ -33,18 +33,9 @@ namespace CollabDo.Application.Services
             await validation.ValidateEmail(userDto.Email);
             await validation.ValidateUsername(userDto.Username);
 
-            UserRole role;
+            
 
-            if (userDto.IsLeader)
-            {
-                role = UserRole.Leader;
-            }
-            else 
-            { 
-                role = UserRole.Employee;
-            }
-
-            UserEntity user = new UserEntity(userDto.Username,userDto.Email,userDto.Password,role);
+            UserEntity user = new UserEntity(userDto.Username,userDto.Email,userDto.Password);
 
             Guid userId = await _userRepository.AddUser(user);
 

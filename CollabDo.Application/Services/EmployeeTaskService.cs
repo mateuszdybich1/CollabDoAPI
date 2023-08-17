@@ -58,6 +58,7 @@ namespace CollabDo.Application.Services
             TaskEntity task = _taskRepository.GetTask(projectId, taskId);
 
             task.ModifiedBy = employeeId;
+            task.ModifiedOn = DateTime.UtcNow;
             task.SetStatus(status);
             
             _taskRepository.UpdateTask(task);

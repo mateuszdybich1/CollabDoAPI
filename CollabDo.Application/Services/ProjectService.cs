@@ -51,6 +51,8 @@ namespace CollabDo.Application.Services
 
             Guid leaderId = _leaderRepository.GetLeaderId(userId);
 
+            LeaderValidation validation = new LeaderValidation(_leaderRepository);
+            validation.ValidateLeader(leaderId);
 
             ProjectValidation projectValidation = new ProjectValidation(_projectRepository);
 
@@ -58,6 +60,8 @@ namespace CollabDo.Application.Services
 
 
             ProjectEntity projectEntity = _projectRepository.GetProject(projectId, leaderId);
+            projectEntity.ModifiedBy = userId;
+            projectEntity.ModifiedOn = DateTime.UtcNow;
 
             projectEntity.SetProjectStatus(ProjectStatus.Finished);
 
@@ -72,6 +76,9 @@ namespace CollabDo.Application.Services
             Guid userId = _userContext.CurrentUserId;
 
             Guid leaderId = _leaderRepository.GetLeaderId(userId);
+
+            LeaderValidation validation = new LeaderValidation(_leaderRepository);
+            validation.ValidateLeader(leaderId);
 
             return _projectRepository.GetLeaderProjects(leaderId, status, pageNumber);
         }

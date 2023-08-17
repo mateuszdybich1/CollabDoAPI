@@ -11,6 +11,8 @@ namespace CollabDo.Application.Dtos
 {
     public class TaskDto
     {
+        public Guid TaskId { get; private set; }
+
         [Required]
         public Guid ProjectId { get; set; }
         [Required]
@@ -19,7 +21,6 @@ namespace CollabDo.Application.Dtos
         [Required]
         public Priority Priority { get; set; }
 
-        
 
         public Entities.TaskStatus Status { get; private set; } = Entities.TaskStatus.Created;
 
@@ -32,6 +33,7 @@ namespace CollabDo.Application.Dtos
         public static TaskDto FromModel(TaskEntity entity)
         {
             TaskDto dto = new TaskDto();
+            dto.TaskId = entity.Id;
             dto.ProjectId = entity.ProjectID;
             dto.Name = entity.Name;
             dto.Priority = entity.Priority;

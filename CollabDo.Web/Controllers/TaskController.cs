@@ -33,7 +33,8 @@ namespace CollabDo.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult ProjectTasks(Guid projectId, 
+        public IActionResult ProjectTasks(
+            Guid projectId, 
             [FromQuery][Range(1, 2)] Application.Entities.TaskStatus taskStatus = Application.Entities.TaskStatus.Created, 
             [FromQuery][Range(1, int.MaxValue)] int pageNumber = 1)
         {

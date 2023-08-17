@@ -54,7 +54,7 @@ namespace CollabDo.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult LeaderProjects(
+        public IActionResult Projects(
             [FromQuery] Guid leaderId,
             [FromQuery][Range(1,2)] ProjectStatus projectStatus = ProjectStatus.InProgress,
             [FromQuery][Range(1,int.MaxValue)] int pageNumber = 1)

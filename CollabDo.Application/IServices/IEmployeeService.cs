@@ -12,5 +12,7 @@ namespace CollabDo.Application.IServices
         EmployeeDto GetEmployee();
 
         Task<Guid> CreateLeaderAssignmentRequest(string leaderEmail);
+
+        Task<Guid> DeleteLeaderAssignmentRequest(string leaderEmail);
     }
 }

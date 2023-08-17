@@ -42,6 +42,8 @@ namespace CollabDo.Application.Services
             Guid userId = _userContext.CurrentUserId;
             Guid leaderId = _leaderRepository.GetLeaderId(userId);
 
+
+            // do poprawy
             ProjectValidation validation = new ProjectValidation(_projectRepository);
             validation.ValidateProjectId(taskDto.ProjectId);
 
@@ -57,11 +59,14 @@ namespace CollabDo.Application.Services
             Guid userId = _userContext.CurrentUserId;
             Guid leaderId = _leaderRepository.GetLeaderId(userId);
 
+            LeaderValidation validation = new LeaderValidation(_leaderRepository);
+            validation.ValidateLeader(leaderId);
+
             TaskValidation taskValidation = new TaskValidation(_taskRepository);
             taskValidation.ValidateTask(leaderId,projectId,taskId);
 
             TaskEntity task = _taskRepository.GetTask(projectId, taskId);
-
+            task.ModifiedOn = DateTime.UtcNow;
             task.ModifiedBy = leaderId;
 
             Guid employeeUserId = await _userRepository.GetUserIdByEmail(employeeEmail);
@@ -97,12 +102,14 @@ namespace CollabDo.Application.Services
 
             Guid leaderId = _leaderRepository.GetLeaderId(userId);
 
+            LeaderValidation leaderValidation = new LeaderValidation(_leaderRepository);
+            leaderValidation.ValidateLeader(leaderId);
 
             ProjectValidation validation = new ProjectValidation(_projectRepository);
             validation.ValidateProjectId(projectId);
 
             TaskEntity task = _taskRepository.GetTask(projectId, taskId);
-
+            task.ModifiedOn = DateTime.UtcNow;
             task.ModifiedBy = leaderId;
 
             task.SetStatus(status);

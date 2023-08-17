@@ -63,11 +63,12 @@ namespace CollabDo.Application.Services
 
             Guid employeeId = _employeeRepository.GetEmployeeId(userId);
 
-            KeycloakUserRequestModel employeeUserData = await _userRepository.GetUser(userId);                   
-
 
             EmployeeValidation employeeValidation = new EmployeeValidation(_employeeRepository);
             employeeValidation.ValidateEmployeeId(employeeId);
+
+
+            KeycloakUserRequestModel employeeUserData = await _userRepository.GetUser(userId);                   
 
 
             Guid leaderUserId = await _userRepository.GetUserIdByEmail(leaderEmail);
@@ -78,10 +79,46 @@ namespace CollabDo.Application.Services
 
             _employeeRequestRepository.AddEmployeeRequest(employeeRequestEntity);
 
+            EmployeeEntity employeeEntity = _employeeRepository.GetEmployee(employeeId);
+            employeeEntity.LeaderRequestEmail = leaderEmail;
+            employeeEntity.ModifiedBy = userId;
+            employeeEntity.ModifiedOn = DateTime.UtcNow;
+
+            _employeeRepository.UpdateEmployee(employeeEntity);
+
+
             return employeeRequestEntity.Id;
 
 
 
+        }
+
+        public async Task<Guid> DeleteLeaderAssignmentRequest(string leaderEmail)
+        {
+            Guid userId = _userContext.CurrentUserId;
+
+            Guid employeeId = _employeeRepository.GetEmployeeId(userId);
+
+
+            EmployeeValidation employeeValidation = new EmployeeValidation(_employeeRepository);
+            employeeValidation.ValidateEmployeeId(employeeId);
+
+            Guid leaderId = await _userRepository.GetUserIdByEmail(leaderEmail);
+
+            EmployeeRequestEntity employeeRequestEntity = _employeeRequestRepository.GetEmployeeRequest(leaderId);
+
+            _employeeRequestRepository.DeleteEmployeeRequest(employeeRequestEntity);
+
+
+
+            EmployeeEntity employeeEntity = _employeeRepository.GetEmployee(employeeId);
+            employeeEntity.LeaderRequestEmail = null;
+            employeeEntity.ModifiedBy = userId;
+            employeeEntity.ModifiedOn = DateTime.UtcNow;
+
+            _employeeRepository.UpdateEmployee(employeeEntity);
+
+            return employeeEntity.Id;
         }
     }
 }
