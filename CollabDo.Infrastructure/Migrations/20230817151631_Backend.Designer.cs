@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CollabDo.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230817134028_Backend")]
+    [Migration("20230817151631_Backend")]
     partial class Backend
     {
         /// <inheritdoc />
@@ -75,6 +75,10 @@ namespace CollabDo.Infrastructure.Migrations
 
                     b.Property<Guid>("LeaderId")
                         .HasColumnType("uuid");
+
+                    b.Property<string>("LeaderRequestEmail")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<Guid?>("ModifiedBy")
                         .HasColumnType("uuid");
@@ -256,7 +260,8 @@ namespace CollabDo.Infrastructure.Migrations
                 {
                     b.HasOne("CollabDo.Application.Entities.LeaderEntity", "Leader")
                         .WithMany("Employees")
-                        .HasForeignKey("LeaderId");
+                        .HasForeignKey("LeaderId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Leader");
                 });

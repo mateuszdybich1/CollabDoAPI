@@ -1,5 +1,6 @@
 ﻿using CollabDo.Application.Entities;
 using CollabDo.Application.IRepositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +32,11 @@ namespace CollabDo.Infrastructure.Repositories
         public bool LeaderExists(Guid leaderId)
         {
             return _appDbContext.Leaders.Any(e=>e.Id == leaderId);
+        }
+
+        public bool LeaderHasEmployee(Guid leaderId,Guid employeeId)
+        {
+            return _appDbContext.Leaders.Include(e => e.Employees.SingleOrDefault(e => e.LeaderId == leaderId && e.Id == employeeId)).Any();
         }
     }
 }

@@ -14,19 +14,19 @@ namespace CollabDo.Application.Services
     public class UserService : IUserService
     {
         private readonly ILeaderRepository _leaderRepository;
+        private readonly IEmployeeRepository _employeeRepository;
         private readonly IUserRepository _userRepository;
+        private readonly IUserContext _userContext;
         
-        public UserService(ILeaderRepository leaderRepository, IUserRepository userRepository)
+        public UserService(ILeaderRepository leaderRepository, IEmployeeRepository employeeRepository, IUserRepository userRepository, IUserContext userContext)
         {
             _leaderRepository = leaderRepository;
+            _employeeRepository = employeeRepository;
             _userRepository = userRepository;
+            _userContext = userContext;
         }
 
-        public Guid AddEmployee()
-        {
-            throw new NotImplementedException();
-        }
-
+        
         public async Task<Guid> Register(UserRegisterDto userDto)
         {
             UserValidation validation = new UserValidation(_userRepository);
@@ -52,10 +52,23 @@ namespace CollabDo.Application.Services
             {
                 LeaderEntity leader = new LeaderEntity(userId);
                  _leaderRepository.AddLeader(leader);
+
+                return leader.Id;
                 
             }
 
-            return userId;
+            EmployeeEntity employee = new EmployeeEntity(userId); 
+            _employeeRepository.AddEmployee(employee);
+            
+            return employee.Id;
         }
+
+        public bool IsUserLeader()
+        {
+            Guid userId = _userContext.CurrentUserId;
+
+            return _leaderRepository.LeaderExists(userId);
+        }
+
     }
 }

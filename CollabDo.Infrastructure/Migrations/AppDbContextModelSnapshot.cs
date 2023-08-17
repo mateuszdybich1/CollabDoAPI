@@ -73,6 +73,10 @@ namespace CollabDo.Infrastructure.Migrations
                     b.Property<Guid>("LeaderId")
                         .HasColumnType("uuid");
 
+                    b.Property<string>("LeaderRequestEmail")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<Guid?>("ModifiedBy")
                         .HasColumnType("uuid");
 
@@ -253,7 +257,8 @@ namespace CollabDo.Infrastructure.Migrations
                 {
                     b.HasOne("CollabDo.Application.Entities.LeaderEntity", "Leader")
                         .WithMany("Employees")
-                        .HasForeignKey("LeaderId");
+                        .HasForeignKey("LeaderId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Leader");
                 });

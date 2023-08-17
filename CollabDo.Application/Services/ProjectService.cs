@@ -1,5 +1,6 @@
 ﻿using CollabDo.Application.Dtos;
 using CollabDo.Application.Entities;
+using CollabDo.Application.Exceptions;
 using CollabDo.Application.IRepositories;
 using CollabDo.Application.IServices;
 using CollabDo.Application.Validation;
@@ -15,12 +16,14 @@ namespace CollabDo.Application.Services
     {
         private readonly IProjectRepository _projectRepository;
         private readonly ILeaderRepository _leaderRepository;
+        private readonly IEmployeeRepository _employeeRepository;
         private readonly IUserContext _userContext;
 
-        public ProjectService(IProjectRepository projectRepository, ILeaderRepository leaderRepository, IUserContext userContext)
+        public ProjectService(IProjectRepository projectRepository, ILeaderRepository leaderRepository, IEmployeeRepository employeeRepository, IUserContext userContext)
         {
             _projectRepository = projectRepository;
             _leaderRepository = leaderRepository;
+            _employeeRepository = employeeRepository;
             _userContext = userContext;
         }
 
@@ -71,6 +74,22 @@ namespace CollabDo.Application.Services
             Guid leaderId = _leaderRepository.GetLeaderId(userId);
 
             return _projectRepository.GetLeaderProjects(leaderId, status, pageNumber);
+        }
+
+        public List<ProjectDto> GetProjects(Guid leaderId, ProjectStatus status, int pageNumber)
+        {
+            Guid userId = _userContext.CurrentUserId;
+
+            Guid employeeId = _employeeRepository.GetEmployeeId(leaderId,userId);
+
+            if (employeeId == Guid.Empty)
+            {
+                throw new ValidationException("No Employee found");
+            }
+
+            return _projectRepository.GetLeaderProjects(leaderId, status, pageNumber);
+
+
         }
     }
 }

@@ -23,6 +23,17 @@ namespace CollabDo.Infrastructure.Repositories
             _appDbContext.SaveChanges();
         }
 
+        public void UpdateEmployee(EmployeeEntity employee)
+        {
+            _appDbContext.Employees.Update(employee);
+            _appDbContext.SaveChanges();
+        }
+
+        public EmployeeEntity GetEmployee(Guid employeeId)
+        {
+            return _appDbContext.Employees.SingleOrDefault(e => e.Id == employeeId);
+        }
+
         public bool EmployeeExists(Guid employeeId)
         {
             return _appDbContext.Employees.Any(e=>e.Id == employeeId);
@@ -38,5 +49,7 @@ namespace CollabDo.Infrastructure.Repositories
         {
             return _appDbContext.Employees.SingleOrDefault(e => e.UserId == userId).Id;
         }
+
+        
     }
 }

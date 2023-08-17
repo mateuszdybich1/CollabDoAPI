@@ -44,8 +44,11 @@ namespace CollabDo.Web
 
             services.AddScoped<IEmployeeTaskService, EmployeeTaskService>();
 
+            services.AddScoped<IEmployeeService, EmployeeService>();
 
-            
+
+
+
         }
 
         private static void RegisterDatabase(IServiceCollection services, AppConfiguration configuration)

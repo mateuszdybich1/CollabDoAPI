@@ -57,6 +57,7 @@ namespace CollabDo.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    LeaderRequestEmail = table.Column<string>(type: "text", nullable: false),
                     LeaderId = table.Column<Guid>(type: "uuid", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
@@ -70,7 +71,8 @@ namespace CollabDo.Infrastructure.Migrations
                         name: "FK_Employees_Leaders_LeaderId",
                         column: x => x.LeaderId,
                         principalTable: "Leaders",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(

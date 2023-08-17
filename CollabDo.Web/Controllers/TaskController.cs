@@ -45,6 +45,10 @@ namespace CollabDo.Web.Controllers
             {
                 return BadRequest(ex.Message);
             }
+            catch (FormatException ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPut]
@@ -55,6 +59,10 @@ namespace CollabDo.Web.Controllers
                 return Ok(await _taskService.AssignToEmployee(projectId, taskId, employeeEmail));
             }
             catch(ValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (FormatException ex)
             {
                 return BadRequest(ex.Message);
             }

@@ -36,5 +36,14 @@ namespace CollabDo.Web.Controllers
             }
             
         }
+
+        [HttpGet]
+        [Authorize]
+        public IActionResult IsUserLeader()
+        {
+            return Ok(_userService.IsUserLeader());
+        }
+
+
     }
 }

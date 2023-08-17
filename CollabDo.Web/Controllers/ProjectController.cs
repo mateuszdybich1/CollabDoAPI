@@ -54,9 +54,32 @@ namespace CollabDo.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult LeaderProjects([FromQuery][Range(1,2)] ProjectStatus projectStatus = ProjectStatus.InProgress,[FromQuery][Range(1,int.MaxValue)] int pageNumber = 1)
+        public IActionResult LeaderProjects(
+            [FromQuery] Guid leaderId,
+            [FromQuery][Range(1,2)] ProjectStatus projectStatus = ProjectStatus.InProgress,
+            [FromQuery][Range(1,int.MaxValue)] int pageNumber = 1)
         {
-            return Ok(_projectService.GetProjects(projectStatus, pageNumber));
+            try
+            {
+                if (leaderId == Guid.Empty)
+                {
+                    return Ok(_projectService.GetProjects(leaderId, projectStatus, pageNumber));
+                }
+                else
+                {
+                    return Ok(_projectService.GetProjects(projectStatus, pageNumber));
+                }
+            }
+            catch (Application.Exceptions.ValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (FormatException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
+            
         }
 
         

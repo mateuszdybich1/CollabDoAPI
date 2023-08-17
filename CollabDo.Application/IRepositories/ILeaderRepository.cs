@@ -12,5 +12,7 @@ namespace CollabDo.Application.IRepositories
         void AddLeader(LeaderEntity leader);
         Guid GetLeaderId(Guid userId);
         bool LeaderExists(Guid leaderId);
+
+        bool LeaderHasEmployee(Guid leaderId,Guid employeeId);
     }
 }

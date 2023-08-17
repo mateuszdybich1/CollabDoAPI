@@ -10,7 +10,9 @@ namespace CollabDo.Application.Entities
     {
         public Guid UserId { get; private set; }
 
-        public Guid LeaderId { get; private set; }
+        public string LeaderRequestEmail { get; set; }
+
+        public Guid LeaderId { get; set; }
 
         public LeaderEntity Leader { get; private set; }
 
@@ -20,11 +22,10 @@ namespace CollabDo.Application.Entities
 
         }
 
-        public EmployeeEntity(Guid userId, Guid leaderId )
+        public EmployeeEntity(Guid userId)
         {
             
             UserId = userId;
-            LeaderId = leaderId;
         }
     }
 }

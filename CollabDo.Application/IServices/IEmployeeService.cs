@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace CollabDo.Application.IServices
 {
-    public interface IUserService
+    public interface IEmployeeService
     {
-        Task<Guid> Register(UserRegisterDto userDto);
+        EmployeeDto GetEmployee();
 
-        bool IsUserLeader();
+        Guid CreateLeaderAssignmentRequest(Guid leaderId);
     }
 }

@@ -1,7 +1,6 @@
 ﻿
 using CollabDo.Application.IServices;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
@@ -34,6 +33,10 @@ namespace CollabDo.Web.Controllers
             {
                 return BadRequest(ex.Message);
             }
+            catch (FormatException ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPut]
@@ -44,6 +47,10 @@ namespace CollabDo.Web.Controllers
                 return Ok(_employeeTaskService.SetTaskState(projectId,taskId,status));
             }
             catch (ValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (FormatException ex)
             {
                 return BadRequest(ex.Message);
             }
