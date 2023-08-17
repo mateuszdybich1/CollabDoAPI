@@ -19,7 +19,7 @@ namespace CollabDo.Application.Entities
 
         public TaskStatus Status { get; private set; } = TaskStatus.Created;
 
-        public Guid AssignedToEmployeeId { get; private set; } = Guid.Empty;
+        public Guid AssignedEmployeeId { get; private set; } = Guid.Empty;
         
         public DateTime Deadline { get; set; } = DateTime.UtcNow.AddDays(1);
 
@@ -53,7 +53,7 @@ namespace CollabDo.Application.Entities
 
         public void AssignToEmployee(Guid employeeID)
         {
-            AssignedToEmployeeId = employeeID;
+            AssignedEmployeeId = employeeID;
         }
 
 

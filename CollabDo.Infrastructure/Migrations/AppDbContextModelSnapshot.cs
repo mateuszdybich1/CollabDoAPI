@@ -58,6 +58,40 @@ namespace CollabDo.Infrastructure.Migrations
                     b.ToTable("Comments");
                 });
 
+            modelBuilder.Entity("CollabDo.Application.Entities.EmployeeEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("LeaderId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("ModifiedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LeaderId");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("Employees");
+                });
+
             modelBuilder.Entity("CollabDo.Application.Entities.EmployeeRequestEntity", b =>
                 {
                     b.Property<Guid>("Id")
@@ -94,41 +128,7 @@ namespace CollabDo.Infrastructure.Migrations
                     b.ToTable("EmployeeRequests");
                 });
 
-            modelBuilder.Entity("CollabDo.Application.Entities.GroupEmployeeEntity", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("LeaderId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid?>("ModifiedBy")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("LeaderId");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
-
-                    b.ToTable("Employees");
-                });
-
-            modelBuilder.Entity("CollabDo.Application.Entities.GroupLeaderEntity", b =>
+            modelBuilder.Entity("CollabDo.Application.Entities.LeaderEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -201,7 +201,7 @@ namespace CollabDo.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("AssignedToEmployeeId")
+                    b.Property<Guid>("AssignedEmployeeId")
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("CreatedBy")
@@ -243,14 +243,24 @@ namespace CollabDo.Infrastructure.Migrations
                 {
                     b.HasOne("CollabDo.Application.Entities.TaskEntity", "Task")
                         .WithMany("Comments")
-                        .HasForeignKey("TaskId");
+                        .HasForeignKey("TaskId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Task");
                 });
 
+            modelBuilder.Entity("CollabDo.Application.Entities.EmployeeEntity", b =>
+                {
+                    b.HasOne("CollabDo.Application.Entities.LeaderEntity", "Leader")
+                        .WithMany("Employees")
+                        .HasForeignKey("LeaderId");
+
+                    b.Navigation("Leader");
+                });
+
             modelBuilder.Entity("CollabDo.Application.Entities.EmployeeRequestEntity", b =>
                 {
-                    b.HasOne("CollabDo.Application.Entities.GroupLeaderEntity", "Leader")
+                    b.HasOne("CollabDo.Application.Entities.LeaderEntity", "Leader")
                         .WithMany("EmployeeRequests")
                         .HasForeignKey("LeaderId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -259,18 +269,9 @@ namespace CollabDo.Infrastructure.Migrations
                     b.Navigation("Leader");
                 });
 
-            modelBuilder.Entity("CollabDo.Application.Entities.GroupEmployeeEntity", b =>
-                {
-                    b.HasOne("CollabDo.Application.Entities.GroupLeaderEntity", "Leader")
-                        .WithMany("Employees")
-                        .HasForeignKey("LeaderId");
-
-                    b.Navigation("Leader");
-                });
-
             modelBuilder.Entity("CollabDo.Application.Entities.ProjectEntity", b =>
                 {
-                    b.HasOne("CollabDo.Application.Entities.GroupLeaderEntity", "Leader")
+                    b.HasOne("CollabDo.Application.Entities.LeaderEntity", "Leader")
                         .WithMany("Projects")
                         .HasForeignKey("LeaderId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -283,12 +284,13 @@ namespace CollabDo.Infrastructure.Migrations
                 {
                     b.HasOne("CollabDo.Application.Entities.ProjectEntity", "Project")
                         .WithMany("Tasks")
-                        .HasForeignKey("ProjectID");
+                        .HasForeignKey("ProjectID")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Project");
                 });
 
-            modelBuilder.Entity("CollabDo.Application.Entities.GroupLeaderEntity", b =>
+            modelBuilder.Entity("CollabDo.Application.Entities.LeaderEntity", b =>
                 {
                     b.Navigation("EmployeeRequests");
 

@@ -10,5 +10,7 @@ namespace CollabDo.Application.IServices
     public interface IUserService
     {
         Task<Guid> Register(UserRegisterDto userDto);
+
+        Guid AddEmployee();
     }
 }

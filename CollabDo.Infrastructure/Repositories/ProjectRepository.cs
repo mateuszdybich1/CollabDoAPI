@@ -1,4 +1,5 @@
-﻿using CollabDo.Application.Entities;
+﻿using CollabDo.Application.Dtos;
+using CollabDo.Application.Entities;
 using CollabDo.Application.IRepositories;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -33,9 +34,15 @@ namespace CollabDo.Infrastructure.Repositories
             return _appDbContext.Projects.Include(e => e.Tasks).SingleOrDefault(e => e.Id == projectId && e.LeaderId == leaderId);
         }
 
-        public List<ProjectEntity> GetLeaderProjects(Guid leaderId)
+        public List<ProjectDto> GetLeaderProjects(Guid leaderId, ProjectStatus status, int pageNumber)
         {
-            throw new NotImplementedException();
+            List<ProjectEntity> entities = _appDbContext.Projects
+                .Where(e => e.LeaderId == leaderId && e.ProjectStatus == status)
+                .OrderByDescending(e => e.Priority)
+                .Skip((pageNumber-1)*25)
+                .Take(25)
+                .ToList();
+            return entities.Select(ProjectDto.FromModel).ToList();
         }
 
         public bool ProjectExists(Guid projectId)

@@ -10,22 +10,25 @@ namespace CollabDo.Web.Controllers
     [Route("api/[controller]/{projectId}")]
     [ApiController]
     [Authorize]
-    public class EmployeeTasksController : ControllerBase
+    public class EmployeeTaskController : ControllerBase
     {
         private readonly IEmployeeTaskService _employeeTaskService;
 
-        public EmployeeTasksController(IEmployeeTaskService employeeTaskService)
+        public EmployeeTaskController(IEmployeeTaskService employeeTaskService)
         {
             _employeeTaskService = employeeTaskService;
         }
 
 
         [HttpGet]
-        public IActionResult EmployeeTasks([FromRoute]Guid projectId) 
+        public IActionResult EmployeeTasks(
+            [FromRoute]Guid projectId, 
+            [FromQuery][Range(1, 2)] Application.Entities.TaskStatus taskStatus = Application.Entities.TaskStatus.Created,
+            [FromQuery][Range(1, int.MaxValue)] int pageNumber = 1) 
         {
             try
             {
-                return Ok(_employeeTaskService.GetEmployeeTasks(projectId));
+                return Ok(_employeeTaskService.GetEmployeeTasks(projectId, taskStatus, pageNumber));
             }
             catch(ValidationException ex)
             {

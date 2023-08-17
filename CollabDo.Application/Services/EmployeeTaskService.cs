@@ -26,7 +26,7 @@ namespace CollabDo.Application.Services
             _taskRepository = taskRepository;
         }
 
-        public List<TaskDto> GetEmployeeTasks(Guid projectId)
+        public List<TaskDto> GetEmployeeTasks(Guid projectId, Entities.TaskStatus status, int pageNumber)
         {
             Guid userId = _userContext.CurrentUserId;
 
@@ -39,7 +39,7 @@ namespace CollabDo.Application.Services
             ProjectValidation projectValidation = new ProjectValidation(_projectRepository);
             projectValidation.ValidateProjectId(projectId);
 
-            return _taskRepository.GetEmplyeesTasks(projectId, employeeId);
+            return _taskRepository.GetEmplyeesTasks(projectId, employeeId,status,pageNumber);
 
         }
 

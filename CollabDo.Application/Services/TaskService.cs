@@ -80,14 +80,14 @@ namespace CollabDo.Application.Services
 
         
 
-        public List<TaskDto> GetAllTasks(Guid projectId)
+        public List<TaskDto> GetAllTasks(Guid projectId, Entities.TaskStatus status, int pageNumber)
         {
             
 
             ProjectValidation validation = new ProjectValidation(_projectRepository);
             validation.ValidateProjectId(projectId);
 
-            return _taskRepository.GetAllTasks(projectId);
+            return _taskRepository.GetAllTasks(projectId,status,pageNumber);
         }
 
 

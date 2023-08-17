@@ -1,4 +1,5 @@
 ﻿using CollabDo.Application.Dtos;
+using CollabDo.Application.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +13,8 @@ namespace CollabDo.Application.IServices
         Guid SaveProject(ProjectDto projectDto);
 
         Guid UpdateProjectState(Guid projectId);
+
+        List<ProjectDto> GetProjects(ProjectStatus status, int pageNumber);
+
     }
 }

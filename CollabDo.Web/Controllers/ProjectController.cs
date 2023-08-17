@@ -1,9 +1,11 @@
 ﻿using CollabDo.Application.Dtos;
+using CollabDo.Application.Entities;
 using CollabDo.Application.Exceptions;
 using CollabDo.Application.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace CollabDo.Web.Controllers
 {
@@ -26,7 +28,7 @@ namespace CollabDo.Web.Controllers
             {
                 return Ok(_projectService.SaveProject(projectDto));
             }
-            catch (ValidationException ex) 
+            catch (Application.Exceptions.ValidationException ex) 
             { 
                 return BadRequest(ex.Message);
             }
@@ -40,7 +42,7 @@ namespace CollabDo.Web.Controllers
             {
                 return Ok(_projectService.UpdateProjectState(projectId));
             }
-            catch(ValidationException ex)
+            catch(Application.Exceptions.ValidationException ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -50,6 +52,14 @@ namespace CollabDo.Web.Controllers
             }
             
         }
+
+        [HttpGet]
+        public IActionResult LeaderProjects([FromQuery][Range(1,2)] ProjectStatus projectStatus = ProjectStatus.InProgress,[FromQuery][Range(1,int.MaxValue)] int pageNumber = 1)
+        {
+            return Ok(_projectService.GetProjects(projectStatus, pageNumber));
+        }
+
+        
 
     }
 }

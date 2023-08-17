@@ -24,6 +24,8 @@ namespace CollabDo.Application.Services
             _userContext = userContext;
         }
 
+        
+
         public Guid SaveProject(ProjectDto projectDto)
         {
             Guid userId = _userContext.CurrentUserId;
@@ -60,6 +62,15 @@ namespace CollabDo.Application.Services
             _projectRepository.UpdateProject(projectEntity);
             
             return projectEntity.Id;
+        }
+
+        public List<ProjectDto> GetProjects(ProjectStatus status, int pageNumber)
+        {
+            Guid userId = _userContext.CurrentUserId;
+
+            Guid leaderId = _leaderRepository.GetLeaderId(userId);
+
+            return _projectRepository.GetLeaderProjects(leaderId, status, pageNumber);
         }
     }
 }

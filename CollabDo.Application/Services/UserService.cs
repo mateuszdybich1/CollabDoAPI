@@ -21,6 +21,12 @@ namespace CollabDo.Application.Services
             _leaderRepository = leaderRepository;
             _userRepository = userRepository;
         }
+
+        public Guid AddEmployee()
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<Guid> Register(UserRegisterDto userDto)
         {
             UserValidation validation = new UserValidation(_userRepository);

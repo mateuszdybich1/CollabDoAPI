@@ -14,8 +14,8 @@ namespace CollabDo.Application.IRepositories
         TaskEntity GetTask(Guid projectId,Guid taskId);
         void UpdateTask(TaskEntity task);
         void DeleteTask(TaskEntity task);
-        List<TaskDto> GetEmplyeesTasks(Guid projectId, Guid EmployeeId);
-        List<TaskDto> GetAllTasks(Guid projectId);
+        List<TaskDto> GetEmplyeesTasks(Guid projectId, Guid employeeId, Entities.TaskStatus status, int pageNumber);
+        List<TaskDto> GetAllTasks(Guid projectId, Entities.TaskStatus status, int pageNumber);
         bool TaskExists(Guid leaderId,Guid projectId, Guid taskId);
     }
 }

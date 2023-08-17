@@ -36,7 +36,7 @@ namespace CollabDo.Application.Dtos
             dto.Name = entity.Name;
             dto.Priority = entity.Priority;
             dto.Status = entity.Status;
-            dto.AssignedToEmployeeId = entity.AssignedToEmployeeId;
+            dto.AssignedToEmployeeId = entity.AssignedEmployeeId;
             dto.Deadline = entity.Deadline;
             return dto;
         }

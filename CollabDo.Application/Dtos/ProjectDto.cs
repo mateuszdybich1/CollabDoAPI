@@ -16,5 +16,14 @@ namespace CollabDo.Application.Dtos
         [Required]
         [Range(1,3)]
         public Priority Priority { get; set; }
+
+
+        public static ProjectDto FromModel(ProjectEntity entity)
+        {
+            ProjectDto dto = new ProjectDto();
+            dto.Name = entity.Name;
+            dto.Priority = entity.Priority; 
+            return dto;
+        }
     }
 }

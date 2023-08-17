@@ -1,4 +1,5 @@
-﻿using CollabDo.Application.Entities;
+﻿using CollabDo.Application.Dtos;
+using CollabDo.Application.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace CollabDo.Application.IRepositories
         void UpdateProject(ProjectEntity projectEntity);
         bool ProjectExists( Guid projectId);
         ProjectEntity GetProject(Guid projectId, Guid leaderId);
-        List<ProjectEntity> GetLeaderProjects(Guid leaderId);
+        List<ProjectDto> GetLeaderProjects(Guid leaderId, ProjectStatus status, int pageNumber);
 
 
 

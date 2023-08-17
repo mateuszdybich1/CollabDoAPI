@@ -16,11 +16,11 @@ namespace CollabDo.Infrastructure.EnityMappings
 
             modelBuilder.Entity<LeaderEntity>().HasMany(e=>e.Employees).WithOne(e=>e.Leader).HasForeignKey(e=>e.LeaderId).IsRequired(false);
 
-            modelBuilder.Entity<LeaderEntity>().HasMany(e => e.Projects).WithOne(e => e.Leader).HasForeignKey(e=>e.LeaderId).IsRequired(true);
+            modelBuilder.Entity<LeaderEntity>().HasMany(e => e.Projects).WithOne(e => e.Leader).HasForeignKey(e=>e.LeaderId).IsRequired(true).OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<ProjectEntity>().HasMany(e=>e.Tasks).WithOne(e => e.Project).HasForeignKey(e=>e.ProjectID).IsRequired(false);
+            modelBuilder.Entity<ProjectEntity>().HasMany(e=>e.Tasks).WithOne(e => e.Project).HasForeignKey(e=>e.ProjectID).IsRequired(false).OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<TaskEntity>().HasMany(e=>e.Comments).WithOne(e=>e.Task).HasForeignKey(e=>e.TaskId).IsRequired(false);
+            modelBuilder.Entity<TaskEntity>().HasMany(e=>e.Comments).WithOne(e=>e.Task).HasForeignKey(e=>e.TaskId).IsRequired(false).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

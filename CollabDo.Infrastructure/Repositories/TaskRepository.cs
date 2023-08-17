@@ -31,17 +31,30 @@ namespace CollabDo.Infrastructure.Repositories
             _appDbContext.SaveChanges();
         }
 
-        public List<TaskDto> GetAllTasks(Guid projectId)
+        public List<TaskDto> GetEmplyeesTasks(Guid projectId, Guid employeeId, Application.Entities.TaskStatus status, int pageNumber)
         {
-            List<TaskEntity> entities = _appDbContext.Tasks.Where(e => e.ProjectID == projectId).ToList();
+            List<TaskEntity> entities = _appDbContext.Tasks
+                .Where(e => e.ProjectID == projectId && e.AssignedEmployeeId == employeeId && e.Status == status)
+                .OrderByDescending(e => e.Priority)
+                .Skip((pageNumber - 1) * 25)
+                .Take(25)
+                .ToList();
             return entities.Select(TaskDto.FromModel).ToList();
         }
 
-        public List<TaskDto> GetEmplyeesTasks(Guid projectId, Guid EmployeeId)
+        public List<TaskDto> GetAllTasks(Guid projectId, Application.Entities.TaskStatus status, int pageNumber)
         {
-            List<TaskEntity> entities = _appDbContext.Tasks.Where(e => e.ProjectID == projectId && e.AssignedToEmployeeId == EmployeeId).ToList();
+            List<TaskEntity> entities = _appDbContext.Tasks
+                .Where(e => e.ProjectID == projectId && e.Status == status)
+                .OrderByDescending(e => e.Priority)
+                .Skip((pageNumber - 1) * 25)
+                .Take(25)
+                .ToList();
+                
             return entities.Select(TaskDto.FromModel).ToList();
         }
+
+        
 
         public TaskEntity GetTask(Guid projectId,Guid taskId)
         {

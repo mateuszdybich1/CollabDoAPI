@@ -1,9 +1,8 @@
 ﻿using CollabDo.Application.Dtos;
-using CollabDo.Application.Exceptions;
 using CollabDo.Application.IServices;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace CollabDo.Web.Controllers
 {
@@ -34,11 +33,13 @@ namespace CollabDo.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult ProjectTasks(Guid projectId)
+        public IActionResult ProjectTasks(Guid projectId, 
+            [FromQuery][Range(1, 2)] Application.Entities.TaskStatus taskStatus = Application.Entities.TaskStatus.Created, 
+            [FromQuery][Range(1, int.MaxValue)] int pageNumber = 1)
         {
             try
             {
-                return Ok(_taskService.GetAllTasks(projectId));
+                return Ok(_taskService.GetAllTasks(projectId,taskStatus,pageNumber));
             }
             catch (ValidationException ex)
             {
@@ -47,7 +48,7 @@ namespace CollabDo.Web.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> AssignEmployeeToTask([FromQuery] Guid projectId, Guid taskId, string employeeEmail)
+        public async Task<IActionResult> AssignEmployeeToTask(Guid projectId, Guid taskId, string employeeEmail)
         {
             try
             {
