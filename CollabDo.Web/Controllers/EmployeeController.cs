@@ -49,5 +49,19 @@ namespace CollabDo.Web.Controllers
             }
             
         }
+
+        [HttpDelete]
+        public IActionResult LeaderRequest(string leaderEmail)
+        {
+            try
+            {
+                return Ok(_employeeService.DeleteLeaderAssignmentRequest(leaderEmail));
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
     }
 }
