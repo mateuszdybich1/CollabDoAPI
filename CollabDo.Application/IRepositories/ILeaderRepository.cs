@@ -1,4 +1,5 @@
-﻿using CollabDo.Application.Entities;
+﻿using CollabDo.Application.Dtos;
+using CollabDo.Application.Entities;
 
 namespace CollabDo.Application.IRepositories
 {
@@ -8,6 +9,9 @@ namespace CollabDo.Application.IRepositories
 
         Guid GetLeaderId(Guid userId);
 
+        List<EmployeeDto> GetEmployees(Guid leaderId);
+
         bool LeaderExists(Guid leaderId);
+
     }
 }

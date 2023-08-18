@@ -41,9 +41,7 @@ namespace CollabDo.Application.Services
 
             EmployeeEntity entity = _employeeRepository.GetEmployee(employeeId);
 
-            EmployeeDto dto = new EmployeeDto();
-            dto.LeaderRequestEmail = entity.LeaderRequestEmail;
-            dto.LeaderId = entity.LeaderId;
+            EmployeeDto dto = EmployeeDto.FromModel(entity);
             
             return dto;
         }
@@ -92,6 +90,7 @@ namespace CollabDo.Application.Services
 
             EmployeeEntity employeeEntity = _employeeRepository.GetEmployee(employeeId);
             employeeEntity.LeaderRequestEmail = null;
+            employeeEntity.LeaderId = Guid.Empty;
             employeeEntity.ModifiedBy = userId;
             employeeEntity.ModifiedOn = DateTime.UtcNow;
 

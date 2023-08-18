@@ -33,11 +33,11 @@ namespace CollabDo.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult AssignToLeaderRequest(string leaderEmail)
+        public async Task<IActionResult> AssignToLeaderRequest(string leaderEmail)
         {
             try
             {
-                return Ok(_employeeService.CreateLeaderAssignmentRequest(leaderEmail));
+                return Ok(await _employeeService.CreateLeaderAssignmentRequest(leaderEmail));
             }
             catch (ValidationException ex)
             {
@@ -51,11 +51,11 @@ namespace CollabDo.Web.Controllers
         }
 
         [HttpDelete]
-        public IActionResult LeaderRequest(string leaderEmail)
+        public async Task<IActionResult> LeaderRequest(string leaderEmail)
         {
             try
             {
-                return Ok(_employeeService.DeleteLeaderAssignmentRequest(leaderEmail));
+                return Ok(await _employeeService.DeleteLeaderAssignmentRequest(leaderEmail));
             }
             catch (ValidationException ex)
             {

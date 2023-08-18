@@ -23,17 +23,6 @@ namespace CollabDo.Application.Services
             _employeeRequestRepository = employeeRequestRepository;
         }
 
-   
-        public List<EmployeeRequestDto> GetEmployeeRequests()
-        {
-            Guid userId = _userContext.CurrentUserId;
-            Guid leaderId = _leaderRepository.GetLeaderId(userId);
-
-            LeaderValidation leaderValidation = new LeaderValidation(_leaderRepository);
-            leaderValidation.ValidateLeader(leaderId);
-
-            return _employeeRequestRepository.GetEmployeeRequests(leaderId);
-        }
 
         public async Task<Guid> ApproveEmployeeRequest(Guid employeeRequestId, string employeeEmail)
         {
@@ -57,6 +46,59 @@ namespace CollabDo.Application.Services
             _employeeRepository.UpdateEmployee(employeeEntity);
 
             return employeeEntity.Id;
+        }
+
+        public async Task<Guid> RemoveEmployeeFromProject(Guid employeeRequestId, string employeeEmail)
+        {
+            Guid userId = _userContext.CurrentUserId;
+            Guid leaderId = _leaderRepository.GetLeaderId(userId);
+
+            LeaderValidation leaderValidation = new LeaderValidation(_leaderRepository);
+            leaderValidation.ValidateLeader(leaderId);
+
+            Guid employeeId = await _userRepository.GetUserIdByEmail(employeeEmail);
+
+            EmployeeRequestEntity employeeRequestEntity = _employeeRequestRepository.GetEmployeeRequest(employeeRequestId, employeeEmail);
+
+            _employeeRequestRepository.DeleteEmployeeRequest(employeeRequestEntity);
+
+            EmployeeEntity employeeEntity = _employeeRepository.GetEmployee(employeeId);
+            employeeEntity.LeaderRequestEmail = null;
+            employeeEntity.LeaderId = Guid.Empty;
+            employeeEntity.ModifiedBy = userId;
+            employeeEntity.ModifiedOn = DateTime.UtcNow;
+
+            _employeeRepository.UpdateEmployee(employeeEntity);
+
+            return employeeEntity.Id;
+        }
+
+        public List<EmployeeRequestDto> GetEmployeeRequests()
+        {
+            Guid userId = _userContext.CurrentUserId;
+            Guid leaderId = _leaderRepository.GetLeaderId(userId);
+
+            LeaderValidation leaderValidation = new LeaderValidation(_leaderRepository);
+            leaderValidation.ValidateLeader(leaderId);
+
+            return _employeeRequestRepository.GetEmployeeRequests(leaderId);
+        }
+
+        public List<EmployeeDto> GetEmployees()
+        {
+            Guid userId = _userContext.CurrentUserId;
+            Guid leaderId = _leaderRepository.GetLeaderId(userId);
+
+            LeaderValidation leaderValidation = new LeaderValidation(_leaderRepository);
+            leaderValidation.ValidateLeader(leaderId);
+
+            return _leaderRepository.GetEmployees(leaderId);
+        }
+
+        public List<EmployeeDto> GetEmployees(Guid leaderId)
+        {
+            return _leaderRepository.GetEmployees(leaderId);
+
         }
     }
 }

@@ -19,12 +19,38 @@ namespace CollabDo.Web.Controllers
         }
 
 
-        [HttpPost]
-        public IActionResult AssignEmployee(Guid employeeRequestId, string employeeEmail)
+        [HttpGet]
+        public IActionResult EmployeeAssignToLeaderRequests()
         {
             try
             {
-                return Ok(_leaderService.ApproveEmployeeRequest(employeeRequestId, employeeEmail));
+                return Ok(_leaderService.GetEmployeeRequests());
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AssignEmployee(Guid employeeRequestId, string employeeEmail)
+        {
+            try
+            {
+                return Ok(await _leaderService.ApproveEmployeeRequest(employeeRequestId, employeeEmail));
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> RemoveEmployeeFromProject(Guid employeeRequestId, string employeeEmail)
+        {
+            try
+            {
+                return Ok(await _leaderService.RemoveEmployeeFromProject(employeeRequestId, employeeEmail));
             }
             catch (ValidationException ex)
             {
@@ -33,16 +59,24 @@ namespace CollabDo.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult EmployeeAssignToLeaderRequests()
+        public IActionResult LeaderEmployees([FromQuery] Guid leaderId)
         {
             try
             {
-                return Ok(_leaderService.GetEmployeeRequests());
+                if(leaderId == Guid.Empty)
+                {
+                    return Ok(_leaderService.GetEmployees());
+                }
+                else
+                {
+                    return Ok(_leaderService.GetEmployees(leaderId));
+                }
             }
-            catch (ValidationException ex) 
-            { 
+            catch (ValidationException ex)
+            {
                 return BadRequest(ex.Message);
             }
         }
+
     }
 }
