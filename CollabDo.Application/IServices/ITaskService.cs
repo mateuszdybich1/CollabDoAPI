@@ -8,6 +8,8 @@ namespace CollabDo.Application.IServices
 
         Task<Guid> AssignToEmployee(Guid projectId,Guid taskId, string employeeEmail);
 
+        Guid DeleteTask(Guid projectId,Guid taskId);
+
         Guid SetTaskStatus(Guid projectId,Guid taskId, Entities.TaskStatus status);
 
         List<TaskDto> GetAllTasks(Guid projectId, Entities.TaskStatus status, int pageNumber);

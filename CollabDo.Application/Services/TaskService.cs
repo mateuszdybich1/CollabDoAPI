@@ -36,8 +36,10 @@ namespace CollabDo.Application.Services
             Guid userId = _userContext.CurrentUserId;
             Guid leaderId = _leaderRepository.GetLeaderId(userId);
 
+            LeaderValidation leaderValidation = new LeaderValidation(_leaderRepository);
+            leaderValidation.ValidateLeader(leaderId);
 
-            // do poprawy
+            
             ProjectValidation validation = new ProjectValidation(_projectRepository);
             validation.ValidateProjectId(taskDto.ProjectId);
 
@@ -72,6 +74,21 @@ namespace CollabDo.Application.Services
 
             return taskId;
             
+        }
+
+        public Guid DeleteTask(Guid projectId, Guid taskId)
+        {
+            Guid userId = _userContext.CurrentUserId;
+            Guid leaderId = _leaderRepository.GetLeaderId(userId);
+
+            LeaderValidation leaderValidation = new LeaderValidation(_leaderRepository);
+            leaderValidation.ValidateLeader(leaderId);
+
+            TaskEntity taskEntity = _taskRepository.GetTask(projectId,taskId);
+            
+            _taskRepository.DeleteTask(taskEntity);
+
+            return taskEntity.Id;
         }
 
         public List<TaskDto> GetAllTasks(Guid projectId, Entities.TaskStatus status, int pageNumber)

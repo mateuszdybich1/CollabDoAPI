@@ -32,6 +32,40 @@ namespace CollabDo.Web.Controllers
             }
         }
 
+        [HttpPut]
+        public async Task<IActionResult> AssignEmployeeToTask(Guid projectId, Guid taskId, string employeeEmail)
+        {
+            try
+            {
+                return Ok(await _taskService.AssignToEmployee(projectId, taskId, employeeEmail));
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (FormatException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete]
+        public IActionResult Task(Guid projectId, Guid taskId)
+        {
+            try
+            {
+                return Ok(_taskService.DeleteTask(projectId, taskId));
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (FormatException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpGet]
         public IActionResult ProjectTasks(
             Guid projectId, 
@@ -52,21 +86,6 @@ namespace CollabDo.Web.Controllers
             }
         }
 
-        [HttpPut]
-        public async Task<IActionResult> AssignEmployeeToTask(Guid projectId, Guid taskId, string employeeEmail)
-        {
-            try
-            {
-                return Ok(await _taskService.AssignToEmployee(projectId, taskId, employeeEmail));
-            }
-            catch(ValidationException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (FormatException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+        
     }
 }
