@@ -50,6 +50,23 @@ namespace CollabDo.Web.Controllers
             }   
         }
 
+        [HttpDelete]
+        public IActionResult Project([FromQuery] Guid projectId)
+        {
+            try
+            {
+                return Ok(_projectService.DeleteProject(projectId));
+            }
+            catch (Application.Exceptions.ValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (FormatException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpGet]
         public IActionResult Projects(
             [FromQuery] Guid leaderId,

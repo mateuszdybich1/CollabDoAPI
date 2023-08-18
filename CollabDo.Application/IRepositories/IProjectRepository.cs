@@ -9,6 +9,8 @@ namespace CollabDo.Application.IRepositories
 
         void UpdateProject(ProjectEntity projectEntity);
 
+        void DeleteProject(ProjectEntity projectEntity);
+
         bool ProjectExists( Guid projectId);
 
         ProjectEntity GetProject(Guid projectId, Guid leaderId);

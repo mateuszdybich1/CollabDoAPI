@@ -27,6 +27,12 @@ namespace CollabDo.Infrastructure.Repositories
             _appDbContext.SaveChanges();
         }
 
+        public void DeleteProject(ProjectEntity projectEntity)
+        {
+            _appDbContext.Projects.Remove(projectEntity);
+            _appDbContext.SaveChanges();
+        }
+
         public ProjectEntity GetProject(Guid projectId, Guid leaderId)
         {
             return _appDbContext.Projects.Include(e => e.Tasks).SingleOrDefault(e => e.Id == projectId && e.LeaderId == leaderId);

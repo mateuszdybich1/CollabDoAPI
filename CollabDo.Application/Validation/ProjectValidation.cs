@@ -15,6 +15,10 @@ namespace CollabDo.Application.Validation
 
         public void ValidateProjectId(Guid projectId)
         {
+            if(projectId == Guid.Empty)
+            {
+                throw new ValidationException("Incorrect project ID");
+            }
             if (!_projectRepository.ProjectExists(projectId))
             {
                 throw new ValidationException("Incorrect project ID");

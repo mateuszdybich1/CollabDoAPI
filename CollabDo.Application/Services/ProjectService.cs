@@ -80,5 +80,23 @@ namespace CollabDo.Application.Services
 
             return _projectRepository.GetLeaderProjects(leaderId, status, pageNumber);
         }
+
+        public Guid DeleteProject(Guid projectId)
+        {
+            Guid userId = _userContext.CurrentUserId;
+            Guid leaderId = _leaderRepository.GetLeaderId(userId);
+
+            LeaderValidation validation = new LeaderValidation(_leaderRepository);
+            validation.ValidateLeader(leaderId);
+
+            ProjectValidation projectValidation = new ProjectValidation(_projectRepository);
+            projectValidation.ValidateProjectId(projectId);
+
+            ProjectEntity projectEntity = _projectRepository.GetProject(projectId, leaderId);
+
+            _projectRepository.DeleteProject(projectEntity);
+
+            return projectEntity.Id;
+        }
     }
 }

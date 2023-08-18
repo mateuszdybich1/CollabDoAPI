@@ -9,6 +9,8 @@ namespace CollabDo.Application.IServices
 
         Guid UpdateProjectState(Guid projectId);
 
+        Guid DeleteProject(Guid projectId);
+
         List<ProjectDto> GetProjects(ProjectStatus status, int pageNumber); 
 
         List<ProjectDto> GetProjects(Guid leaderId,ProjectStatus status, int pageNumber);
