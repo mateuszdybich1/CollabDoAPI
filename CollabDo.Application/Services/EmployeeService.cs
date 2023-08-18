@@ -91,6 +91,7 @@ namespace CollabDo.Application.Services
             EmployeeEntity employeeEntity = _employeeRepository.GetEmployee(employeeId);
             employeeEntity.LeaderRequestEmail = null;
             employeeEntity.LeaderId = Guid.Empty;
+            employeeEntity.Leader = null;
             employeeEntity.ModifiedBy = userId;
             employeeEntity.ModifiedOn = DateTime.UtcNow;
 

@@ -38,8 +38,11 @@ namespace CollabDo.Application.Services
 
             _employeeRequestRepository.DeleteEmployeeRequest(employeeRequestEntity);
 
+            LeaderEntity leaderEntity = _leaderRepository.GetLeader(leaderId);
+
             EmployeeEntity employeeEntity = _employeeRepository.GetEmployee(employeeId);
             employeeEntity.LeaderId = leaderId;
+            employeeEntity.Leader = leaderEntity;
             employeeEntity.ModifiedBy = userId;
             employeeEntity.ModifiedOn = DateTime.UtcNow;
 

@@ -6,9 +6,9 @@
 
         public string? LeaderRequestEmail { get; set; }
 
-        public Guid LeaderId { get; set; }
+        public Guid? LeaderId { get; set; }
 
-        public LeaderEntity Leader { get; private set; }
+        public LeaderEntity? Leader { get; set; }
 
 
         public EmployeeEntity() 

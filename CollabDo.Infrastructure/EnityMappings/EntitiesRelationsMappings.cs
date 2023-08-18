@@ -19,7 +19,7 @@ namespace CollabDo.Infrastructure.EnityMappings
                 .WithOne(e=>e.Leader)
                 .HasForeignKey(e=>e.LeaderId)
                 .IsRequired(false)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<LeaderEntity>()
                 .HasMany(e => e.Projects)

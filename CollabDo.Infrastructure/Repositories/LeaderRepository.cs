@@ -36,5 +36,10 @@ namespace CollabDo.Infrastructure.Repositories
 
             return leader.Employees.Select(EmployeeDto.FromModel).ToList();
         }
+
+        public LeaderEntity GetLeader(Guid leaderId)
+        {
+            return _appDbContext.Leaders.FirstOrDefault(e => e.Id == leaderId);
+        }
     }
 }

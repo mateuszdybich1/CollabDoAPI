@@ -19,7 +19,7 @@ namespace CollabDo.Web.Controllers
         }
 
 
-        [HttpGet]
+        [HttpGet("requests")]
         public IActionResult EmployeeAssignToLeaderRequests()
         {
             try
@@ -32,7 +32,7 @@ namespace CollabDo.Web.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost("employee")]
         public async Task<IActionResult> AssignEmployee(Guid employeeRequestId, string employeeEmail)
         {
             try
@@ -45,7 +45,7 @@ namespace CollabDo.Web.Controllers
             }
         }
 
-        [HttpDelete]
+        [HttpDelete("employee")]
         public async Task<IActionResult> RemoveEmployeeFromProject(Guid employeeRequestId, string employeeEmail)
         {
             try
@@ -58,7 +58,8 @@ namespace CollabDo.Web.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpGet("employees")]
+
         public IActionResult LeaderEmployees([FromQuery] Guid leaderId)
         {
             try

@@ -140,14 +140,13 @@ namespace CollabDo.Infrastructure.Repositories
             }
 
             string responseContent = await response.Content.ReadAsStringAsync();
-            List<KeycloakUserRequestModel> users = JsonConvert.DeserializeObject<List<KeycloakUserRequestModel>>(responseContent);
-
-            var user = users.SingleOrDefault(u => u.Id == userId);
+            KeycloakUserRequestModel user = JsonConvert.DeserializeObject<KeycloakUserRequestModel>(responseContent);
 
             if (user == null)
             {
-                throw new EntityNotFoundException($"ID: {userId} does not exists");
+                throw new EntityNotFoundException($"ID: {userId} does not exist");
             }
+
             return user;
         }
     }

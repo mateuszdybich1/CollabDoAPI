@@ -57,8 +57,8 @@ namespace CollabDo.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     UserId = table.Column<Guid>(type: "uuid", nullable: false),
-                    LeaderRequestEmail = table.Column<string>(type: "text", nullable: false),
-                    LeaderId = table.Column<Guid>(type: "uuid", nullable: false),
+                    LeaderRequestEmail = table.Column<string>(type: "text", nullable: true),
+                    LeaderId = table.Column<Guid>(type: "uuid", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     CreatedBy = table.Column<Guid>(type: "uuid", nullable: false),

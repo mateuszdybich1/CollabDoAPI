@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CollabDo.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230817151631_Backend")]
+    [Migration("20230818104709_Backend")]
     partial class Backend
     {
         /// <inheritdoc />
@@ -73,11 +73,10 @@ namespace CollabDo.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid>("LeaderId")
+                    b.Property<Guid?>("LeaderId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("LeaderRequestEmail")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<Guid?>("ModifiedBy")

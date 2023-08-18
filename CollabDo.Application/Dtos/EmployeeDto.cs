@@ -8,7 +8,7 @@ namespace CollabDo.Application.Dtos
 
         public string LeaderRequestEmail { get; set; }
 
-        public Guid LeaderId { get; set; }
+        public Guid? LeaderId { get; set; }
 
         public static EmployeeDto FromModel(EmployeeEntity entity)
         {

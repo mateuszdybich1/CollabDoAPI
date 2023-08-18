@@ -70,11 +70,10 @@ namespace CollabDo.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid>("LeaderId")
+                    b.Property<Guid?>("LeaderId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("LeaderRequestEmail")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<Guid?>("ModifiedBy")
