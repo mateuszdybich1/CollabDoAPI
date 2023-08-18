@@ -1,8 +1,4 @@
-﻿using System;
-using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
+﻿using Newtonsoft.Json;
 using CollabDo.Infrastructure.Configuration;
 using CollabDo.Application.Exceptions;
 
@@ -35,7 +31,6 @@ namespace CollabDo.Infrastructure
             {
                 throw new KeycloakTokenException("Failed to obtain access token from Keycloak.");
             }
-
 
             return new KeycloakTokenData(tokenData["access_token"], tokenData.ContainsKey("refresh_token") ? tokenData["refresh_token"] : null);
         }

@@ -20,6 +20,7 @@ namespace CollabDo.Web
             RegisterDatabase(services, configuration);
         }
 
+
         private static void RegisterServices(IServiceCollection services, AppConfiguration configuration)
         {
             services.AddScoped<IUserRepository>(p =>

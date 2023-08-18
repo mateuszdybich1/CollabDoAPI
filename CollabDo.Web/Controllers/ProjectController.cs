@@ -1,9 +1,7 @@
 ﻿using CollabDo.Application.Dtos;
 using CollabDo.Application.Entities;
-using CollabDo.Application.Exceptions;
 using CollabDo.Application.IServices;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
@@ -21,6 +19,7 @@ namespace CollabDo.Web.Controllers
             _projectService = projectService;
         }
 
+
         [HttpPost]
         public IActionResult CreateProject(ProjectDto projectDto)
         {
@@ -31,8 +30,7 @@ namespace CollabDo.Web.Controllers
             catch (Application.Exceptions.ValidationException ex) 
             { 
                 return BadRequest(ex.Message);
-            }
-            
+            }   
         }
 
         [HttpPut]
@@ -49,8 +47,7 @@ namespace CollabDo.Web.Controllers
             catch(FormatException ex)
             {
                 return BadRequest(ex.Message);
-            }
-            
+            }   
         }
 
         [HttpGet]
@@ -77,12 +74,7 @@ namespace CollabDo.Web.Controllers
             catch (FormatException ex)
             {
                 return BadRequest(ex.Message);
-            }
-            
-            
+            } 
         }
-
-        
-
     }
 }

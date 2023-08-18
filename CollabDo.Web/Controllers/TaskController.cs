@@ -68,6 +68,5 @@ namespace CollabDo.Web.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
     }
 }

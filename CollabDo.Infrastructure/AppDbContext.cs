@@ -1,11 +1,6 @@
 ﻿using CollabDo.Application.Entities;
 using CollabDo.Infrastructure.EnityMappings;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CollabDo.Infrastructure
 {
@@ -18,7 +13,9 @@ namespace CollabDo.Infrastructure
         }
 
         public DbSet<LeaderEntity> Leaders { get; set; }
+
         public DbSet<EmployeeRequestEntity> EmployeeRequests { get; set; }
+
         public DbSet<EmployeeEntity> Employees { get; set; }
 
         public DbSet<ProjectEntity> Projects { get; set; }
@@ -26,6 +23,7 @@ namespace CollabDo.Infrastructure
         public DbSet<TaskEntity> Tasks { get; set; }
 
         public DbSet<CommentEntity> Comments { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -35,9 +33,5 @@ namespace CollabDo.Infrastructure
 
             modelBuilder.MapRelations();
         }
-
-        
-
     }
-
 }

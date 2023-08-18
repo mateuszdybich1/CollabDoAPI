@@ -3,11 +3,6 @@ using CollabDo.Application.Entities;
 using CollabDo.Application.IRepositories;
 using CollabDo.Application.IServices;
 using CollabDo.Application.Validation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CollabDo.Application.Services
 {
@@ -35,7 +30,6 @@ namespace CollabDo.Application.Services
         }
 
        
-
         public EmployeeDto GetEmployee()
         {
             Guid userId = _userContext.CurrentUserId;
@@ -51,28 +45,20 @@ namespace CollabDo.Application.Services
             dto.LeaderRequestEmail = entity.LeaderRequestEmail;
             dto.LeaderId = entity.LeaderId;
             
-
-
             return dto;
         }
-
 
         public async Task<Guid> CreateLeaderAssignmentRequest(string leaderEmail)
         {
             Guid userId = _userContext.CurrentUserId;
-
             Guid employeeId = _employeeRepository.GetEmployeeId(userId);
-
 
             EmployeeValidation employeeValidation = new EmployeeValidation(_employeeRepository);
             employeeValidation.ValidateEmployeeId(employeeId);
 
-
             KeycloakUserRequestModel employeeUserData = await _userRepository.GetUser(userId);                   
 
-
             Guid leaderUserId = await _userRepository.GetUserIdByEmail(leaderEmail);
-
             Guid leaderId = _leaderRepository.GetLeaderId(leaderUserId);
 
             EmployeeRequestEntity employeeRequestEntity = new EmployeeRequestEntity(leaderId,employeeUserData.Username,employeeUserData.Email, userId);
@@ -88,17 +74,12 @@ namespace CollabDo.Application.Services
 
 
             return employeeRequestEntity.Id;
-
-
-
         }
 
         public async Task<Guid> DeleteLeaderAssignmentRequest(string leaderEmail)
         {
             Guid userId = _userContext.CurrentUserId;
-
             Guid employeeId = _employeeRepository.GetEmployeeId(userId);
-
 
             EmployeeValidation employeeValidation = new EmployeeValidation(_employeeRepository);
             employeeValidation.ValidateEmployeeId(employeeId);
@@ -108,8 +89,6 @@ namespace CollabDo.Application.Services
             EmployeeRequestEntity employeeRequestEntity = _employeeRequestRepository.GetEmployeeRequest(leaderId);
 
             _employeeRequestRepository.DeleteEmployeeRequest(employeeRequestEntity);
-
-
 
             EmployeeEntity employeeEntity = _employeeRepository.GetEmployee(employeeId);
             employeeEntity.LeaderRequestEmail = null;

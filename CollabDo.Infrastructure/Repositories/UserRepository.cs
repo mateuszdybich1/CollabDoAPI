@@ -3,13 +3,8 @@ using CollabDo.Application.Exceptions;
 using CollabDo.Application.IRepositories;
 using CollabDo.Infrastructure.Configuration;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http.Headers;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace CollabDo.Infrastructure.Repositories
 {
@@ -23,6 +18,7 @@ namespace CollabDo.Infrastructure.Repositories
             _httpClient = httpClient;
             _configuration = configuration;
         }
+
 
         public async Task<Guid> AddUser(UserEntity user)
         {
@@ -47,6 +43,7 @@ namespace CollabDo.Infrastructure.Repositories
                     }
                 }
             };
+
             createUserRequest.Content = new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json");
 
             HttpResponseMessage response = await _httpClient.SendAsync(createUserRequest);
@@ -112,7 +109,6 @@ namespace CollabDo.Infrastructure.Repositories
             HttpResponseMessage response = await _httpClient.GetAsync(_httpClient.BaseAddress.ToString() + $"?email={Uri.EscapeDataString(email)}");
             
 
-
             if (!response.IsSuccessStatusCode)
             {
                 throw new EntityNotFoundException($"Email: {email} does not exists");
@@ -135,7 +131,6 @@ namespace CollabDo.Infrastructure.Repositories
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", (await KeycloakToken.GetToken(_httpClient, _configuration)).AccessToken);
 
             HttpResponseMessage response = await _httpClient.GetAsync(_httpClient.BaseAddress.ToString() + $"/{Uri.EscapeDataString(userId.ToString())}");
-
 
 
             if (!response.IsSuccessStatusCode)

@@ -2,11 +2,6 @@
 using CollabDo.Application.Entities;
 using CollabDo.Application.IRepositories;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CollabDo.Infrastructure.Repositories
 {
@@ -19,9 +14,15 @@ namespace CollabDo.Infrastructure.Repositories
             _appDbContext = appDbContext;
         }
 
+
         public void AddTask(TaskEntity task)
         {
             _appDbContext.Tasks.Add(task);
+            _appDbContext.SaveChanges();
+        }
+        public void UpdateTask(TaskEntity task)
+        {
+            _appDbContext.Tasks.Update(task);
             _appDbContext.SaveChanges();
         }
 
@@ -39,6 +40,7 @@ namespace CollabDo.Infrastructure.Repositories
                 .Skip((pageNumber - 1) * 25)
                 .Take(25)
                 .ToList();
+
             return entities.Select(TaskDto.FromModel).ToList();
         }
 
@@ -54,8 +56,6 @@ namespace CollabDo.Infrastructure.Repositories
             return entities.Select(TaskDto.FromModel).ToList();
         }
 
-        
-
         public TaskEntity GetTask(Guid projectId,Guid taskId)
         {
             return _appDbContext.Tasks.SingleOrDefault(e => e.Id == taskId && e.ProjectID == projectId);
@@ -65,12 +65,6 @@ namespace CollabDo.Infrastructure.Repositories
         {
             return _appDbContext.Tasks.Include(e=>e.Project)
                 .Any(e=>e.Id == taskId && e.ProjectID == projectId && e.Project.LeaderId == leaderId);
-        }
-
-        public void UpdateTask(TaskEntity task)
-        {
-            _appDbContext.Tasks.Update(task);
-            _appDbContext.SaveChanges();
         }
     }
 }

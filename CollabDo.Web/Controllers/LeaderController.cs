@@ -11,13 +11,13 @@ namespace CollabDo.Web.Controllers
     [Authorize]
     public class LeaderController : ControllerBase
     {
-
         private readonly ILeaderService _leaderService;
 
         public  LeaderController(ILeaderService leaderService)
         {
             _leaderService = leaderService;
         }
+
 
         [HttpPost]
         public IActionResult AssignEmployee(Guid employeeRequestId, string employeeEmail)
@@ -35,7 +35,6 @@ namespace CollabDo.Web.Controllers
         [HttpGet]
         public IActionResult EmployeeAssignToLeaderRequests()
         {
-
             try
             {
                 return Ok(_leaderService.GetEmployeeRequests());
@@ -44,9 +43,6 @@ namespace CollabDo.Web.Controllers
             { 
                 return BadRequest(ex.Message);
             }
-
         }
-
-
     }
 }

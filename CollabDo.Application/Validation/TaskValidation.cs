@@ -1,10 +1,5 @@
 ﻿using CollabDo.Application.Exceptions;
 using CollabDo.Application.IRepositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CollabDo.Application.Validation
 {
@@ -16,6 +11,7 @@ namespace CollabDo.Application.Validation
         {
             _taskRepository = taskRepository;
         }
+
 
         public void ValidateTask(Guid leaderId, Guid projectId, Guid taskId)
         {

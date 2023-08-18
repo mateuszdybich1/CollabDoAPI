@@ -2,7 +2,6 @@
 using CollabDo.Application.Exceptions;
 using CollabDo.Application.IServices;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CollabDo.Web.Controllers
@@ -17,6 +16,7 @@ namespace CollabDo.Web.Controllers
         {
             _userService = userService;
         }
+
 
         [HttpPost]
         public async Task<IActionResult> RegisterUser(UserRegisterDto userDto)
@@ -43,7 +43,5 @@ namespace CollabDo.Web.Controllers
         {
             return Ok(_userService.IsUserLeader());
         }
-
-
     }
 }

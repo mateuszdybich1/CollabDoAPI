@@ -1,14 +1,8 @@
 ﻿using CollabDo.Application.Dtos;
 using CollabDo.Application.Entities;
-using CollabDo.Application.Exceptions;
 using CollabDo.Application.IRepositories;
 using CollabDo.Application.IServices;
 using CollabDo.Application.Validation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CollabDo.Application.Services
 {
@@ -65,17 +59,14 @@ namespace CollabDo.Application.Services
             TaskValidation taskValidation = new TaskValidation(_taskRepository);
             taskValidation.ValidateTask(leaderId,projectId,taskId);
 
-            TaskEntity task = _taskRepository.GetTask(projectId, taskId);
-            task.ModifiedOn = DateTime.UtcNow;
-            task.ModifiedBy = leaderId;
-
             Guid employeeUserId = await _userRepository.GetUserIdByEmail(employeeEmail);
 
             Guid employeeId = _employeeRepository.GetEmployeeId(leaderId, employeeUserId);
 
+            TaskEntity task = _taskRepository.GetTask(projectId, taskId);
+            task.ModifiedOn = DateTime.UtcNow;
+            task.ModifiedBy = leaderId;
             task.AssignToEmployee(employeeId);
-
-
 
             _taskRepository.UpdateTask(task);
 
@@ -83,23 +74,17 @@ namespace CollabDo.Application.Services
             
         }
 
-        
-
         public List<TaskDto> GetAllTasks(Guid projectId, Entities.TaskStatus status, int pageNumber)
         {
-            
-
             ProjectValidation validation = new ProjectValidation(_projectRepository);
             validation.ValidateProjectId(projectId);
 
             return _taskRepository.GetAllTasks(projectId,status,pageNumber);
         }
 
-
         public Guid SetTaskStatus(Guid projectId, Guid taskId, Entities.TaskStatus status)
         {
             Guid userId = _userContext.CurrentUserId;
-
             Guid leaderId = _leaderRepository.GetLeaderId(userId);
 
             LeaderValidation leaderValidation = new LeaderValidation(_leaderRepository);
@@ -113,7 +98,6 @@ namespace CollabDo.Application.Services
             task.ModifiedBy = leaderId;
 
             task.SetStatus(status);
-
 
             _taskRepository.UpdateTask(task);
 

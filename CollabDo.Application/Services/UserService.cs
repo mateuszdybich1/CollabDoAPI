@@ -3,11 +3,6 @@ using CollabDo.Application.Entities;
 using CollabDo.Application.IRepositories;
 using CollabDo.Application.IServices;
 using CollabDo.Application.Validation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CollabDo.Application.Services
 {
@@ -33,8 +28,6 @@ namespace CollabDo.Application.Services
             await validation.ValidateEmail(userDto.Email);
             await validation.ValidateUsername(userDto.Username);
 
-            
-
             UserEntity user = new UserEntity(userDto.Username,userDto.Email,userDto.Password);
 
             Guid userId = await _userRepository.AddUser(user);
@@ -44,8 +37,7 @@ namespace CollabDo.Application.Services
                 LeaderEntity leader = new LeaderEntity(userId);
                  _leaderRepository.AddLeader(leader);
 
-                return leader.Id;
-                
+                return leader.Id;   
             }
 
             EmployeeEntity employee = new EmployeeEntity(userId); 
@@ -60,6 +52,5 @@ namespace CollabDo.Application.Services
 
             return _leaderRepository.LeaderExists(userId);
         }
-
     }
 }

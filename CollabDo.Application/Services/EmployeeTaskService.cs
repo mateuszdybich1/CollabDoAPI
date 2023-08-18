@@ -3,11 +3,6 @@ using CollabDo.Application.Entities;
 using CollabDo.Application.IRepositories;
 using CollabDo.Application.IServices;
 using CollabDo.Application.Validation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CollabDo.Application.Services
 {
@@ -26,11 +21,10 @@ namespace CollabDo.Application.Services
             _taskRepository = taskRepository;
         }
 
+
         public List<TaskDto> GetEmployeeTasks(Guid projectId, Entities.TaskStatus status, int pageNumber)
         {
             Guid userId = _userContext.CurrentUserId;
-
-            
             Guid employeeId = _employeeRepository.GetEmployeeId(userId);
 
             EmployeeValidation employeeValidation = new EmployeeValidation(_employeeRepository);
@@ -46,7 +40,6 @@ namespace CollabDo.Application.Services
         public Guid SetTaskState(Guid projectId, Guid taskId, Entities.TaskStatus status)
         {
             Guid userId = _userContext.CurrentUserId;
-
             Guid employeeId = _employeeRepository.GetEmployeeId(userId);
 
             EmployeeValidation employeeValidation = new EmployeeValidation(_employeeRepository);
@@ -62,6 +55,7 @@ namespace CollabDo.Application.Services
             task.SetStatus(status);
             
             _taskRepository.UpdateTask(task);
+
             return taskId;
         }
     }

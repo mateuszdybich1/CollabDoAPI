@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using System.Collections.Generic;
 
 namespace CollabDo.Infrastructure.Converters
 {
@@ -24,10 +23,10 @@ namespace CollabDo.Infrastructure.Converters
         public static JsonConverter[] GetConverters()
         {
             return new JsonConverter[]
-                {
-                    new StringEnumConverter(),
-                    new UnixMsDateTimeConverter()
-                };
+            {
+                new StringEnumConverter(),
+                new UnixMsDateTimeConverter()
+            };
         }
     }
 }

@@ -1,10 +1,5 @@
 ﻿using CollabDo.Application.Exceptions;
 using CollabDo.Application.IRepositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CollabDo.Application.Validation
 {
@@ -16,6 +11,8 @@ namespace CollabDo.Application.Validation
         {
             _projectRepository = projectRepository;
         }
+
+
         public void ValidateProjectId(Guid projectId)
         {
             if (!_projectRepository.ProjectExists(projectId))

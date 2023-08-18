@@ -10,6 +10,7 @@ namespace CollabDo.Web.ModelBinders
             return ModelBindingResult.Success(dateTime);
         }
 
+
         public Task BindModelAsync(ModelBindingContext bindingContext)
         {
             string modelName = bindingContext.ModelName;

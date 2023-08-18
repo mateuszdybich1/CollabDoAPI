@@ -1,10 +1,5 @@
 ﻿using CollabDo.Application.Entities;
 using CollabDo.Application.IRepositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CollabDo.Infrastructure.Repositories
 {
@@ -16,6 +11,7 @@ namespace CollabDo.Infrastructure.Repositories
         {
             _appDbContext = appDbContext;
         }
+
 
         public void AddEmployee(EmployeeEntity employee)
         {
@@ -48,8 +44,6 @@ namespace CollabDo.Infrastructure.Repositories
         public Guid GetEmployeeId(Guid userId)
         {
             return _appDbContext.Employees.SingleOrDefault(e => e.UserId == userId).Id;
-        }
-
-        
+        }   
     }
 }

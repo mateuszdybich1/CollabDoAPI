@@ -1,9 +1,7 @@
-﻿
-using CollabDo.Infrastructure;
+﻿using CollabDo.Infrastructure;
 using CollabDo.Infrastructure.Configuration;
 using CollabDo.Web.Extensions;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 namespace CollabDo.Web
 {
@@ -12,6 +10,7 @@ namespace CollabDo.Web
         private AppConfiguration _appConfiguration;
         public IConfiguration Configuration { get; }
         public IWebHostEnvironment CurrentEnvironment { get; }
+
         public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
@@ -19,6 +18,7 @@ namespace CollabDo.Web
 
             _appConfiguration = new AppConfiguration();
         }
+
 
         public void ConfigureServices(IServiceCollection services)
         {

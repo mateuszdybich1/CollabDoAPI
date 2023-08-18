@@ -1,7 +1,4 @@
-﻿
-using System;
-
-namespace CollabDo.Application.Entities
+﻿namespace CollabDo.Application.Entities
 {
     public class Entity<T>
     {

@@ -3,11 +3,6 @@ using CollabDo.Application.Entities;
 using CollabDo.Application.IRepositories;
 using CollabDo.Application.IServices;
 using CollabDo.Application.Validation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CollabDo.Application.Services
 {
@@ -28,12 +23,10 @@ namespace CollabDo.Application.Services
             _employeeRequestRepository = employeeRequestRepository;
         }
 
-        
-
+   
         public List<EmployeeRequestDto> GetEmployeeRequests()
         {
             Guid userId = _userContext.CurrentUserId;
-
             Guid leaderId = _leaderRepository.GetLeaderId(userId);
 
             LeaderValidation leaderValidation = new LeaderValidation(_leaderRepository);
@@ -45,7 +38,6 @@ namespace CollabDo.Application.Services
         public async Task<Guid> ApproveEmployeeRequest(Guid employeeRequestId, string employeeEmail)
         {
             Guid userId = _userContext.CurrentUserId;
-
             Guid leaderId = _leaderRepository.GetLeaderId(userId);
 
             LeaderValidation leaderValidation = new LeaderValidation(_leaderRepository);
@@ -54,6 +46,7 @@ namespace CollabDo.Application.Services
             Guid employeeId = await _userRepository.GetUserIdByEmail(employeeEmail);
 
             EmployeeRequestEntity employeeRequestEntity = _employeeRequestRepository.GetEmployeeRequest(employeeRequestId,employeeEmail);
+
             _employeeRequestRepository.DeleteEmployeeRequest(employeeRequestEntity);
 
             EmployeeEntity employeeEntity = _employeeRepository.GetEmployee(employeeId);
@@ -63,11 +56,7 @@ namespace CollabDo.Application.Services
 
             _employeeRepository.UpdateEmployee(employeeEntity);
 
-
             return employeeEntity.Id;
-
         }
-
-
     }
 }

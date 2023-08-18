@@ -1,6 +1,5 @@
 ﻿using CollabDo.Application.Exceptions;
 using CollabDo.Application.IRepositories;
-using System.Threading.Tasks;
 
 namespace CollabDo.Application.Validation
 {
@@ -12,6 +11,7 @@ namespace CollabDo.Application.Validation
         {
             _userRepository = userRepository;
         }
+
 
         public async Task ValidateUsername(string username)
         {

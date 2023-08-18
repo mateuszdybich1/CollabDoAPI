@@ -1,10 +1,5 @@
 ﻿using CollabDo.Application.Exceptions;
 using CollabDo.Application.IRepositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CollabDo.Application.Validation
 {
@@ -18,7 +13,6 @@ namespace CollabDo.Application.Validation
         }
 
         
-
         public void ValidateEmployeeId(Guid employeeId)
         {
             if(employeeId == Guid.Empty)

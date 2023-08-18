@@ -2,11 +2,6 @@
 using CollabDo.Application.Entities;
 using CollabDo.Application.IRepositories;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CollabDo.Infrastructure.Repositories
 {
@@ -19,16 +14,19 @@ namespace CollabDo.Infrastructure.Repositories
             _appDbContext = appDbContext;
         }
 
+
         public void AddProject(ProjectEntity project)
         {
             _appDbContext.Projects.Add(project);
             _appDbContext.SaveChanges();
         }
+
         public void UpdateProject(ProjectEntity projectEntity)
         {
             _appDbContext.Projects.Update(projectEntity);
             _appDbContext.SaveChanges();
         }
+
         public ProjectEntity GetProject(Guid projectId, Guid leaderId)
         {
             return _appDbContext.Projects.Include(e => e.Tasks).SingleOrDefault(e => e.Id == projectId && e.LeaderId == leaderId);
@@ -42,6 +40,7 @@ namespace CollabDo.Infrastructure.Repositories
                 .Skip((pageNumber-1)*25)
                 .Take(25)
                 .ToList();
+
             return entities.Select(ProjectDto.FromModel).ToList();
         }
 

@@ -1,5 +1,4 @@
-﻿
-namespace CollabDo.Application.Entities
+﻿namespace CollabDo.Application.Entities
 {
     
     public enum TaskStatus

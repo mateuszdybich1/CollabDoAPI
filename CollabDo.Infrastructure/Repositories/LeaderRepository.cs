@@ -1,11 +1,5 @@
 ﻿using CollabDo.Application.Entities;
 using CollabDo.Application.IRepositories;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CollabDo.Infrastructure.Repositories
 {
@@ -25,7 +19,6 @@ namespace CollabDo.Infrastructure.Repositories
         }
 
         
-
         public Guid GetLeaderId(Guid userId)
         {
             return _appDbContext.Leaders.SingleOrDefault(e => e.UserId == userId).Id;

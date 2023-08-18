@@ -1,5 +1,4 @@
-﻿
-using CollabDo.Application.IServices;
+﻿using CollabDo.Application.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;

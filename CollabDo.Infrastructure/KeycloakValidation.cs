@@ -1,6 +1,4 @@
-﻿
-using CollabDo.Application.Exceptions;
-using System.Net.Http;
+﻿using CollabDo.Application.Exceptions;
 
 namespace CollabDo.Infrastructure
 {
