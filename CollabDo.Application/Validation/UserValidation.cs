@@ -23,6 +23,10 @@ namespace CollabDo.Application.Validation
 
         public async Task ValidateEmail(string email)
         {
+            if(!email.EndsWith(".uekat.pl") || !email.EndsWith(".uekat.com"))
+            {
+                throw new ValidationException(string.Format("Email: \"{0}\" is has wrong domain", email));
+            }
             if (await _userRepository.EmailExists(email))
             {
                 throw new ValidationException(string.Format("Email: \"{0}\" is taken", email));
