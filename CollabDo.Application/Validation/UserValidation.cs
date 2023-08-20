@@ -17,7 +17,7 @@ namespace CollabDo.Application.Validation
         {
             if (await _userRepository.UsernameExists(username))
             {
-                throw new ValidationException(string.Format("Username: \"{0}\" is taken", username));
+                throw new ValidationException($"Username: \"{username}\" is taken");
             }
         }
 
@@ -25,11 +25,11 @@ namespace CollabDo.Application.Validation
         {
             if(!email.EndsWith(".uekat.pl") || !email.EndsWith(".uekat.com"))
             {
-                throw new ValidationException(string.Format("Email: \"{0}\" is has wrong domain", email));
+                throw new ValidationException($"Email: \"{email}\" has wrong domain");
             }
             if (await _userRepository.EmailExists(email))
             {
-                throw new ValidationException(string.Format("Email: \"{0}\" is taken", email));
+                throw new ValidationException($"Email: \"{email}\" is taken");
             }
         }
 
