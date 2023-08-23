@@ -7,6 +7,7 @@ namespace Patient.Portal.Infrastructure
 {
     public class HttpUserContext : IUserContext
     {
+
         private readonly ClaimsPrincipal _user;
 
         public Guid CurrentUserId
@@ -18,12 +19,14 @@ namespace Patient.Portal.Infrastructure
             }
         }
 
+
         public HttpUserContext(IHttpContextAccessor httpContext)
         {
             if (httpContext.HttpContext != null)
             {
                 _user = httpContext.HttpContext.User;
             }
+
         }
 
         public string GetIdFromClaims()

@@ -8,6 +8,8 @@ namespace CollabDo.Application.IRepositories
 
         Task<KeycloakUserRequestModel> GetUser(Guid userId);
 
+        Task VerifyEmail(Guid userId);
+
         Task<Guid> GetUserIdByEmail(string email);
 
         Task<bool> UsernameExists(string username);

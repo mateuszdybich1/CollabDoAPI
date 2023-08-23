@@ -3,6 +3,7 @@ using CollabDo.Application.Exceptions;
 using CollabDo.Application.IRepositories;
 using CollabDo.Infrastructure.Configuration;
 using Newtonsoft.Json;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 
@@ -24,7 +25,7 @@ namespace CollabDo.Infrastructure.Repositories
         {
             KeycloakTokenData token = await KeycloakToken.GetToken(_httpClient, _configuration);
 
-            HttpRequestMessage createUserRequest = new HttpRequestMessage(HttpMethod.Post, _httpClient.BaseAddress.ToString());
+            HttpRequestMessage createUserRequest = new HttpRequestMessage(HttpMethod.Post, $"{_httpClient.BaseAddress}/users");
 
             createUserRequest.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token.AccessToken);
 
@@ -68,7 +69,7 @@ namespace CollabDo.Infrastructure.Repositories
             
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", (await KeycloakToken.GetToken(_httpClient, _configuration)).AccessToken); ;
 
-            HttpResponseMessage response = await _httpClient.GetAsync(_httpClient.BaseAddress.ToString() + $"?email={Uri.EscapeDataString(email)}");
+            HttpResponseMessage response = await _httpClient.GetAsync($"{_httpClient.BaseAddress}/users?email={Uri.EscapeDataString(email)}");
             string responseContent = await response.Content.ReadAsStringAsync();
 
             if (response.IsSuccessStatusCode)
@@ -86,7 +87,7 @@ namespace CollabDo.Infrastructure.Repositories
         {
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", (await KeycloakToken.GetToken(_httpClient, _configuration)).AccessToken);
 
-            HttpResponseMessage response = await _httpClient.GetAsync(_httpClient.BaseAddress.ToString() + $"?username={Uri.EscapeDataString(username)}");
+            HttpResponseMessage response = await _httpClient.GetAsync($"{_httpClient.BaseAddress}/users?username={Uri.EscapeDataString(username)}");
             string responseContent = await response.Content.ReadAsStringAsync();
 
             if (response.IsSuccessStatusCode)
@@ -106,7 +107,7 @@ namespace CollabDo.Infrastructure.Repositories
 
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", (await KeycloakToken.GetToken(_httpClient, _configuration)).AccessToken);
 
-            HttpResponseMessage response = await _httpClient.GetAsync(_httpClient.BaseAddress.ToString() + $"?email={Uri.EscapeDataString(email)}");
+            HttpResponseMessage response = await _httpClient.GetAsync($"{_httpClient.BaseAddress}/users?email={Uri.EscapeDataString(email)}");
             
 
             if (!response.IsSuccessStatusCode)
@@ -130,7 +131,7 @@ namespace CollabDo.Infrastructure.Repositories
         {
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", (await KeycloakToken.GetToken(_httpClient, _configuration)).AccessToken);
 
-            HttpResponseMessage response = await _httpClient.GetAsync(_httpClient.BaseAddress.ToString() + $"/{Uri.EscapeDataString(userId.ToString())}");
+            HttpResponseMessage response = await _httpClient.GetAsync($"{_httpClient.BaseAddress}/users/{Uri.EscapeDataString(userId.ToString())}");
 
 
             if (!response.IsSuccessStatusCode)
@@ -149,5 +150,23 @@ namespace CollabDo.Infrastructure.Repositories
 
             return user;
         }
+
+        public async Task VerifyEmail(Guid userId)
+        {
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", (await KeycloakToken.GetToken(_httpClient, _configuration)).AccessToken);
+
+            var actionContent = new StringContent("[\"VERIFY_EMAIL\"]", Encoding.UTF8, "application/json");
+
+
+            HttpResponseMessage response = await _httpClient.PutAsync($"{_httpClient.BaseAddress}/users/{Uri.EscapeDataString(userId.ToString())}/execute-actions-email", actionContent);
+
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new ValidationException("Error");
+            }
+            
+        }
     }
+
 }

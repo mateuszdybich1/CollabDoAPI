@@ -26,7 +26,7 @@ namespace CollabDo.Web
             services.AddCustomSwagger();
             services.AddHttpClient("KeycloakClient", client =>
             {
-                client.BaseAddress = new Uri($"{_appConfiguration.AuthTokenValidation.ServerAddress}/auth/admin/realms/{_appConfiguration.AuthTokenValidation.Realm}/users");
+                client.BaseAddress = new Uri($"{_appConfiguration.AuthTokenValidation.ServerAddress}/auth/admin/realms/{_appConfiguration.AuthTokenValidation.Realm}");
             });
             services.AddHttpContextAccessor();
             services.Configure<AppConfiguration>(Configuration);

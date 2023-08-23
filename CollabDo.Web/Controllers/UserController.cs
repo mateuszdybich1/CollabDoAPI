@@ -43,5 +43,23 @@ namespace CollabDo.Web.Controllers
         {
             return Ok(_userService.IsUserLeader());
         }
+
+        [HttpPost("verify")]
+        
+        public async Task<IActionResult> VerifyUserEmail([FromBody] string email)
+        {
+            try
+            {
+                return Ok(await _userService.VerifyEmail(email));
+            }
+            catch(EntityNotFoundException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch(ValidationException ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 }

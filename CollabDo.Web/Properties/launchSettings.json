@@ -1,4 +1,4 @@
-﻿{
+{
   "profiles": {
     "CollabDo": {
       "commandName": "Project",
@@ -7,7 +7,8 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "http://localhost:52000/"
+      "applicationUrl": "http://192.168.0.110:52000/"
     }
   }
+  
 }

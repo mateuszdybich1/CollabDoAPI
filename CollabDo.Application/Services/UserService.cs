@@ -52,5 +52,21 @@ namespace CollabDo.Application.Services
 
             return _leaderRepository.LeaderExists(userId);
         }
+
+        public async Task<bool> VerifyEmail(string email)
+        {
+            Guid userId = await _userRepository.GetUserIdByEmail(email);
+
+            KeycloakUserRequestModel user = await _userRepository.GetUser(userId);
+
+            if(user.emailVerified)
+            {
+                return true;
+            }
+
+           await _userRepository.VerifyEmail(userId);
+
+           return false;
+        }
     }
 }
