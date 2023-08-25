@@ -25,9 +25,9 @@ namespace CollabDo.Infrastructure.Repositories
             _appDbContext.EmployeeRequests.Remove(employeeRequestEntity);
             _appDbContext.SaveChanges();
         }
-        public EmployeeRequestEntity GetEmployeeRequest(Guid leaderId)
+        public EmployeeRequestEntity GetEmployeeRequest(string employeeEmail, Guid leaderId)
         {
-            return _appDbContext.EmployeeRequests.SingleOrDefault(e => e.LeaderId == leaderId);
+            return _appDbContext.EmployeeRequests.SingleOrDefault(e => e.LeaderId == leaderId && e.Email == employeeEmail);
         }
         public EmployeeRequestEntity GetEmployeeRequest(Guid employeeRequestId, string employeeEmail)
         {

@@ -44,7 +44,7 @@ namespace CollabDo.Web.Controllers
             return Ok(_userService.IsUserLeader());
         }
 
-        [HttpPost("verify")]
+        [HttpPut("verify")]
         
         public async Task<IActionResult> VerifyUserEmail([FromBody] string email)
         {

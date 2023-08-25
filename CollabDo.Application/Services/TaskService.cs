@@ -34,10 +34,9 @@ namespace CollabDo.Application.Services
         public Guid CreateTask(TaskDto taskDto)
         {
             Guid userId = _userContext.CurrentUserId;
-            Guid leaderId = _leaderRepository.GetLeaderId(userId);
 
             LeaderValidation leaderValidation = new LeaderValidation(_leaderRepository);
-            leaderValidation.ValidateLeader(leaderId);
+            leaderValidation.ValidateLeader(userId);
 
             
             ProjectValidation validation = new ProjectValidation(_projectRepository);
@@ -56,7 +55,7 @@ namespace CollabDo.Application.Services
             Guid leaderId = _leaderRepository.GetLeaderId(userId);
 
             LeaderValidation validation = new LeaderValidation(_leaderRepository);
-            validation.ValidateLeader(leaderId);
+            validation.ValidateLeader(userId);
 
             TaskValidation taskValidation = new TaskValidation(_taskRepository);
             taskValidation.ValidateTask(leaderId,projectId,taskId);
@@ -79,10 +78,9 @@ namespace CollabDo.Application.Services
         public Guid DeleteTask(Guid projectId, Guid taskId)
         {
             Guid userId = _userContext.CurrentUserId;
-            Guid leaderId = _leaderRepository.GetLeaderId(userId);
 
             LeaderValidation leaderValidation = new LeaderValidation(_leaderRepository);
-            leaderValidation.ValidateLeader(leaderId);
+            leaderValidation.ValidateLeader(userId);
 
             TaskEntity taskEntity = _taskRepository.GetTask(projectId,taskId);
             
@@ -105,7 +103,7 @@ namespace CollabDo.Application.Services
             Guid leaderId = _leaderRepository.GetLeaderId(userId);
 
             LeaderValidation leaderValidation = new LeaderValidation(_leaderRepository);
-            leaderValidation.ValidateLeader(leaderId);
+            leaderValidation.ValidateLeader(userId);
 
             ProjectValidation validation = new ProjectValidation(_projectRepository);
             validation.ValidateProjectId(projectId);

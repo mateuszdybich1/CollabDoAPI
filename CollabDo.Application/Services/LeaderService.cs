@@ -30,7 +30,7 @@ namespace CollabDo.Application.Services
             Guid leaderId = _leaderRepository.GetLeaderId(userId);
 
             LeaderValidation leaderValidation = new LeaderValidation(_leaderRepository);
-            leaderValidation.ValidateLeader(leaderId);
+            leaderValidation.ValidateLeader(userId);
 
             Guid employeeId = await _userRepository.GetUserIdByEmail(employeeEmail);
 
@@ -54,10 +54,9 @@ namespace CollabDo.Application.Services
         public async Task<Guid> RemoveEmployeeFromProject(Guid employeeRequestId, string employeeEmail)
         {
             Guid userId = _userContext.CurrentUserId;
-            Guid leaderId = _leaderRepository.GetLeaderId(userId);
 
             LeaderValidation leaderValidation = new LeaderValidation(_leaderRepository);
-            leaderValidation.ValidateLeader(leaderId);
+            leaderValidation.ValidateLeader(userId);
 
             Guid employeeId = await _userRepository.GetUserIdByEmail(employeeEmail);
 
@@ -82,7 +81,7 @@ namespace CollabDo.Application.Services
             Guid leaderId = _leaderRepository.GetLeaderId(userId);
 
             LeaderValidation leaderValidation = new LeaderValidation(_leaderRepository);
-            leaderValidation.ValidateLeader(leaderId);
+            leaderValidation.ValidateLeader(userId);
 
             return _employeeRequestRepository.GetEmployeeRequests(leaderId);
         }
@@ -93,7 +92,7 @@ namespace CollabDo.Application.Services
             Guid leaderId = _leaderRepository.GetLeaderId(userId);
 
             LeaderValidation leaderValidation = new LeaderValidation(_leaderRepository);
-            leaderValidation.ValidateLeader(leaderId);
+            leaderValidation.ValidateLeader(userId);
 
             return _leaderRepository.GetEmployees(leaderId);
         }

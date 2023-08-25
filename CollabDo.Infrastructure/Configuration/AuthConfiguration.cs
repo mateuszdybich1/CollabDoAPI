@@ -11,7 +11,7 @@ namespace CollabDo.Infrastructure.Configuration
         public string ServerAddress { get; } = "http://192.168.0.110:8080";
 
         [JsonRequired]
-        public string Realm { get; set; } = "APP";
+        public string Realm { get; set; } = "CollabDo";
 
         [JsonRequired]
         public string ClientId { get; } = "backend";

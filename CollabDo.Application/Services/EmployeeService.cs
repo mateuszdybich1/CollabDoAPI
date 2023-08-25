@@ -73,7 +73,7 @@ namespace CollabDo.Application.Services
 
             return employeeRequestEntity.Id;
         }
-
+        
         public async Task<Guid> DeleteLeaderAssignmentRequest(string leaderEmail)
         {
             Guid userId = _userContext.CurrentUserId;
@@ -84,7 +84,9 @@ namespace CollabDo.Application.Services
 
             Guid leaderId = await _userRepository.GetUserIdByEmail(leaderEmail);
 
-            EmployeeRequestEntity employeeRequestEntity = _employeeRequestRepository.GetEmployeeRequest(leaderId);
+            KeycloakUserRequestModel employeeUser = await _userRepository.GetUser(userId);
+
+            EmployeeRequestEntity employeeRequestEntity = _employeeRequestRepository.GetEmployeeRequest(employeeUser.Email, leaderId);
 
             _employeeRequestRepository.DeleteEmployeeRequest(employeeRequestEntity);
 

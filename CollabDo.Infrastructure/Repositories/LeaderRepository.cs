@@ -25,9 +25,9 @@ namespace CollabDo.Infrastructure.Repositories
             return _appDbContext.Leaders.SingleOrDefault(e => e.UserId == userId).Id;
         }
 
-        public bool LeaderExists(Guid leaderId)
+        public bool LeaderExists(Guid userId)
         {
-            return _appDbContext.Leaders.Any(e=>e.Id == leaderId);
+            return _appDbContext.Leaders.Any(e=>e.UserId == userId);
         }
 
         public List<EmployeeDto> GetEmployees(Guid leaderId)

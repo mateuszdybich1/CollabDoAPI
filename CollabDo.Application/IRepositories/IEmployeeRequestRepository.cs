@@ -9,7 +9,7 @@ namespace CollabDo.Application.IRepositories
 
         void DeleteEmployeeRequest(EmployeeRequestEntity employeeRequestEntity);
 
-        EmployeeRequestEntity GetEmployeeRequest(Guid leaderId);
+        EmployeeRequestEntity GetEmployeeRequest(string employeeEmail, Guid leaderId);
 
         EmployeeRequestEntity GetEmployeeRequest(Guid employeeRequestId, string employeeEmail);
 
