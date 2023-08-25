@@ -169,6 +169,23 @@ namespace CollabDo.Infrastructure.Repositories
             }
             
         }
+
+        public async Task ResetPassword(Guid userId)
+        {
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", (await KeycloakToken.GetToken(_httpClient, _configuration)).AccessToken);
+
+            var actionContent = new StringContent("[\"UPDATE_PASSWORD\"]", Encoding.UTF8, "application/json");
+
+
+            HttpResponseMessage response = await _httpClient.PutAsync($"{_httpClient.BaseAddress}/users/{Uri.EscapeDataString(userId.ToString())}/execute-actions-email", actionContent);
+
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new ValidationException("Error");
+            }
+
+        }
     }
 
 }

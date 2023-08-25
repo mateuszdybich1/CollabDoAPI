@@ -61,5 +61,22 @@ namespace CollabDo.Web.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
+        [HttpPut("password")]
+        public async Task<IActionResult> ChangeUserPassword([FromBody] string userEmail)
+        {
+            try
+            {
+                return Ok(await _userService.ResetPassword(userEmail));
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (ValidationException ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 }

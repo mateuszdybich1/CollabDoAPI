@@ -69,5 +69,14 @@ namespace CollabDo.Application.Services
 
            return false;
         }
+
+        public async Task<string> ResetPassword( string userEmail)
+        {
+            Guid userId = await _userRepository.GetUserIdByEmail(userEmail);
+
+            await _userRepository.ResetPassword(userId);
+
+            return "Sent successfully";
+        }
     }
 }

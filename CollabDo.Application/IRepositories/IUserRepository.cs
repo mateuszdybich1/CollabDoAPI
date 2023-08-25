@@ -10,6 +10,8 @@ namespace CollabDo.Application.IRepositories
 
         Task VerifyEmail(Guid userId);
 
+        Task ResetPassword(Guid userId);
+
         Task<Guid> GetUserIdByEmail(string email);
 
         Task<bool> UsernameExists(string username);
