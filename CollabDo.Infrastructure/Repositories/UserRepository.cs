@@ -3,7 +3,6 @@ using CollabDo.Application.Exceptions;
 using CollabDo.Application.IRepositories;
 using CollabDo.Infrastructure.Configuration;
 using Newtonsoft.Json;
-using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 
@@ -109,22 +108,24 @@ namespace CollabDo.Infrastructure.Repositories
 
             HttpResponseMessage response = await _httpClient.GetAsync($"{_httpClient.BaseAddress}/users?email={Uri.EscapeDataString(email)}");
             
-
-            if (!response.IsSuccessStatusCode)
-            {
-                throw new EntityNotFoundException($"Email: {email} does not exists");
-
-            }
-
+     
             string responseContent = await response.Content.ReadAsStringAsync();
-            List<KeycloakUserRequestModel> users = JsonConvert.DeserializeObject<List<KeycloakUserRequestModel>>(responseContent);
 
-            var user = users.FirstOrDefault(u => u.Email == email);
-            if (user == null)
+            if (response.IsSuccessStatusCode)
             {
-                throw new EntityNotFoundException($"Email: {email} does not exists");
+                List<KeycloakUserRequestModel> users = JsonConvert.DeserializeObject<List<KeycloakUserRequestModel>>(responseContent);
+                var user = users.SingleOrDefault(u => u.Email == email);
+                if (user != null)
+                {
+                    return user.Id;
+                }
+                throw new EntityNotFoundException($"Email does not exist");
             }
-            return user.Id;
+            else
+            {
+                throw new EntityNotFoundException($"Failed to check user existence in Keycloak. Status code: {response.StatusCode}");
+            }
+            
         }
 
         public async Task<KeycloakUserRequestModel> GetUser(Guid userId)
@@ -151,6 +152,7 @@ namespace CollabDo.Infrastructure.Repositories
             return user;
         }
 
+        
         public async Task VerifyEmail(Guid userId)
         {
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", (await KeycloakToken.GetToken(_httpClient, _configuration)).AccessToken);

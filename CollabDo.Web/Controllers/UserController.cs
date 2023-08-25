@@ -45,12 +45,12 @@ namespace CollabDo.Web.Controllers
         }
 
         [HttpPut("verify")]
-        
-        public async Task<IActionResult> VerifyUserEmail([FromBody] string email)
+        [Authorize]
+        public async Task<IActionResult> VerifyUserEmail()
         {
             try
             {
-                return Ok(await _userService.VerifyEmail(email));
+                return Ok(await _userService.VerifyEmail());
             }
             catch(EntityNotFoundException ex)
             {

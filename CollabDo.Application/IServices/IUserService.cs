@@ -6,7 +6,7 @@ namespace CollabDo.Application.IServices
     {
         Task<Guid> Register(UserRegisterDto userDto);
 
-        Task<bool> VerifyEmail(string email);
+        Task<bool> VerifyEmail();
 
         bool IsUserLeader();
     }

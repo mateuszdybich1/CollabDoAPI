@@ -33,7 +33,7 @@ namespace CollabDo.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AssignToLeaderRequest(string leaderEmail)
+        public async Task<IActionResult> AssignToLeaderRequest([FromBody] string leaderEmail)
         {
             try
             {
@@ -51,7 +51,7 @@ namespace CollabDo.Web.Controllers
         }
 
         [HttpDelete]
-        public async Task<IActionResult> LeaderRequest(string leaderEmail)
+        public async Task<IActionResult> LeaderRequest([FromBody] string leaderEmail)
         {
             try
             {
