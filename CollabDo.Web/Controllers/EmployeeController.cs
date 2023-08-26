@@ -50,14 +50,18 @@ namespace CollabDo.Web.Controllers
             
         }
 
-        [HttpDelete]
-        public async Task<IActionResult> LeaderRequest([FromBody] string leaderEmail)
+        [HttpDelete("{leaderEmail}")]
+        public async Task<IActionResult> LeaderRequest([FromRoute] string leaderEmail)
         {
             try
             {
                 return Ok(await _employeeService.DeleteLeaderAssignmentRequest(leaderEmail));
             }
             catch (ValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (EntityNotFoundException ex)
             {
                 return BadRequest(ex.Message);
             }
