@@ -8,7 +8,7 @@ namespace CollabDo.Application.IServices
 
         Task<bool> VerifyEmail();
 
-        Task<string> ResetPassword(string userEmail);
+        Task<bool> ResetPassword(string userEmail);
 
         bool IsUserLeader();
     }
