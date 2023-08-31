@@ -25,7 +25,7 @@ namespace CollabDo.Application.Services
         }
 
 
-        public async Task<Guid> ApproveEmployeeRequest(Guid employeeRequestId, string employeeEmail)
+        public async Task<Guid> ApproveEmployeeRequest(EmployeeRequestDto dto)
         {
             Guid userId = _userContext.CurrentUserId;
             Guid leaderId = _leaderRepository.GetLeaderId(userId);
@@ -33,9 +33,9 @@ namespace CollabDo.Application.Services
             LeaderValidation leaderValidation = new LeaderValidation(_leaderRepository);
             leaderValidation.ValidateLeader(userId);
 
-            Guid employeeId = await _userRepository.GetUserIdByEmail(employeeEmail);
+            Guid employeeId = await _userRepository.GetUserIdByEmail(dto.Email);
 
-            EmployeeRequestEntity employeeRequestEntity = _employeeRequestRepository.GetEmployeeRequest(employeeRequestId,employeeEmail);
+            EmployeeRequestEntity employeeRequestEntity = _employeeRequestRepository.GetEmployeeRequest(dto);
 
             _employeeRequestRepository.DeleteEmployeeRequest(employeeRequestEntity);
 
@@ -52,16 +52,16 @@ namespace CollabDo.Application.Services
             return employeeEntity.Id;
         }
 
-        public async Task<Guid> RemoveEmployeeFromProject(Guid employeeRequestId, string employeeEmail)
+        public async Task<Guid> RemoveEmployeeFromProject(EmployeeRequestDto dto)
         {
             Guid userId = _userContext.CurrentUserId;
 
             LeaderValidation leaderValidation = new LeaderValidation(_leaderRepository);
             leaderValidation.ValidateLeader(userId);
 
-            Guid employeeId = await _userRepository.GetUserIdByEmail(employeeEmail);
+            Guid employeeId = await _userRepository.GetUserIdByEmail(dto.Email);
 
-            EmployeeRequestEntity employeeRequestEntity = _employeeRequestRepository.GetEmployeeRequest(employeeRequestId, employeeEmail);
+            EmployeeRequestEntity employeeRequestEntity = _employeeRequestRepository.GetEmployeeRequest(dto);
 
             _employeeRequestRepository.DeleteEmployeeRequest(employeeRequestEntity);
 

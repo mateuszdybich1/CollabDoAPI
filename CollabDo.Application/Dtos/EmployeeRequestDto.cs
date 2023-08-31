@@ -5,12 +5,12 @@ namespace CollabDo.Application.Dtos
 {
     public class EmployeeRequestDto
     {
-        public Guid EmployeeRequestId { get; private set; }
+        public Guid EmployeeRequestId { get; set; }
         
-        public string Username { get; private set; }
+        public string? Username { get; set; }
 
         
-        public string Email { get; private set; }
+        public string? Email { get; set; }
 
 
         public static EmployeeRequestDto FromModel(EmployeeRequestEntity entity)

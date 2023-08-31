@@ -33,11 +33,11 @@ namespace CollabDo.Web.Controllers
         }
 
         [HttpPost("employee")]
-        public async Task<IActionResult> AssignEmployee([FromBody] Guid employeeRequestId, [FromBody] string employeeEmail)
+        public async Task<IActionResult> AssignEmployee(Application.Dtos.EmployeeRequestDto dto)
         {
             try
             {
-                return Ok(await _leaderService.ApproveEmployeeRequest(employeeRequestId, employeeEmail));
+                return Ok(await _leaderService.ApproveEmployeeRequest(dto));
             }
             catch (ValidationException ex)
             {
@@ -46,11 +46,11 @@ namespace CollabDo.Web.Controllers
         }
 
         [HttpDelete("employee")]
-        public async Task<IActionResult> RemoveEmployeeFromProject([FromBody] Guid employeeRequestId, [FromBody] string employeeEmail)
+        public async Task<IActionResult> RemoveEmployeeFromProject(Application.Dtos.EmployeeRequestDto dto)
         {
             try
             {
-                return Ok(await _leaderService.RemoveEmployeeFromProject(employeeRequestId, employeeEmail));
+                return Ok(await _leaderService.RemoveEmployeeFromProject(dto));
             }
             catch (ValidationException ex)
             {

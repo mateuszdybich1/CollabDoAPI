@@ -29,10 +29,10 @@ namespace CollabDo.Infrastructure.Repositories
         {
             return _appDbContext.EmployeeRequests.SingleOrDefault(e => e.LeaderId == leaderId && e.Email == employeeEmail);
         }
-        public EmployeeRequestEntity GetEmployeeRequest(Guid employeeRequestId, string employeeEmail)
+        public EmployeeRequestEntity GetEmployeeRequest(EmployeeRequestDto dto)
         {
             return _appDbContext.EmployeeRequests
-                .SingleOrDefault(e => e.Id == employeeRequestId && e.Email == employeeEmail);
+                .SingleOrDefault(e => e.Id == dto.EmployeeRequestId && e.Email == dto.Email && e.Username == dto.Username);
         }
         public List<EmployeeRequestDto> GetEmployeeRequests(Guid leaderId)
         {
