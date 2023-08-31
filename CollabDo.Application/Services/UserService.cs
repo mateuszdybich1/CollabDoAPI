@@ -78,5 +78,16 @@ namespace CollabDo.Application.Services
 
             return true;
         }
+
+        public async Task<UserDto> GetUser()
+        {
+            Guid userId = _userContext.CurrentUserId;
+
+            KeycloakUserRequestModel model = await _userRepository.GetUser(userId);
+
+            UserDto user = new UserDto(model.Username,model.Email);
+
+            return user;
+        }
     }
 }

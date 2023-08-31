@@ -1,5 +1,6 @@
 ﻿using CollabDo.Application.Dtos;
 using CollabDo.Application.Entities;
+using CollabDo.Application.Exceptions;
 using CollabDo.Application.IRepositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,6 +23,12 @@ namespace CollabDo.Infrastructure.Repositories
 
         public Guid GetLeaderId(Guid userId)
         {
+            LeaderEntity leader = _appDbContext.Leaders.SingleOrDefault(e => e.UserId == userId);
+
+            if(leader == null)
+            {
+                throw new EntityNotFoundException("Leader not found");
+            }
             return _appDbContext.Leaders.SingleOrDefault(e => e.UserId == userId).Id;
         }
 
@@ -30,7 +37,7 @@ namespace CollabDo.Infrastructure.Repositories
             return _appDbContext.Leaders.Any(e=>e.UserId == userId);
         }
 
-        public List<EmployeeDto> GetEmployees(Guid leaderId)
+        public List<EmployeeDto> GetEmployees(Guid? leaderId)
         {
             var leader = _appDbContext.Leaders.Where(e=>e.Id == leaderId).Include(e=>e.Employees).SingleOrDefault();
 

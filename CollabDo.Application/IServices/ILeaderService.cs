@@ -12,6 +12,6 @@ namespace CollabDo.Application.IServices
 
         List<EmployeeDto> GetEmployees();
 
-        List<EmployeeDto> GetEmployees(Guid leaderId);
+        List<EmployeeDto> GetEmployees(Guid? leaderId);
     }
 }

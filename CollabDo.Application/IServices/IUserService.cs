@@ -6,6 +6,8 @@ namespace CollabDo.Application.IServices
     {
         Task<Guid> Register(UserRegisterDto userDto);
 
+        Task<UserDto> GetUser();
+
         Task<bool> VerifyEmail();
 
         Task<bool> ResetPassword(string userEmail);

@@ -39,10 +39,19 @@ namespace CollabDo.Web.Controllers
 
         [HttpGet]
         [Authorize]
+        public async Task<IActionResult> GetUserDto()
+        {
+            return Ok(await _userService.GetUser());
+        }
+
+        [HttpGet("isleader")]
+        [Authorize]
         public IActionResult IsUserLeader()
         {
             return Ok(_userService.IsUserLeader());
         }
+
+        
 
         [HttpPut("verify")]
         [Authorize]

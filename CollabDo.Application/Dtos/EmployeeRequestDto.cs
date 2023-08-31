@@ -6,10 +6,10 @@ namespace CollabDo.Application.Dtos
     public class EmployeeRequestDto
     {
         public Guid EmployeeRequestId { get; private set; }
-        [Required]
+        
         public string Username { get; private set; }
 
-        [Required]
+        
         public string Email { get; private set; }
 
 

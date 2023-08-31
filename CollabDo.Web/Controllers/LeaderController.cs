@@ -33,7 +33,7 @@ namespace CollabDo.Web.Controllers
         }
 
         [HttpPost("employee")]
-        public async Task<IActionResult> AssignEmployee(Guid employeeRequestId, string employeeEmail)
+        public async Task<IActionResult> AssignEmployee([FromBody] Guid employeeRequestId, [FromBody] string employeeEmail)
         {
             try
             {
@@ -46,7 +46,7 @@ namespace CollabDo.Web.Controllers
         }
 
         [HttpDelete("employee")]
-        public async Task<IActionResult> RemoveEmployeeFromProject(Guid employeeRequestId, string employeeEmail)
+        public async Task<IActionResult> RemoveEmployeeFromProject([FromBody] Guid employeeRequestId, [FromBody] string employeeEmail)
         {
             try
             {
@@ -60,11 +60,11 @@ namespace CollabDo.Web.Controllers
 
         [HttpGet("employees")]
 
-        public IActionResult LeaderEmployees([FromQuery] Guid leaderId)
+        public IActionResult LeaderEmployees([FromQuery] Guid? leaderId=null)
         {
             try
             {
-                if(leaderId == Guid.Empty)
+                if(leaderId == null)
                 {
                     return Ok(_leaderService.GetEmployees());
                 }

@@ -1,5 +1,6 @@
 ﻿using CollabDo.Application.Dtos;
 using CollabDo.Application.Entities;
+using CollabDo.Application.Exceptions;
 using CollabDo.Application.IRepositories;
 using CollabDo.Application.IServices;
 using CollabDo.Application.Validation;
@@ -98,8 +99,12 @@ namespace CollabDo.Application.Services
             return _leaderRepository.GetEmployees(leaderId);
         }
 
-        public List<EmployeeDto> GetEmployees(Guid leaderId)
+        public List<EmployeeDto> GetEmployees(Guid? leaderId)
         {
+            if(leaderId == null)
+            {
+                throw new ValidationException("leader ID is empty");
+            }
             return _leaderRepository.GetEmployees(leaderId);
 
         }

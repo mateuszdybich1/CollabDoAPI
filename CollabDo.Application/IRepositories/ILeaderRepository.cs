@@ -11,7 +11,7 @@ namespace CollabDo.Application.IRepositories
 
         LeaderEntity GetLeader(Guid leaderId);
 
-        List<EmployeeDto> GetEmployees(Guid leaderId);
+        List<EmployeeDto> GetEmployees(Guid? leaderId);
 
         bool LeaderExists(Guid userId);
 
