@@ -32,27 +32,35 @@ namespace CollabDo.Web.Controllers
             }
         }
 
-        [HttpPost("employee")]
-        public async Task<IActionResult> AssignEmployee(Application.Dtos.EmployeeRequestDto dto)
+        [HttpPost("employee/{requestId}")]
+        public async Task<IActionResult> AssignEmployee([FromRoute] Guid requestId)
         {
             try
             {
-                return Ok(await _leaderService.ApproveEmployeeRequest(dto));
+                return Ok(await _leaderService.ApproveEmployeeRequest(requestId));
             }
             catch (ValidationException ex)
             {
                 return BadRequest(ex.Message);
             }
+            catch(EntityNotFoundException ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
-        [HttpDelete("employee")]
-        public async Task<IActionResult> RemoveEmployeeFromProject(Application.Dtos.EmployeeRequestDto dto)
+        [HttpDelete("employee/{requestId}")]
+        public async Task<IActionResult> RemoveEmployeeFromProject([FromRoute] Guid requestId)
         {
             try
             {
-                return Ok(await _leaderService.RemoveEmployeeFromProject(dto));
+                return Ok(await _leaderService.RemoveEmployeeFromProject(requestId));
             }
             catch (ValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (EntityNotFoundException ex)
             {
                 return BadRequest(ex.Message);
             }

@@ -11,7 +11,7 @@ namespace CollabDo.Application.IRepositories
 
         EmployeeRequestEntity GetEmployeeRequest(string employeeEmail, Guid leaderId);
 
-        EmployeeRequestEntity GetEmployeeRequest(EmployeeRequestDto dto);
+        EmployeeRequestEntity GetEmployeeRequest(Guid requestId);
 
         List<EmployeeRequestDto> GetEmployeeRequests(Guid leaderId);
     }

@@ -5,7 +5,7 @@ namespace CollabDo.Application.Dtos
 {
     public class EmployeeRequestDto
     {
-        public Guid EmployeeRequestId { get; set; }
+        public string EmployeeRequestId { get; set; }
         
         public string? Username { get; set; }
 
@@ -16,7 +16,7 @@ namespace CollabDo.Application.Dtos
         public static EmployeeRequestDto FromModel(EmployeeRequestEntity entity)
         {
             EmployeeRequestDto dto = new EmployeeRequestDto();
-            dto.EmployeeRequestId = entity.Id;
+            dto.EmployeeRequestId = entity.Id.ToString();
             dto.Username = entity.Username;
             dto.Email = entity.Email;
 

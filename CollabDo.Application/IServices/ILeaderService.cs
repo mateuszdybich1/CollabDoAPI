@@ -4,9 +4,9 @@ namespace CollabDo.Application.IServices
 {
     public interface ILeaderService
     { 
-        Task<Guid> ApproveEmployeeRequest(EmployeeRequestDto dto);
+        Task<Guid> ApproveEmployeeRequest(Guid requestId);
 
-        Task<Guid> RemoveEmployeeFromProject(EmployeeRequestDto dto);
+        Task<Guid> RemoveEmployeeFromProject(Guid requestId);
 
         List<EmployeeRequestDto> GetEmployeeRequests();
 

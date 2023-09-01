@@ -25,7 +25,7 @@ namespace CollabDo.Application.Services
         }
 
 
-        public async Task<Guid> ApproveEmployeeRequest(EmployeeRequestDto dto)
+        public async Task<Guid> ApproveEmployeeRequest(Guid requestId)
         {
             Guid userId = _userContext.CurrentUserId;
             Guid leaderId = _leaderRepository.GetLeaderId(userId);
@@ -33,9 +33,17 @@ namespace CollabDo.Application.Services
             LeaderValidation leaderValidation = new LeaderValidation(_leaderRepository);
             leaderValidation.ValidateLeader(userId);
 
-            Guid employeeId = await _userRepository.GetUserIdByEmail(dto.Email);
+            EmployeeRequestEntity employeeRequestEntity = _employeeRequestRepository.GetEmployeeRequest(requestId);
 
-            EmployeeRequestEntity employeeRequestEntity = _employeeRequestRepository.GetEmployeeRequest(dto);
+            if(employeeRequestEntity == null)
+            {
+                throw new EntityNotFoundException("Reques does not exists");
+            }
+
+            Guid employeeUserId = await _userRepository.GetUserIdByEmail(employeeRequestEntity.Email);
+
+            Guid employeeId = _employeeRepository.GetEmployeeId(employeeUserId);
+
 
             _employeeRequestRepository.DeleteEmployeeRequest(employeeRequestEntity);
 
@@ -52,16 +60,23 @@ namespace CollabDo.Application.Services
             return employeeEntity.Id;
         }
 
-        public async Task<Guid> RemoveEmployeeFromProject(EmployeeRequestDto dto)
+        public async Task<Guid> RemoveEmployeeFromProject(Guid requestId)
         {
             Guid userId = _userContext.CurrentUserId;
 
             LeaderValidation leaderValidation = new LeaderValidation(_leaderRepository);
             leaderValidation.ValidateLeader(userId);
 
-            Guid employeeId = await _userRepository.GetUserIdByEmail(dto.Email);
+            EmployeeRequestEntity employeeRequestEntity = _employeeRequestRepository.GetEmployeeRequest(requestId);
 
-            EmployeeRequestEntity employeeRequestEntity = _employeeRequestRepository.GetEmployeeRequest(dto);
+            if (employeeRequestEntity == null)
+            {
+                throw new EntityNotFoundException("Request does not exists");
+            }
+
+            Guid employeeUserId = await _userRepository.GetUserIdByEmail(employeeRequestEntity.Email);
+
+            Guid employeeId = _employeeRepository.GetEmployeeId(employeeUserId);
 
             _employeeRequestRepository.DeleteEmployeeRequest(employeeRequestEntity);
 
