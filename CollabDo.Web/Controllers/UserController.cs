@@ -51,7 +51,6 @@ namespace CollabDo.Web.Controllers
             return Ok(_userService.IsUserLeader());
         }
 
-        
 
         [HttpPut("verify")]
         [Authorize]

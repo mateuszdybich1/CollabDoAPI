@@ -1,5 +1,6 @@
 ﻿using CollabDo.Application.Exceptions;
 using CollabDo.Application.IServices;
+using CollabDo.Application.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +9,7 @@ namespace CollabDo.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    
     public class LeaderController : ControllerBase
     {
         private readonly ILeaderService _leaderService;
@@ -20,6 +21,7 @@ namespace CollabDo.Web.Controllers
 
 
         [HttpGet("requests")]
+        [Authorize]
         public IActionResult EmployeeAssignToLeaderRequests()
         {
             try
@@ -32,7 +34,22 @@ namespace CollabDo.Web.Controllers
             }
         }
 
+        [HttpGet("{leaderId}/email")]
+        public async Task<IActionResult> GetLeaderEmail([FromRoute] Guid leaderId)
+        {
+            try
+            {
+                return Ok(await _leaderService.GetLederEmail(leaderId));
+            }
+            catch(EntityNotFoundException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
+        }
+
         [HttpPost("employee/{requestId}")]
+        [Authorize]
         public async Task<IActionResult> AssignEmployee([FromRoute] Guid requestId)
         {
             try
@@ -49,12 +66,13 @@ namespace CollabDo.Web.Controllers
             }
         }
 
-        [HttpDelete("employee/{requestId}")]
-        public async Task<IActionResult> RemoveEmployeeFromProject([FromRoute] Guid requestId)
+        [HttpDelete("employee/{employeeId}")]
+        [Authorize]
+        public async Task<IActionResult> RemoveEmployeeFromGroup([FromRoute] Guid employeeId)
         {
             try
             {
-                return Ok(await _leaderService.RemoveEmployeeFromProject(requestId));
+                return Ok(await _leaderService.RemoveEmployeeFromProject(employeeId));
             }
             catch (ValidationException ex)
             {
@@ -67,18 +85,18 @@ namespace CollabDo.Web.Controllers
         }
 
         [HttpGet("employees")]
-
-        public IActionResult LeaderEmployees([FromQuery] Guid? leaderId=null)
+        [Authorize]
+        public async Task< IActionResult> LeaderEmployees([FromQuery] Guid? leaderId=null)
         {
             try
             {
                 if(leaderId == null)
                 {
-                    return Ok(_leaderService.GetEmployees());
+                    return Ok(await _leaderService.GetEmployees());
                 }
                 else
                 {
-                    return Ok(_leaderService.GetEmployees(leaderId));
+                    return Ok(await _leaderService.GetEmployees(leaderId));
                 }
             }
             catch (ValidationException ex)

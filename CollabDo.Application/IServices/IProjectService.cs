@@ -13,6 +13,6 @@ namespace CollabDo.Application.IServices
 
         List<ProjectDto> GetProjects(ProjectStatus status, int pageNumber); 
 
-        List<ProjectDto> GetProjects(Guid leaderId,ProjectStatus status, int pageNumber);
+        List<ProjectDto> GetProjects(Guid? leaderId,ProjectStatus status, int pageNumber);
     }
 }

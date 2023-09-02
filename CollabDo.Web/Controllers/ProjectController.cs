@@ -69,13 +69,13 @@ namespace CollabDo.Web.Controllers
 
         [HttpGet]
         public IActionResult Projects(
-            [FromQuery] Guid leaderId,
+            [FromQuery] Guid? leaderId = null,
             [FromQuery][Range(1,2)] ProjectStatus projectStatus = ProjectStatus.InProgress,
             [FromQuery][Range(1,int.MaxValue)] int pageNumber = 1)
         {
             try
             {
-                if (leaderId == Guid.Empty)
+                if (leaderId != null)
                 {
                     return Ok(_projectService.GetProjects(leaderId, projectStatus, pageNumber));
                 }

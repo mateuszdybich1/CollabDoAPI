@@ -10,6 +10,10 @@ namespace CollabDo.Application.Dtos
 
         public Guid? LeaderId { get; set; }
 
+        public string? Username { get; set; }
+
+        public string? Email { get; set; }
+
         public static EmployeeDto FromModel(EmployeeEntity entity)
         {
             EmployeeDto dto = new EmployeeDto();

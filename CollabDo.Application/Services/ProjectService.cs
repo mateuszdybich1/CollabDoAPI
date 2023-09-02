@@ -70,15 +70,16 @@ namespace CollabDo.Application.Services
             return _projectRepository.GetLeaderProjects(leaderId, status, pageNumber);
         }
 
-        public List<ProjectDto> GetProjects(Guid leaderId, ProjectStatus status, int pageNumber)
+        public List<ProjectDto> GetProjects(Guid? leaderId, ProjectStatus status, int pageNumber)
         {
             Guid userId = _userContext.CurrentUserId;
-            Guid employeeId = _employeeRepository.GetEmployeeId(leaderId,userId);
+            
+            Guid employeeId = _employeeRepository.GetEmployeeId((Guid)leaderId,userId);
 
             EmployeeValidation employeeValidation = new EmployeeValidation(_employeeRepository);
             employeeValidation.ValidateEmployeeId(employeeId);
 
-            return _projectRepository.GetLeaderProjects(leaderId, status, pageNumber);
+            return _projectRepository.GetLeaderProjects((Guid)leaderId, status, pageNumber);
         }
 
         public Guid DeleteProject(Guid projectId)

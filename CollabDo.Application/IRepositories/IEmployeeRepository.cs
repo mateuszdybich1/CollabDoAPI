@@ -12,6 +12,8 @@ namespace CollabDo.Application.IRepositories
 
         bool EmployeeExists(Guid employeeId);
 
+        Guid GetEmployeeUserId(Guid employeeId);
+
         Guid GetEmployeeId(Guid userId);
 
         Guid GetEmployeeId(Guid leaderId, Guid userId);

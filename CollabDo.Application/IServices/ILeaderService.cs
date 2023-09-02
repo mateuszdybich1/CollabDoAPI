@@ -8,10 +8,12 @@ namespace CollabDo.Application.IServices
 
         Task<Guid> RemoveEmployeeFromProject(Guid requestId);
 
+        Task<string> GetLederEmail(Guid leaderId);
+
         List<EmployeeRequestDto> GetEmployeeRequests();
 
-        List<EmployeeDto> GetEmployees();
+        Task<List<EmployeeDto>> GetEmployees();
 
-        List<EmployeeDto> GetEmployees(Guid? leaderId);
+        Task<List<EmployeeDto>> GetEmployees(Guid? leaderId);
     }
 }

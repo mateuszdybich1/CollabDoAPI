@@ -6,6 +6,8 @@ namespace CollabDo.Application.IServices
     {
         EmployeeDto GetEmployee();
 
+        Guid RemoveLeaderFromEmployee();
+
         Task<Guid> CreateLeaderAssignmentRequest(string leaderEmail);
 
         Task<Guid> DeleteLeaderAssignmentRequest(string leaderEmail);

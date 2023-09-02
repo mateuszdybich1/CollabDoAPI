@@ -111,5 +111,25 @@ namespace CollabDo.Application.Services
 
             return employeeEntity.Id;
         }
+
+        public Guid RemoveLeaderFromEmployee()
+        {
+            Guid userId = _userContext.CurrentUserId;
+            Guid employeeId = _employeeRepository.GetEmployeeId(userId);
+
+            EmployeeValidation employeeValidation = new EmployeeValidation(_employeeRepository);
+            employeeValidation.ValidateEmployeeId(employeeId);
+
+            EmployeeEntity employeeEntity = _employeeRepository.GetEmployee(employeeId);
+            employeeEntity.LeaderRequestEmail = "";
+            employeeEntity.LeaderId = null;
+            employeeEntity.ModifiedBy = userId;
+            employeeEntity.ModifiedOn = DateTime.UtcNow;
+
+            _employeeRepository.UpdateEmployee(employeeEntity);
+
+
+            return employeeEntity.Id;
+        }
     }
 }

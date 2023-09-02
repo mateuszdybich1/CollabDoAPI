@@ -32,6 +32,7 @@ namespace CollabDo.Web.Controllers
             
         }
 
+
         [HttpPost]
         public async Task<IActionResult> AssignToLeaderRequest([FromBody] string leaderEmail)
         {
@@ -66,6 +67,19 @@ namespace CollabDo.Web.Controllers
                 return BadRequest(ex.Message);
             }
 
+        }
+
+        [HttpDelete("quit")]
+        public IActionResult QuitProject()
+        {
+            try
+            {
+                return Ok(_employeeService.RemoveLeaderFromEmployee());
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

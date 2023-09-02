@@ -48,5 +48,17 @@ namespace CollabDo.Infrastructure.Repositories
         {
             return _appDbContext.Leaders.FirstOrDefault(e => e.Id == leaderId);
         }
+
+        public Guid GetLeaderUserId(Guid leaderId)
+        {
+            var leader = _appDbContext.Leaders.SingleOrDefault(e=>e.Id == leaderId);
+
+            if (leader == null)
+            {
+                throw new EntityNotFoundException("Leader not found");
+            }
+
+            return leader.UserId;
+        }
     }
 }

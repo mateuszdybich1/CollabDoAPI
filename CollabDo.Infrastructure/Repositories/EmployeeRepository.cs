@@ -44,6 +44,11 @@ namespace CollabDo.Infrastructure.Repositories
         public Guid GetEmployeeId(Guid userId)
         {
             return _appDbContext.Employees.SingleOrDefault(e => e.UserId == userId).Id;
-        }   
+        }
+
+        public Guid GetEmployeeUserId(Guid employeeId)
+        {
+            return _appDbContext.Employees.SingleOrDefault(e=>e.Id==employeeId).UserId;
+        }
     }
 }
