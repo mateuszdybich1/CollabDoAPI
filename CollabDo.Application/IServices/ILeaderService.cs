@@ -6,6 +6,8 @@ namespace CollabDo.Application.IServices
     { 
         Task<Guid> ApproveEmployeeRequest(Guid requestId);
 
+        Task<Guid> RemoveEmployeeRequest(Guid requestId);
+
         Task<Guid> RemoveEmployeeFromProject(Guid requestId);
 
         Task<string> GetLederEmail(Guid leaderId);

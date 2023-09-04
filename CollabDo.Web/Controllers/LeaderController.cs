@@ -66,6 +66,24 @@ namespace CollabDo.Web.Controllers
             }
         }
 
+        [HttpDelete("employee/{requestId}/request")]
+        [Authorize]
+        public async Task<IActionResult> DeleteEmployeeRequest([FromRoute] Guid requestId)
+        {
+            try
+            {
+                return Ok(await _leaderService.RemoveEmployeeRequest(requestId));
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpDelete("employee/{employeeId}")]
         [Authorize]
         public async Task<IActionResult> RemoveEmployeeFromGroup([FromRoute] Guid employeeId)

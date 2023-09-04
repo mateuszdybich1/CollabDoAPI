@@ -38,11 +38,11 @@ namespace CollabDo.Infrastructure.Repositories
             return _appDbContext.Projects.Include(e => e.Tasks).SingleOrDefault(e => e.Id == projectId && e.LeaderId == leaderId);
         }
 
-        public List<ProjectDto> GetLeaderProjects(Guid leaderId, ProjectStatus status, int pageNumber)
+        public List<ProjectDto> GetLeaderProjects(Guid leaderId, ProjectStatus status, int pageNumber, DateTime requestDate)
         {
             List<ProjectEntity> entities = _appDbContext.Projects
-                .Where(e => e.LeaderId == leaderId && e.ProjectStatus == status)
-                .OrderByDescending(e => e.Priority)
+                .Where(e => e.LeaderId == leaderId && e.ProjectStatus == status && e.CreatedOn <= requestDate)
+                .OrderByDescending(e => e.CreatedOn)
                 .Skip((pageNumber-1)*25)
                 .Take(25)
                 .ToList();

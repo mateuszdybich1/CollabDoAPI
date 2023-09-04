@@ -59,7 +59,7 @@ namespace CollabDo.Application.Services
             return projectEntity.Id;
         }
 
-        public List<ProjectDto> GetProjects(ProjectStatus status, int pageNumber)
+        public List<ProjectDto> GetProjects(ProjectStatus status, int pageNumber, DateTime requestDate)
         {
             Guid userId = _userContext.CurrentUserId;
             Guid leaderId = _leaderRepository.GetLeaderId(userId);
@@ -67,10 +67,10 @@ namespace CollabDo.Application.Services
             LeaderValidation validation = new LeaderValidation(_leaderRepository);
             validation.ValidateLeader(userId);
 
-            return _projectRepository.GetLeaderProjects(leaderId, status, pageNumber);
+            return _projectRepository.GetLeaderProjects(leaderId, status, pageNumber, requestDate);
         }
 
-        public List<ProjectDto> GetProjects(Guid? leaderId, ProjectStatus status, int pageNumber)
+        public List<ProjectDto> GetProjects(Guid? leaderId, ProjectStatus status, int pageNumber, DateTime requestDate)
         {
             Guid userId = _userContext.CurrentUserId;
             
@@ -79,7 +79,7 @@ namespace CollabDo.Application.Services
             EmployeeValidation employeeValidation = new EmployeeValidation(_employeeRepository);
             employeeValidation.ValidateEmployeeId(employeeId);
 
-            return _projectRepository.GetLeaderProjects((Guid)leaderId, status, pageNumber);
+            return _projectRepository.GetLeaderProjects((Guid)leaderId, status, pageNumber,requestDate);
         }
 
         public Guid DeleteProject(Guid projectId)

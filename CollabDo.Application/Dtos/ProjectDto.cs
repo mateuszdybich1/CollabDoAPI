@@ -5,7 +5,7 @@ namespace CollabDo.Application.Dtos
 {
     public class ProjectDto
     {
-        public Guid ProjectId { get; private set; }
+        public Guid? ProjectId { get; private set; }
         [Required]
         public string Name { get; set; }
 

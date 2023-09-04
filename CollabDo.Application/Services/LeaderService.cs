@@ -144,5 +144,40 @@ namespace CollabDo.Application.Services
 
             return model.Email;
         }
+
+        public async Task<Guid> RemoveEmployeeRequest(Guid requestId)
+        {
+            Guid userId = _userContext.CurrentUserId;
+
+            LeaderValidation leaderValidation = new LeaderValidation(_leaderRepository);
+            leaderValidation.ValidateLeader(userId);
+
+            EmployeeRequestEntity employeeRequestEntity = _employeeRequestRepository.GetEmployeeRequest(requestId);
+
+            if (employeeRequestEntity == null)
+            {
+                throw new EntityNotFoundException("Reques does not exists");
+            }
+
+            Guid employeeUserId = await _userRepository.GetUserIdByEmail(employeeRequestEntity.Email);
+
+            Guid employeeId = _employeeRepository.GetEmployeeId(employeeUserId);
+
+
+            _employeeRequestRepository.DeleteEmployeeRequest(employeeRequestEntity);
+
+            
+
+            EmployeeEntity employeeEntity = _employeeRepository.GetEmployee(employeeId);
+            employeeEntity.LeaderRequestEmail = "";
+            employeeEntity.LeaderId = null;
+            employeeEntity.Leader = null;
+            employeeEntity.ModifiedBy = userId;
+            employeeEntity.ModifiedOn = DateTime.UtcNow;
+
+            _employeeRepository.UpdateEmployee(employeeEntity);
+
+            return employeeEntity.Id;
+        }
     }
 }

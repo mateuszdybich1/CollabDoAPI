@@ -15,6 +15,6 @@ namespace CollabDo.Application.IRepositories
 
         ProjectEntity GetProject(Guid projectId, Guid leaderId);
 
-        List<ProjectDto> GetLeaderProjects(Guid leaderId, ProjectStatus status, int pageNumber);
+        List<ProjectDto> GetLeaderProjects(Guid leaderId, ProjectStatus status, int pageNumber, DateTime requestDate);
     }
 }
