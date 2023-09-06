@@ -1,5 +1,7 @@
 ﻿using CollabDo.Application.Dtos;
+using CollabDo.Application.Entities;
 using CollabDo.Application.IServices;
+using CollabDo.Application.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
@@ -20,11 +22,11 @@ namespace CollabDo.Web.Controllers
 
 
         [HttpPost]
-        public IActionResult CreateTask(TaskDto taskDto)
+        public async Task<IActionResult> CreateTask(TaskDto taskDto)
         {
             try
             {
-                return Ok(_taskService.CreateTask(taskDto));
+                return Ok(await _taskService.CreateTask(taskDto));
             }
             catch(ValidationException ex)
             {
@@ -32,12 +34,13 @@ namespace CollabDo.Web.Controllers
             }
         }
 
-        [HttpPut]
-        public async Task<IActionResult> AssignEmployeeToTask(Guid projectId, Guid taskId, string employeeEmail)
+
+        [HttpPut("{projectId}/{taskId}")]
+        public IActionResult UpdateTask([FromRoute] Guid projectId, [FromRoute] Guid taskId, [FromQuery] Application.Entities.TaskStatus taskStatus, [FromQuery] bool isLeader)
         {
             try
             {
-                return Ok(await _taskService.AssignToEmployee(projectId, taskId, employeeEmail));
+                return Ok(_taskService.SetTaskStatus(projectId, taskId, isLeader,taskStatus));
             }
             catch (ValidationException ex)
             {
@@ -49,8 +52,9 @@ namespace CollabDo.Web.Controllers
             }
         }
 
-        [HttpDelete]
-        public IActionResult Task(Guid projectId, Guid taskId)
+
+        [HttpDelete("{projectId}/{taskId}")]
+        public IActionResult Task([FromRoute] Guid projectId, [FromRoute] Guid taskId)
         {
             try
             {
@@ -66,15 +70,58 @@ namespace CollabDo.Web.Controllers
             }
         }
 
-        [HttpGet]
-        public IActionResult ProjectTasks(
-            Guid projectId, 
-            [FromQuery][Range(1, 2)] Application.Entities.TaskStatus taskStatus = Application.Entities.TaskStatus.Created, 
+        [HttpGet("employee/{projectId}")]
+        public IActionResult EmployeeTasks(
+            [FromRoute] Guid projectId,
+            [FromQuery] DateTime requestDate,
+            [FromQuery][Range(0, 4)] Application.Entities.TaskStatus taskStatus = Application.Entities.TaskStatus.Started,
             [FromQuery][Range(1, int.MaxValue)] int pageNumber = 1)
         {
             try
             {
-                return Ok(_taskService.GetAllTasks(projectId,taskStatus,pageNumber));
+                return Ok(_taskService.GetEmployeeTasks(projectId, requestDate, taskStatus, pageNumber));
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (FormatException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("leader/{projectId}")]
+        public IActionResult LeaderTasks(
+            [FromRoute] Guid projectId,
+            [FromQuery] DateTime requestDate,
+            [FromQuery][Range(0, 4)] Application.Entities.TaskStatus taskStatus = Application.Entities.TaskStatus.Started,
+            [FromQuery][Range(1, int.MaxValue)] int pageNumber = 1)
+        {
+            try
+            {
+                return Ok(_taskService.GetLeaderTasks(projectId, requestDate, taskStatus, pageNumber));
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (FormatException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("all/{projectId}")]
+        public async Task<IActionResult> ProjectTasks(
+            [FromRoute] Guid projectId,
+            [FromQuery] DateTime requestDate,
+            [FromQuery][Range(0, 4)] Application.Entities.TaskStatus taskStatus = Application.Entities.TaskStatus.Started, 
+            [FromQuery][Range(1, int.MaxValue)] int pageNumber = 1)
+        {
+            try
+            {
+                return Ok(await _taskService.GetAllTasks(projectId,requestDate, taskStatus,pageNumber));
             }
             catch (ValidationException ex)
             {

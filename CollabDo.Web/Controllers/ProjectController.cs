@@ -33,8 +33,8 @@ namespace CollabDo.Web.Controllers
             }   
         }
 
-        [HttpPut]
-        public IActionResult ProjectState([FromQuery] Guid projectId)
+        [HttpPut("{projectId}")]
+        public IActionResult ProjectState([FromRoute] Guid projectId)
         {
             try
             {
@@ -50,8 +50,8 @@ namespace CollabDo.Web.Controllers
             }   
         }
 
-        [HttpDelete]
-        public IActionResult Project([FromQuery] Guid projectId)
+        [HttpDelete("{projectId}")]
+        public IActionResult Project([FromRoute] Guid projectId)
         {
             try
             {

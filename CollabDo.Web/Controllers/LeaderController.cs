@@ -66,7 +66,7 @@ namespace CollabDo.Web.Controllers
             }
         }
 
-        [HttpDelete("employee/{requestId}/request")]
+        [HttpDelete("employee/request/{requestId}")]
         [Authorize]
         public async Task<IActionResult> DeleteEmployeeRequest([FromRoute] Guid requestId)
         {

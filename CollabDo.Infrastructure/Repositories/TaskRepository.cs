@@ -32,25 +32,25 @@ namespace CollabDo.Infrastructure.Repositories
             _appDbContext.SaveChanges();
         }
 
-        public List<TaskDto> GetEmplyeesTasks(Guid projectId, Guid employeeId, Application.Entities.TaskStatus status, int pageNumber)
+        public List<TaskDto> GetUserTasks(Guid projectId, Guid assignedId, DateTime requestDate, Application.Entities.TaskStatus status, int pageNumber)
         {
             List<TaskEntity> entities = _appDbContext.Tasks
-                .Where(e => e.ProjectID == projectId && e.AssignedEmployeeId == employeeId && e.Status == status)
+                .Where(e => e.ProjectID == projectId && e.AssignedUserId == assignedId && e.Status == status && e.CreatedOn <= requestDate)
                 .OrderByDescending(e => e.Priority)
-                .Skip((pageNumber - 1) * 25)
-                .Take(25)
+                .Skip((pageNumber - 1) * 10)
+                .Take(10)
                 .ToList();
 
             return entities.Select(TaskDto.FromModel).ToList();
         }
 
-        public List<TaskDto> GetAllTasks(Guid projectId, Application.Entities.TaskStatus status, int pageNumber)
+        public List<TaskDto> GetAllTasks(Guid projectId, DateTime requestDate, Application.Entities.TaskStatus status, int pageNumber)
         {
             List<TaskEntity> entities = _appDbContext.Tasks
-                .Where(e => e.ProjectID == projectId && e.Status == status)
+                .Where(e => e.ProjectID == projectId && e.Status == status && e.CreatedOn <= requestDate)
                 .OrderByDescending(e => e.Priority)
-                .Skip((pageNumber - 1) * 25)
-                .Take(25)
+                .Skip((pageNumber - 1) * 10)
+                .Take(10)
                 .ToList();
                 
             return entities.Select(TaskDto.FromModel).ToList();

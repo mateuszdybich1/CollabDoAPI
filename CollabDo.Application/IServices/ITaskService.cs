@@ -4,14 +4,16 @@ namespace CollabDo.Application.IServices
 {
     public interface ITaskService
     {
-        Guid CreateTask(TaskDto taskDto);
+        Task<Guid> CreateTask(TaskDto taskDto);
 
-        Task<Guid> AssignToEmployee(Guid projectId,Guid taskId, string employeeEmail);
+        Guid SetTaskStatus(Guid projectId, Guid taskId, bool isLeader, Entities.TaskStatus status);
 
         Guid DeleteTask(Guid projectId,Guid taskId);
 
-        Guid SetTaskStatus(Guid projectId,Guid taskId, Entities.TaskStatus status);
+        List<TaskDto> GetEmployeeTasks(Guid projectId, DateTime requestDate, Entities.TaskStatus status, int pageNumber);
 
-        List<TaskDto> GetAllTasks(Guid projectId, Entities.TaskStatus status, int pageNumber);
+        List<TaskDto> GetLeaderTasks(Guid projectId, DateTime requestDate, Entities.TaskStatus status, int pageNumber);
+
+        Task<List<TaskDto>> GetAllTasks(Guid projectId, DateTime requestDate, Entities.TaskStatus status, int pageNumber);
     }
 }

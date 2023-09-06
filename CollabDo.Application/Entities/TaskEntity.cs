@@ -4,7 +4,6 @@
     public enum TaskStatus
     {
         Undone,
-        Created,
         Started,
         WaitingForApprovement,
         Done
@@ -14,11 +13,13 @@
     {
         public string Name { get; set; }
 
+        public string Description { get; set; }
+
         public Priority Priority { get; set; }
 
-        public TaskStatus Status { get; private set; } = TaskStatus.Created;
+        public TaskStatus Status { get; private set; } = TaskStatus.Started;
 
-        public Guid AssignedEmployeeId { get; private set; } = Guid.Empty;
+        public Guid AssignedUserId { get; private set; } = Guid.Empty;
         
         public DateTime Deadline { get; set; } = DateTime.UtcNow.AddDays(1);
 
@@ -32,7 +33,7 @@
         {
 
         }
-        public TaskEntity(Guid projectId, string name, Priority priority, DateTime deadline, Guid userId) : base(userId) 
+        public TaskEntity(Guid projectId, string name, string description, Priority priority, DateTime deadline, Guid userId) : base(userId) 
         {
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -41,6 +42,7 @@
 
             ProjectID = projectId;
             Name = name;
+            Description = description;
             Priority = priority;
             Deadline = deadline;
         }
@@ -52,7 +54,7 @@
 
         public void AssignToEmployee(Guid employeeID)
         {
-            AssignedEmployeeId = employeeID;
+            AssignedUserId = employeeID;
         }
 
 

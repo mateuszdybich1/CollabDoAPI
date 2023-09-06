@@ -31,49 +31,66 @@ namespace CollabDo.Application.Services
             _projectRepository = projectRepository;
             _taskRepository = taskRepository;
         }
-        public Guid CreateTask(TaskDto taskDto)
+        public async Task<Guid> CreateTask(TaskDto taskDto)
         {
             Guid userId = _userContext.CurrentUserId;
 
+            Guid leaderId = _leaderRepository.GetLeaderId(userId);
+
             LeaderValidation leaderValidation = new LeaderValidation(_leaderRepository);
-            leaderValidation.ValidateLeader(userId);
+            leaderValidation.ValidateLeader(leaderId);
 
             
             ProjectValidation validation = new ProjectValidation(_projectRepository);
             validation.ValidateProjectId(taskDto.ProjectId);
 
-            TaskEntity taskEntity = new TaskEntity(taskDto.ProjectId,taskDto.Name,taskDto.Priority,taskDto.Deadline, userId);
+            Guid assignUserId = await _userRepository.GetUserIdByEmail(taskDto.UserEmail);
+
+           
+            TaskEntity taskEntity = new TaskEntity(taskDto.ProjectId,taskDto.Name,taskDto.Description,taskDto.Priority,taskDto.Deadline, userId);
+
+            taskEntity.AssignToEmployee(assignUserId);
 
             _taskRepository.AddTask(taskEntity);
 
             return taskEntity.Id;
         }
 
-        public async Task<Guid> AssignToEmployee(Guid projectId, Guid taskId, string employeeEmail)
+
+        public Guid SetTaskStatus(Guid projectId, Guid taskId, bool isLeader, Entities.TaskStatus status)
         {
             Guid userId = _userContext.CurrentUserId;
-            Guid leaderId = _leaderRepository.GetLeaderId(userId);
 
-            LeaderValidation validation = new LeaderValidation(_leaderRepository);
-            validation.ValidateLeader(userId);
+            Guid memberId;
+            if(isLeader)
+            {
+                memberId = _leaderRepository.GetLeaderId(userId);
+                LeaderValidation leaderValidation = new LeaderValidation(_leaderRepository);
+                leaderValidation.ValidateLeader(memberId);
+            }
+            else
+            {
+                memberId = _employeeRepository.GetEmployeeId(userId);
+                EmployeeValidation employeeValidation = new EmployeeValidation(_employeeRepository);
+                employeeValidation.ValidateEmployeeId(memberId);
+            }
+            
 
-            TaskValidation taskValidation = new TaskValidation(_taskRepository);
-            taskValidation.ValidateTask(leaderId,projectId,taskId);
 
-            Guid employeeUserId = await _userRepository.GetUserIdByEmail(employeeEmail);
-
-            Guid employeeId = _employeeRepository.GetEmployeeId(leaderId, employeeUserId);
+            ProjectValidation projectIdValidation = new ProjectValidation(_projectRepository);
+            projectIdValidation.ValidateProjectId(projectId);
 
             TaskEntity task = _taskRepository.GetTask(projectId, taskId);
+
+            task.ModifiedBy = memberId;
             task.ModifiedOn = DateTime.UtcNow;
-            task.ModifiedBy = leaderId;
-            task.AssignToEmployee(employeeId);
+            task.SetStatus(status);
 
             _taskRepository.UpdateTask(task);
 
             return taskId;
-            
         }
+
 
         public Guid DeleteTask(Guid projectId, Guid taskId)
         {
@@ -89,34 +106,50 @@ namespace CollabDo.Application.Services
             return taskEntity.Id;
         }
 
-        public List<TaskDto> GetAllTasks(Guid projectId, Entities.TaskStatus status, int pageNumber)
+        public List<TaskDto> GetEmployeeTasks(Guid projectId, DateTime requestDate, Entities.TaskStatus status, int pageNumber)
         {
-            ProjectValidation validation = new ProjectValidation(_projectRepository);
-            validation.ValidateProjectId(projectId);
+            Guid userId = _userContext.CurrentUserId;
+            Guid employeeId = _employeeRepository.GetEmployeeId(userId);
 
-            return _taskRepository.GetAllTasks(projectId,status,pageNumber);
+            EmployeeValidation employeeValidation = new EmployeeValidation(_employeeRepository);
+            employeeValidation.ValidateEmployeeId(employeeId);
+
+            ProjectValidation projectValidation = new ProjectValidation(_projectRepository);
+            projectValidation.ValidateProjectId(projectId);
+
+            return _taskRepository.GetUserTasks(projectId, userId, requestDate, status, pageNumber);
+
         }
 
-        public Guid SetTaskStatus(Guid projectId, Guid taskId, Entities.TaskStatus status)
+        public List<TaskDto> GetLeaderTasks(Guid projectId, DateTime requestDate, Entities.TaskStatus status, int pageNumber)
         {
             Guid userId = _userContext.CurrentUserId;
             Guid leaderId = _leaderRepository.GetLeaderId(userId);
 
             LeaderValidation leaderValidation = new LeaderValidation(_leaderRepository);
-            leaderValidation.ValidateLeader(userId);
+            leaderValidation.ValidateLeader(leaderId);
 
+            return _taskRepository.GetUserTasks(projectId, userId, requestDate, status, pageNumber);
+
+        }
+
+        public async Task<List<TaskDto>> GetAllTasks(Guid projectId, DateTime requestDate, Entities.TaskStatus status, int pageNumber)
+        {
             ProjectValidation validation = new ProjectValidation(_projectRepository);
             validation.ValidateProjectId(projectId);
 
-            TaskEntity task = _taskRepository.GetTask(projectId, taskId);
-            task.ModifiedOn = DateTime.UtcNow;
-            task.ModifiedBy = leaderId;
+            List<TaskDto> tasks = _taskRepository.GetAllTasks(projectId, requestDate, status,pageNumber);
 
-            task.SetStatus(status);
+            for(int i = 0; i < tasks.Count; i++)
+            {
+                KeycloakUserRequestModel model = await _userRepository.GetUser((Guid)tasks[i].AssignedId);
+                tasks[i].UserEmail = model.Email;
+            }
 
-            _taskRepository.UpdateTask(task);
-
-            return taskId;
+            return tasks;
         }
+
+
+        
     }
 }

@@ -43,7 +43,6 @@ namespace CollabDo.Web
             services.AddScoped<ITaskService, TaskService>();
             services.AddScoped<ITaskRepository, TaskRepository>();
 
-            services.AddScoped<IEmployeeTaskService, EmployeeTaskService>();
 
             services.AddScoped<IEmployeeService, EmployeeService>();
 

@@ -43,8 +43,8 @@ namespace CollabDo.Infrastructure.Repositories
             List<ProjectEntity> entities = _appDbContext.Projects
                 .Where(e => e.LeaderId == leaderId && e.ProjectStatus == status && e.CreatedOn <= requestDate)
                 .OrderByDescending(e => e.CreatedOn)
-                .Skip((pageNumber-1)*25)
-                .Take(25)
+                .Skip((pageNumber-1)*10)
+                .Take(10)
                 .ToList();
 
             return entities.Select(ProjectDto.FromModel).ToList();

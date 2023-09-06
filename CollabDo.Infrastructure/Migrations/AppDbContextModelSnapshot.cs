@@ -204,7 +204,7 @@ namespace CollabDo.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("AssignedEmployeeId")
+                    b.Property<Guid>("AssignedUserId")
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("CreatedBy")
@@ -215,6 +215,10 @@ namespace CollabDo.Infrastructure.Migrations
 
                     b.Property<DateTime>("Deadline")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<Guid?>("ModifiedBy")
                         .HasColumnType("uuid");
@@ -257,7 +261,7 @@ namespace CollabDo.Infrastructure.Migrations
                     b.HasOne("CollabDo.Application.Entities.LeaderEntity", "Leader")
                         .WithMany("Employees")
                         .HasForeignKey("LeaderId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Leader");
                 });
