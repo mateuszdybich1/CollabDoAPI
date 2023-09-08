@@ -35,10 +35,8 @@ namespace CollabDo.Application.Services
         {
             Guid userId = _userContext.CurrentUserId;
 
-            Guid leaderId = _leaderRepository.GetLeaderId(userId);
-
             LeaderValidation leaderValidation = new LeaderValidation(_leaderRepository);
-            leaderValidation.ValidateLeader(leaderId);
+            leaderValidation.ValidateLeader(userId);
 
             
             ProjectValidation validation = new ProjectValidation(_projectRepository);
@@ -61,18 +59,15 @@ namespace CollabDo.Application.Services
         {
             Guid userId = _userContext.CurrentUserId;
 
-            Guid memberId;
             if(isLeader)
             {
-                memberId = _leaderRepository.GetLeaderId(userId);
                 LeaderValidation leaderValidation = new LeaderValidation(_leaderRepository);
-                leaderValidation.ValidateLeader(memberId);
+                leaderValidation.ValidateLeader(userId);
             }
             else
             {
-                memberId = _employeeRepository.GetEmployeeId(userId);
                 EmployeeValidation employeeValidation = new EmployeeValidation(_employeeRepository);
-                employeeValidation.ValidateEmployeeId(memberId);
+                employeeValidation.ValidateEmployeeId(userId);
             }
             
 
@@ -82,7 +77,7 @@ namespace CollabDo.Application.Services
 
             TaskEntity task = _taskRepository.GetTask(projectId, taskId);
 
-            task.ModifiedBy = memberId;
+            task.ModifiedBy = userId;
             task.ModifiedOn = DateTime.UtcNow;
             task.SetStatus(status);
 
@@ -106,28 +101,13 @@ namespace CollabDo.Application.Services
             return taskEntity.Id;
         }
 
-        public List<TaskDto> GetEmployeeTasks(Guid projectId, DateTime requestDate, Entities.TaskStatus status, int pageNumber)
+
+        public List<TaskDto> GetUserTasks(Guid projectId, DateTime requestDate, Entities.TaskStatus status, int pageNumber)
         {
             Guid userId = _userContext.CurrentUserId;
-            Guid employeeId = _employeeRepository.GetEmployeeId(userId);
-
-            EmployeeValidation employeeValidation = new EmployeeValidation(_employeeRepository);
-            employeeValidation.ValidateEmployeeId(employeeId);
 
             ProjectValidation projectValidation = new ProjectValidation(_projectRepository);
             projectValidation.ValidateProjectId(projectId);
-
-            return _taskRepository.GetUserTasks(projectId, userId, requestDate, status, pageNumber);
-
-        }
-
-        public List<TaskDto> GetLeaderTasks(Guid projectId, DateTime requestDate, Entities.TaskStatus status, int pageNumber)
-        {
-            Guid userId = _userContext.CurrentUserId;
-            Guid leaderId = _leaderRepository.GetLeaderId(userId);
-
-            LeaderValidation leaderValidation = new LeaderValidation(_leaderRepository);
-            leaderValidation.ValidateLeader(leaderId);
 
             return _taskRepository.GetUserTasks(projectId, userId, requestDate, status, pageNumber);
 

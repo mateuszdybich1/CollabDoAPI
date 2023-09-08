@@ -38,7 +38,7 @@ namespace CollabDo.Application.Services
             Guid employeeId = _employeeRepository.GetEmployeeId(userId);
 
             EmployeeValidation employeeValidation = new EmployeeValidation(_employeeRepository);
-            employeeValidation.ValidateEmployeeId(employeeId);
+            employeeValidation.ValidateEmployeeId(userId);
 
             EmployeeEntity entity = _employeeRepository.GetEmployee(employeeId);
 
@@ -53,7 +53,7 @@ namespace CollabDo.Application.Services
             Guid employeeId = _employeeRepository.GetEmployeeId(userId);
 
             EmployeeValidation employeeValidation = new EmployeeValidation(_employeeRepository);
-            employeeValidation.ValidateEmployeeId(employeeId);
+            employeeValidation.ValidateEmployeeId(userId);
 
             KeycloakUserRequestModel employeeUserData = await _userRepository.GetUser(userId);                   
 
@@ -81,7 +81,7 @@ namespace CollabDo.Application.Services
             Guid employeeId = _employeeRepository.GetEmployeeId(userId);
 
             EmployeeValidation employeeValidation = new EmployeeValidation(_employeeRepository);
-            employeeValidation.ValidateEmployeeId(employeeId);
+            employeeValidation.ValidateEmployeeId(userId);
 
             Guid leaderUserId = await _userRepository.GetUserIdByEmail(leaderEmail);
 
@@ -118,7 +118,7 @@ namespace CollabDo.Application.Services
             Guid employeeId = _employeeRepository.GetEmployeeId(userId);
 
             EmployeeValidation employeeValidation = new EmployeeValidation(_employeeRepository);
-            employeeValidation.ValidateEmployeeId(employeeId);
+            employeeValidation.ValidateEmployeeId(userId);
 
             EmployeeEntity employeeEntity = _employeeRepository.GetEmployee(employeeId);
             employeeEntity.LeaderRequestEmail = "";

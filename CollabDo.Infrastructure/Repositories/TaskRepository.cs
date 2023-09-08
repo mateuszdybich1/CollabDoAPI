@@ -37,8 +37,9 @@ namespace CollabDo.Infrastructure.Repositories
             List<TaskEntity> entities = _appDbContext.Tasks
                 .Where(e => e.ProjectID == projectId && e.AssignedUserId == assignedId && e.Status == status && e.CreatedOn <= requestDate)
                 .OrderByDescending(e => e.Priority)
-                .Skip((pageNumber - 1) * 10)
-                .Take(10)
+                .ThenByDescending(e => e.CreatedOn)
+                .Skip((pageNumber - 1) * 5)
+                .Take(5)
                 .ToList();
 
             return entities.Select(TaskDto.FromModel).ToList();
@@ -47,10 +48,11 @@ namespace CollabDo.Infrastructure.Repositories
         public List<TaskDto> GetAllTasks(Guid projectId, DateTime requestDate, Application.Entities.TaskStatus status, int pageNumber)
         {
             List<TaskEntity> entities = _appDbContext.Tasks
-                .Where(e => e.ProjectID == projectId && e.Status == status && e.CreatedOn <= requestDate)
+                .Where(e => e.ProjectID == projectId && e.CreatedOn <= requestDate && e.Status == status)
                 .OrderByDescending(e => e.Priority)
-                .Skip((pageNumber - 1) * 10)
-                .Take(10)
+                .ThenByDescending(e => e.CreatedOn)
+                .Skip((pageNumber - 1) * 5)
+                .Take(5)
                 .ToList();
                 
             return entities.Select(TaskDto.FromModel).ToList();

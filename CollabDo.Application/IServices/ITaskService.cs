@@ -10,9 +10,7 @@ namespace CollabDo.Application.IServices
 
         Guid DeleteTask(Guid projectId,Guid taskId);
 
-        List<TaskDto> GetEmployeeTasks(Guid projectId, DateTime requestDate, Entities.TaskStatus status, int pageNumber);
-
-        List<TaskDto> GetLeaderTasks(Guid projectId, DateTime requestDate, Entities.TaskStatus status, int pageNumber);
+        List<TaskDto> GetUserTasks(Guid projectId, DateTime requestDate, Entities.TaskStatus status, int pageNumber);
 
         Task<List<TaskDto>> GetAllTasks(Guid projectId, DateTime requestDate, Entities.TaskStatus status, int pageNumber);
     }

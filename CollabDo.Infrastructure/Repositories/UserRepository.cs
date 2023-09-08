@@ -74,7 +74,11 @@ namespace CollabDo.Infrastructure.Repositories
             if (response.IsSuccessStatusCode)
             {
                 List<UserEntity> users = JsonConvert.DeserializeObject<List<UserEntity>>(responseContent);
-                return users.Count > 0;
+                if (users.Count > 0)
+                {
+                    return users.Any(x => x.Email.ToLower() == email.ToLower());
+                }
+                return false;
             }
             else
             {
@@ -92,7 +96,11 @@ namespace CollabDo.Infrastructure.Repositories
             if (response.IsSuccessStatusCode)
             {
                 List<UserEntity> users = JsonConvert.DeserializeObject<List<UserEntity>>(responseContent);
-                return users.Count > 0;
+                if(users.Count > 0)
+                {
+                   return users.Any(x => x.Username.ToLower() == username.ToLower());
+                }
+                return false;
             }
             else
             {

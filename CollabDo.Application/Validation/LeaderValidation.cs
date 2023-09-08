@@ -13,13 +13,13 @@ namespace CollabDo.Application.Validation
         }
 
 
-        public void ValidateLeader(Guid leaderId)
+        public void ValidateLeader(Guid userId)
         {
-            if(leaderId == Guid.Empty)
+            if(userId == Guid.Empty)
             {
                 throw new ValidationException("Incorrect Leader ID");
             }
-            if(!_leaderRepository.LeaderExists(leaderId))
+            if(!_leaderRepository.LeaderExists(userId))
             {
                 throw new ValidationException("Incorrect Leader ID");
             }

@@ -30,9 +30,9 @@ namespace CollabDo.Infrastructure.Repositories
             return _appDbContext.Employees.SingleOrDefault(e => e.Id == employeeId);
         }
 
-        public bool EmployeeExists(Guid employeeId)
+        public bool EmployeeExists(Guid userId)
         {
-            return _appDbContext.Employees.Any(e=>e.Id == employeeId);
+            return _appDbContext.Employees.Any(e=>e.UserId == userId);
         }
 
 

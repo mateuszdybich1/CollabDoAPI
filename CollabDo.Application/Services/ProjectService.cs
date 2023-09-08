@@ -77,7 +77,7 @@ namespace CollabDo.Application.Services
             Guid employeeId = _employeeRepository.GetEmployeeId((Guid)leaderId,userId);
 
             EmployeeValidation employeeValidation = new EmployeeValidation(_employeeRepository);
-            employeeValidation.ValidateEmployeeId(employeeId);
+            employeeValidation.ValidateEmployeeId(userId);
 
             return _projectRepository.GetLeaderProjects((Guid)leaderId, status, pageNumber,requestDate);
         }

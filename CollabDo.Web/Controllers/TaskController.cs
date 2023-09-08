@@ -70,8 +70,8 @@ namespace CollabDo.Web.Controllers
             }
         }
 
-        [HttpGet("employee/{projectId}")]
-        public IActionResult EmployeeTasks(
+        [HttpGet("user/{projectId}")]
+        public IActionResult UserTasks(
             [FromRoute] Guid projectId,
             [FromQuery] DateTime requestDate,
             [FromQuery][Range(0, 4)] Application.Entities.TaskStatus taskStatus = Application.Entities.TaskStatus.Started,
@@ -79,28 +79,7 @@ namespace CollabDo.Web.Controllers
         {
             try
             {
-                return Ok(_taskService.GetEmployeeTasks(projectId, requestDate, taskStatus, pageNumber));
-            }
-            catch (ValidationException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (FormatException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpGet("leader/{projectId}")]
-        public IActionResult LeaderTasks(
-            [FromRoute] Guid projectId,
-            [FromQuery] DateTime requestDate,
-            [FromQuery][Range(0, 4)] Application.Entities.TaskStatus taskStatus = Application.Entities.TaskStatus.Started,
-            [FromQuery][Range(1, int.MaxValue)] int pageNumber = 1)
-        {
-            try
-            {
-                return Ok(_taskService.GetLeaderTasks(projectId, requestDate, taskStatus, pageNumber));
+                return Ok(_taskService.GetUserTasks(projectId, requestDate, taskStatus, pageNumber));
             }
             catch (ValidationException ex)
             {

@@ -13,15 +13,15 @@ namespace CollabDo.Application.Validation
         }
 
         
-        public void ValidateEmployeeId(Guid employeeId)
+        public void ValidateEmployeeId(Guid userId)
         {
-            if(employeeId == Guid.Empty)
+            if(userId == Guid.Empty)
             {
-                throw new ValidationException($"Employee with ID: {employeeId} does not exist");
+                throw new ValidationException($"Employee does not exist");
             }
-            if(!_employeeRepository.EmployeeExists(employeeId))
+            if(!_employeeRepository.EmployeeExists(userId))
             {
-                throw new ValidationException($"Employee with ID: {employeeId} does not exist");
+                throw new ValidationException($"Employee does not exist");
             }
         }
     }
