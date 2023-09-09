@@ -79,9 +79,17 @@ namespace CollabDo.Application.Services
             return commentEntity.Id;
         }
 
-        public List<CommentDto> GetTaskComments(Guid taskId, int pageNumber)
+        public CommentDto GetLatestComment(Guid taskId, Guid latestCommentId)
         {
-            return _commentRepository.GetTaskComments(taskId, pageNumber);
+
+            CommentDto dto = _commentRepository.GetLatestComment(taskId, latestCommentId);
+
+            return dto;
+        }
+
+        public List<CommentDto> GetTaskComments(Guid taskId, int pageNumber, DateTime requestDate)
+        {
+            return _commentRepository.GetTaskComments(taskId, pageNumber,requestDate);
         }
     }
 }

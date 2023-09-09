@@ -3,6 +3,7 @@ using CollabDo.Application.Entities;
 using CollabDo.Application.IRepositories;
 using CollabDo.Application.IServices;
 using CollabDo.Application.Validation;
+using System.Threading.Tasks;
 
 namespace CollabDo.Application.Services
 {
@@ -102,14 +103,22 @@ namespace CollabDo.Application.Services
         }
 
 
-        public List<TaskDto> GetUserTasks(Guid projectId, DateTime requestDate, Entities.TaskStatus status, int pageNumber)
+        public async Task<List<TaskDto>> GetUserTasks(Guid projectId, DateTime requestDate, Entities.TaskStatus status, int pageNumber)
         {
             Guid userId = _userContext.CurrentUserId;
 
             ProjectValidation projectValidation = new ProjectValidation(_projectRepository);
             projectValidation.ValidateProjectId(projectId);
 
-            return _taskRepository.GetUserTasks(projectId, userId, requestDate, status, pageNumber);
+            List<TaskDto> tasks = _taskRepository.GetUserTasks(projectId, userId, requestDate, status, pageNumber);
+
+            for (int i = 0; i < tasks.Count; i++)
+            {
+                KeycloakUserRequestModel model = await _userRepository.GetUser((Guid)tasks[i].AssignedId);
+                tasks[i].UserEmail = model.Email;
+            }
+
+            return tasks;
 
         }
 

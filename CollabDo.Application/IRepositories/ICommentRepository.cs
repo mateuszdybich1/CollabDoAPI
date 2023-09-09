@@ -18,6 +18,8 @@ namespace CollabDo.Application.IRepositories
 
         CommentEntity GetComment(Guid taskId, Guid commentId);
 
-        List<CommentDto> GetTaskComments(Guid taskId, int pageNumber);
+        CommentDto GetLatestComment(Guid taskId, Guid latestCommentId);
+
+        List<CommentDto> GetTaskComments(Guid taskId, int pageNumber, DateTime requestDate);
     }
 }

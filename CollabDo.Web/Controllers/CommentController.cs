@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.Design;
+using ValidationException = CollabDo.Application.Exceptions.ValidationException;
 
 namespace CollabDo.Web.Controllers
 {
@@ -20,13 +22,13 @@ namespace CollabDo.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Comment([FromRoute] Guid taskId, string content)
+        public async Task<IActionResult> Comment([FromRoute] Guid taskId, [FromBody] string content)
         {
             return Ok(await _commentService.AddComment(taskId, content));
         }
 
         [HttpPut]
-        public async Task<IActionResult> Comment([FromRoute] Guid taskId, Guid commentId, string content)
+        public async Task<IActionResult> Comment([FromRoute] Guid taskId, [FromQuery] Guid commentId, [FromBody] string content)
         {
             try
             {
@@ -39,7 +41,7 @@ namespace CollabDo.Web.Controllers
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Comment([FromRoute] Guid taskId, Guid commentId)
+        public async Task<IActionResult> Comment([FromRoute] Guid taskId, [FromQuery] Guid commentId)
         {
             try
             {
@@ -51,10 +53,28 @@ namespace CollabDo.Web.Controllers
             }
         }
 
-        [HttpGet]
-        public IActionResult Comments([FromRoute] Guid taskId, [FromQuery][Range(1,int.MaxValue)] int pageNumber) 
+        [HttpGet("comments")]
+        public IActionResult Comments([FromRoute] Guid taskId, [FromQuery][Range(1,int.MaxValue)] int pageNumber, [FromQuery] DateTime requestDate) 
         { 
-            return Ok(_commentService.GetTaskComments(taskId, pageNumber));
+            return Ok(_commentService.GetTaskComments(taskId, pageNumber, requestDate));
+        }
+
+        [HttpGet("latest")]
+        public IActionResult LatestComment([FromRoute] Guid taskId,[FromQuery] Guid latestCommentId)
+        {
+            try
+            {
+                return Ok(_commentService.GetLatestComment(taskId, latestCommentId));
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return StatusCode(404,ex.Message);
+            }
+           
         }
     }
 }

@@ -71,7 +71,7 @@ namespace CollabDo.Web.Controllers
         }
 
         [HttpGet("user/{projectId}")]
-        public IActionResult UserTasks(
+        public async Task<IActionResult> UserTasks(
             [FromRoute] Guid projectId,
             [FromQuery] DateTime requestDate,
             [FromQuery][Range(0, 4)] Application.Entities.TaskStatus taskStatus = Application.Entities.TaskStatus.Started,
@@ -79,7 +79,7 @@ namespace CollabDo.Web.Controllers
         {
             try
             {
-                return Ok(_taskService.GetUserTasks(projectId, requestDate, taskStatus, pageNumber));
+                return Ok(await _taskService.GetUserTasks(projectId, requestDate, taskStatus, pageNumber));
             }
             catch (ValidationException ex)
             {

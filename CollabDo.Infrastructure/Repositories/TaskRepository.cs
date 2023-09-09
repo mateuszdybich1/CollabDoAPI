@@ -35,7 +35,7 @@ namespace CollabDo.Infrastructure.Repositories
         public List<TaskDto> GetUserTasks(Guid projectId, Guid assignedId, DateTime requestDate, Application.Entities.TaskStatus status, int pageNumber)
         {
             List<TaskEntity> entities = _appDbContext.Tasks
-                .Where(e => e.ProjectID == projectId && e.AssignedUserId == assignedId && e.Status == status && e.CreatedOn <= requestDate)
+                .Where(e => e.ProjectID == projectId && e.AssignedUserId == assignedId && e.Status == status && e.CreatedOn < requestDate)
                 .OrderByDescending(e => e.Priority)
                 .ThenByDescending(e => e.CreatedOn)
                 .Skip((pageNumber - 1) * 5)
@@ -48,7 +48,7 @@ namespace CollabDo.Infrastructure.Repositories
         public List<TaskDto> GetAllTasks(Guid projectId, DateTime requestDate, Application.Entities.TaskStatus status, int pageNumber)
         {
             List<TaskEntity> entities = _appDbContext.Tasks
-                .Where(e => e.ProjectID == projectId && e.CreatedOn <= requestDate && e.Status == status)
+                .Where(e => e.ProjectID == projectId && e.CreatedOn < requestDate && e.Status == status)
                 .OrderByDescending(e => e.Priority)
                 .ThenByDescending(e => e.CreatedOn)
                 .Skip((pageNumber - 1) * 5)

@@ -10,6 +10,8 @@ namespace CollabDo.Application.IServices
 
         Task<Guid> DeleteComment(Guid taskId, Guid commentId);
 
-        List<CommentDto> GetTaskComments(Guid taskId, int pageNumber);
+        List<CommentDto> GetTaskComments(Guid taskId, int pageNumber, DateTime requestDate);
+
+        CommentDto GetLatestComment(Guid taskId, Guid latestCommentId);
     }
 }
