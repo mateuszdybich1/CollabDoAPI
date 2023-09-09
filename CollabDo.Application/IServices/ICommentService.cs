@@ -12,6 +12,6 @@ namespace CollabDo.Application.IServices
 
         List<CommentDto> GetTaskComments(Guid taskId, int pageNumber, DateTime requestDate);
 
-        CommentDto GetLatestComment(Guid taskId, Guid latestCommentId);
+        CommentDto GetLatestComment(Guid taskId, Guid? latestCommentId);
     }
 }

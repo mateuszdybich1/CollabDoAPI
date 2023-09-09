@@ -79,7 +79,7 @@ namespace CollabDo.Application.Services
             return commentEntity.Id;
         }
 
-        public CommentDto GetLatestComment(Guid taskId, Guid latestCommentId)
+        public CommentDto GetLatestComment(Guid taskId, Guid? latestCommentId)
         {
 
             CommentDto dto = _commentRepository.GetLatestComment(taskId, latestCommentId);

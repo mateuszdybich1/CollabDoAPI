@@ -49,12 +49,17 @@ namespace CollabDo.Infrastructure.Repositories
             return entities.Select(CommentDto.FromModel).ToList();
         }
 
-        public CommentDto GetLatestComment(Guid taskId, Guid latestCommentId)
+        public CommentDto GetLatestComment(Guid taskId, Guid? latestCommentId)
         {
             CommentEntity latestComment = _appDbContext.Comments.Where(e => e.TaskId == taskId && e.Id == latestCommentId).SingleOrDefault();
             if(latestComment == null)
             {
-                throw new ValidationException("Incorrect last comment Id");
+                latestComment = _appDbContext.Comments.Where(e => e.TaskId == taskId).OrderBy(e => e.CreatedOn).FirstOrDefault();
+                if(latestComment == null)
+                {
+                    throw new EntityNotFoundException("No new comment");
+                }
+                return CommentDto.FromModel(latestComment);
             }
             DateTime latestCommentDate = latestComment.CreatedOn;
 

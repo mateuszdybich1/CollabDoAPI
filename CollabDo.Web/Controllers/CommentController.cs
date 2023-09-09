@@ -60,7 +60,7 @@ namespace CollabDo.Web.Controllers
         }
 
         [HttpGet("latest")]
-        public IActionResult LatestComment([FromRoute] Guid taskId,[FromQuery] Guid latestCommentId)
+        public IActionResult LatestComment([FromRoute] Guid taskId,[FromQuery] Guid? latestCommentId)
         {
             try
             {
