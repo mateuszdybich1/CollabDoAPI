@@ -32,7 +32,7 @@ namespace CollabDo.Web
             services.Configure<AppConfiguration>(Configuration);
             services.RegisterDependencies(_appConfiguration);
             services.AddMemoryCache();
-            services.AddAuthorization(_appConfiguration.AuthTokenValidation, CurrentEnvironment);
+            services.AddAuthorization(_appConfiguration.AuthTokenValidation);
             services.ConfigureRouteOptions();
             services.ConfigureApiControllers();
             services.AddMvc(options =>
