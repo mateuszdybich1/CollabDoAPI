@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 
 
-namespace Patient.Portal.Infrastructure
+namespace CollabDo.Infrastructure
 {
     public class HttpUserContext : IUserContext
     {

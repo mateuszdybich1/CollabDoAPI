@@ -6,8 +6,7 @@ using CollabDo.Infrastructure;
 using CollabDo.Infrastructure.Configuration;
 using CollabDo.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Patient.Portal.Infrastructure;
+
 
 namespace CollabDo.Web
 {
