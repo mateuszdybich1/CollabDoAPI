@@ -2,9 +2,9 @@
 using CollabDo.Application.IRepositories;
 using CollabDo.Application.IServices;
 using CollabDo.Application.Services;
-using CollabDo.Infrastructure;
-using CollabDo.Infrastructure.Configuration;
-using CollabDo.Infrastructure.Repositories;
+using CollabDo.Web;
+using CollabDo.Web.Configuration;
+using CollabDo.Web.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 

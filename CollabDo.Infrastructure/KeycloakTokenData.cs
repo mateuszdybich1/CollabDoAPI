@@ -1,4 +1,4 @@
-﻿namespace CollabDo.Infrastructure
+﻿namespace CollabDo.Web
 {
     public class KeycloakTokenData
     {

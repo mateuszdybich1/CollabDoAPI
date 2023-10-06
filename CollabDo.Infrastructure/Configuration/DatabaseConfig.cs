@@ -1,4 +1,4 @@
-﻿namespace CollabDo.Infrastructure.Configuration
+﻿namespace CollabDo.Web.Configuration
 {
     public class DatabaseConfig
     {

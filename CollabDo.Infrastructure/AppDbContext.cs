@@ -1,8 +1,8 @@
 ﻿using CollabDo.Application.Entities;
-using CollabDo.Infrastructure.EnityMappings;
+using CollabDo.Web.EnityMappings;
 using Microsoft.EntityFrameworkCore;
 
-namespace CollabDo.Infrastructure
+namespace CollabDo.Web
 {
     public class AppDbContext : DbContext
     {

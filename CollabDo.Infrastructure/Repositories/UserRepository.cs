@@ -1,12 +1,12 @@
 ﻿using CollabDo.Application.Entities;
 using CollabDo.Application.Exceptions;
 using CollabDo.Application.IRepositories;
-using CollabDo.Infrastructure.Configuration;
+using CollabDo.Web.Configuration;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using System.Text;
 
-namespace CollabDo.Infrastructure.Repositories
+namespace CollabDo.Web.Repositories
 {
     public class UserRepository : IUserRepository
     {

@@ -1,6 +1,6 @@
 ﻿using CollabDo.Application.Exceptions;
 
-namespace CollabDo.Infrastructure
+namespace CollabDo.Web
 {
     public static class KeycloakValidation
     {

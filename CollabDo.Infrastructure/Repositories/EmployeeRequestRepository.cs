@@ -2,7 +2,7 @@
 using CollabDo.Application.Entities;
 using CollabDo.Application.IRepositories;
 
-namespace CollabDo.Infrastructure.Repositories
+namespace CollabDo.Web.Repositories
 {
     public class EmployeeRequestRepository : IEmployeeRequestRepository
     {

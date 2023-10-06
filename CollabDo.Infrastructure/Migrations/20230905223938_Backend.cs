@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace CollabDo.Infrastructure.Migrations
+namespace CollabDo.Web.Migrations
 {
     /// <inheritdoc />
     public partial class Backend : Migration

@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace CollabDo.Infrastructure.Configuration
+namespace CollabDo.Web.Configuration
 {
     public class AppConfiguration 
     {

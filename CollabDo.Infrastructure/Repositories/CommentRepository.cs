@@ -3,7 +3,7 @@ using CollabDo.Application.Entities;
 using CollabDo.Application.Exceptions;
 using CollabDo.Application.IRepositories;
 
-namespace CollabDo.Infrastructure.Repositories
+namespace CollabDo.Web.Repositories
 {
     public class CommentRepository : ICommentRepository
     {

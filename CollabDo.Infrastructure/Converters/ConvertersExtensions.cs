@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace CollabDo.Infrastructure.Converters
+namespace CollabDo.Web.Converters
 {
     public static class ConvertersExtensions
     {

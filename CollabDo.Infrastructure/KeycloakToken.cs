@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
-using CollabDo.Infrastructure.Configuration;
+using CollabDo.Web.Configuration;
 using CollabDo.Application.Exceptions;
 
-namespace CollabDo.Infrastructure
+namespace CollabDo.Web
 {
     public class KeycloakToken
     {

@@ -1,4 +1,4 @@
-﻿using CollabDo.Infrastructure.Converters;
+﻿using CollabDo.Web.Converters;
 using CollabDo.Web.ModelBinders;
 using Newtonsoft.Json;
 

@@ -1,4 +1,4 @@
-﻿using CollabDo.Infrastructure.Configuration;
+﻿using CollabDo.Web.Configuration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.OAuth.Claims;
 using Microsoft.AspNetCore.Authentication;

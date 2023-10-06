@@ -1,5 +1,5 @@
-﻿using CollabDo.Infrastructure;
-using CollabDo.Infrastructure.Configuration;
+﻿using CollabDo.Web;
+using CollabDo.Web.Configuration;
 using CollabDo.Web.Extensions;
 using Microsoft.EntityFrameworkCore;
 

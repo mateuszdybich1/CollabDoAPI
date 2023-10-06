@@ -4,7 +4,7 @@ using CollabDo.Application.Exceptions;
 using CollabDo.Application.IRepositories;
 using Microsoft.EntityFrameworkCore;
 
-namespace CollabDo.Infrastructure.Repositories
+namespace CollabDo.Web.Repositories
 {
     public class LeaderRepository : ILeaderRepository
     {

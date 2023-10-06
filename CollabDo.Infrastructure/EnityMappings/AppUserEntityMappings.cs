@@ -1,7 +1,7 @@
 ﻿using CollabDo.Application.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace CollabDo.Infrastructure.EnityMappings
+namespace CollabDo.Web.EnityMappings
 {
     internal static class AppUserEntityMappings
     {
